@@ -2,17 +2,28 @@
 div#product-detail-container{
 	background: #fff;
 }
+div#product-detail-container > div{
+	width: 100%;
+	position: relative;
+	float: none;
+}
 div#product-detail-container.detail-2-cols > div {
 	position: relative;
-	width: 50%;
 	min-height: 400px;
 	float: left;
 	text-align: left;
 }
+.detail-2-cols div#product-detail-col-left {
+	width: 40%;
+}
+.detail-2-cols div#product-detail-col-right{
+	width: 60%;
+}
 
 /* STYLING THE MAIN PICTURE AREA*/
+
 div#product-detail-col-left > .fit-me-top{
-	padding: 0px 40px 20px 40px;
+	padding: 0px 20px 20px 20px;
 }
 div#product-main-view{
 	padding-bottom: 120%;
@@ -24,8 +35,9 @@ div#product-main-view{
 	box-shadow: 0px 0px 4px 1px #ddd;
 }
 /* STYLING THE MAIN DETAIL AREA*/
+
 div#product-detail-col-right > .fit-me-full{
-	padding: 0px 20px 20px 0px;
+	padding: 0px 20px 20px 20px;
 }
 div#product-detail-header h1{
 	font-size: 30px;
@@ -53,6 +65,13 @@ div#action-bts-group > a{
 	font-size: 14px;
 	font-weight: lighter;
 	margin-bottom: 10px;
+	border: 1px solid transparent;
+	transition: background-color .2s, color .2s, border .2s;
+}
+div#action-bts-group > a:hover{
+	background-color: #fff;
+	border: 1px solid #333;
+	color: #333;
 }
 a#add-to-bag{
 	color: #fff;
@@ -65,6 +84,7 @@ a#check-out{
 a#share-facebook{
 	color: #333;
 }
+
 a#share-facebook > span{
 	display: inline-block;
 	line-height: 25px;
