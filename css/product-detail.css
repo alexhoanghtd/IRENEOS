@@ -1,0 +1,31 @@
+/* 2col detail layout*/
+div#product-detail-container{
+	background: #fff;
+}
+div#product-detail-container.detail-2-cols > div {
+	position: relative;
+	width: 50%;
+	min-height: 400px;
+	float: left;
+	text-align: left;
+}
+
+/* STYLING THE MAIN DETAIL AREA*/
+div#product-detail-col-right > .fit-me-full{
+	padding: 0px 20px 20px 20px;
+}
+div#product-detail-header h1{
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+div#product-detail-header p{
+	background-image: url('../images/strip.png');
+	font-style: italic;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+span.product-price{
+	font-size: 20px;
+	color: #999;
+	margin-bottom: 10px;
+}
