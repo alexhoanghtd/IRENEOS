@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="css/default.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/product-detail.css">
+	<link rel="stylesheet" type="text/css" href="css/categories-menu.css">
 	<script type="text/javascript" src="js/jquery2.js"></script>
 	<script type="text/javascript" src="js/responsive.js"></script>
 	<script type="text/javascript" src="js/elements.js"></script>
@@ -63,10 +64,13 @@
 		<div id="content-container">
 			<!--Content-header if you want :D-->
 			<div class="content-header">
-				<div class="categories-menu">
+				<div id="categories-menu">
 					<nav>
 						<ul>
-							<li></li>
+							<li><a href="#">Jacket</a></li>
+							<li><a href="#">Top</a></li>
+							<li><a href="#">Trouser</a></li>
+							<li><a href="#">hat</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -74,16 +78,20 @@
 
 			<!--PRODUCT DETAIL AREA-->
 			<div id="product-detail-container" class="detail-2-cols clearfix">
+				<!--product picture-->
 				<div id="product-detail-col-left" class="clearfix">
-					<div id="product-main-view"></div>
-					<div id="product-more-view">
-						<ul>
-							<li></li>
-							<li></li>
-							<li></li>
-						</ul>
+					<div class="fit-me-top">
+						<div id="product-main-view" ></div>
+						<div id="product-more-view">
+							<ul>
+								<li></li>
+								<li></li>
+								<li></li>
+							</ul>
+						</div>
 					</div>
 				</div>
+				<!--product details -->
 				<div id="product-detail-col-right">
 					<div class="fit-me-full">
 						<div id="product-detail-header">
@@ -103,9 +111,9 @@
 								</ul>
 							</div>
 							<div id="action-bts-group">
-								<a href="#">Add to Bag</a>
-								<a href="#">Check out</a>
-								<a href="#">Share in facebook</a>
+								<a href="#" id="add-to-bag">Add to Bag</a>
+								<a href="#" id="check-out">Check out</a>
+								<a href="#" id="share-facebook">Share to <span>f</span></a>
 							</div>
 						</form>
 					</div>

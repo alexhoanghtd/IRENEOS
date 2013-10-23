@@ -10,9 +10,22 @@ div#product-detail-container.detail-2-cols > div {
 	text-align: left;
 }
 
+/* STYLING THE MAIN PICTURE AREA*/
+div#product-detail-col-left > .fit-me-top{
+	padding: 0px 40px 20px 40px;
+}
+div#product-main-view{
+	padding-bottom: 120%;
+	background-color: #ccc;
+	background-image: url('../images/product_pics/nina-black.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	border: 1px solid #999;
+	box-shadow: 0px 0px 4px 1px #ddd;
+}
 /* STYLING THE MAIN DETAIL AREA*/
 div#product-detail-col-right > .fit-me-full{
-	padding: 0px 20px 20px 20px;
+	padding: 0px 20px 20px 0px;
 }
 div#product-detail-header h1{
 	font-size: 30px;
@@ -25,7 +38,41 @@ div#product-detail-header p{
 	margin-bottom: 10px;
 }
 span.product-price{
-	font-size: 20px;
+	font-size: 24px;
 	color: #999;
 	margin-bottom: 10px;
+}
+
+div#action-bts-group > a{
+	text-align: center;
+	display: block;
+	padding: 10px 20px;
+	text-transform: uppercase;
+	width: 180px;
+	margin: auto;
+	font-size: 14px;
+	font-weight: lighter;
+	margin-bottom: 10px;
+}
+a#add-to-bag{
+	color: #fff;
+	background-color: #333;
+}
+a#check-out{
+	color: #fff;
+	background-color: #999;
+}
+a#share-facebook{
+	color: #333;
+}
+a#share-facebook > span{
+	display: inline-block;
+	line-height: 25px;
+	background-color: #333;
+	height: 25px;
+	width: 25px;
+	border-radius: 20px;
+	color: #fff;
+	text-transform: none;
+	margin-left: 10px;
 }
