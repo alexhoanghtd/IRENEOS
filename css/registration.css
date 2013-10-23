@@ -1,0 +1,33 @@
+#create-header {
+	padding: 20px;
+	text-align: left;
+	height: 30px;
+}
+
+.section-content {
+	text-align: left;
+	border: 3px red;
+}
+
+#sign-up-form {
+	padding: 20px; 
+}
+
+#sign-up-main-contents {
+	padding: 20px;
+}
+
+#sign-up-main-contents {
+	overflow: hidden;
+	line-height: 30px;
+}
+
+#info-fields {
+	padding-left: 20px;
+	float: left;
+}
+
+#sign-up-labels {
+	float: left;
+}
+
