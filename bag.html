@@ -68,15 +68,44 @@
 
 			<!--Content-header if you want :D-->
 			<div class="content-header">
-					
+				<div class="header-wrapper">
+					<span class="span-shoppingbag">Shopping bag<span> (1)</span></span>
+					<span class="span-shoppingbag span-total">Total<span> 112$</span></span>
+					<input type="submit" name="btCheckout" value="Check out" id="btcheckout">
+				</div>
 			</div>
 
 			<!--CONTENT BODY WRAPPER NO PADDING! -->
 			<div id="product-content-container">
-
-			
-						
-			</div>		
+				<div class="container-wrapper">
+					<ul id="bag-items">
+						<li class="clearfix">
+							<div class="div-imgproduct"></div>
+							<div class="div-productname">
+								<span class="span-productname">Product name</span>
+								<input type="submit" name="btRemove" value="Remove" class="btRemove">
+							</div>
+							<div class="edit">
+								<select class="size">
+									<option>S</option>
+									<option>M</option>
+									<option>L</option>
+								</select>
+								<select class="color">
+									<option>Black</option>
+									<option>White</option>
+									<option>Blue</option>
+								</select>
+								<select class="quantity">
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+								</select>
+							</div>
+						</li>
+					</ul>
+				</div>	
+			</div>	
 		</div>
 	</div>	
 </body>
