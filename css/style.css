@@ -1,0 +1,195 @@
+/*IRENE FASHION SITE*/
+/*Design And Implimentation By ALEX HOANG*/
+
+/****LAYOUT****/
+
+/*desktop main layout*/
+div#container.desktop-view div#header-menu{
+	position: fixed;
+	width: 430px;
+	height: 100%;
+}
+div#container.desktop-view div#content-container{
+	padding-left: 429px;
+	position: relative;
+}
+
+/*mobile main layout*/
+div#container.mobile-view div#header-menu{
+	width: 100%;
+	height: 100%;
+	float: none;
+	position: relative;
+}
+div#container.mobile-view div#content-container{
+	padding-left: 0;
+	position: relative;
+}
+/*mobile main layout*/
+
+
+
+/***Main Menu Area***/
+
+div#header-menu{
+	text-align: center;
+	background-color: #ddd;
+	overflow-y: hidden; 
+	z-index: 999;
+}
+
+/*SEARCHBOX AND MENU EXPANDING*/
+div#panel-setting{
+	position: relative;
+	width: 350px;
+	height: 30px;
+	margin: 20px auto;
+}
+/*search box when focused*/
+div#search-box.input-focused form#search-form{
+	width: 220px;
+}
+div#search-box.input-focused{
+	opacity: 1;
+}
+div#search-box{
+	position: relative;
+	width: 250px;
+	height: 30px;
+	float:left;
+}
+form#search-form{
+	display: block;
+	float: left;
+	overflow: hidden;
+	width: 0px;
+	transition: width 0.3s;
+}
+div#search-box:hover form#search-form{
+	width: 220px;
+}
+input#search-input{
+	color: #333;
+	text-transform: uppercase;
+	font-size: 12px;
+	letter-spacing: 1px;
+	width: 200px;
+	height: 25px;
+	padding: 0px 10px;
+	margin: 0;
+	border: 0;
+	background:transparent;
+}
+input#search-input:focus{
+	margin: 0;
+	border: 0;
+	box-shadow: none;
+	outline: none;
+}
+div#search-border{
+	width: 100%;
+	height: 5px;
+	border: 1px solid #333;
+	border-top: none;
+}
+div#search-border:after{
+	content: " ";
+	display: block;
+	float: right;
+	position: relative;
+	height: 5px;
+	width: 5px;
+	border-right: 2px solid #333;
+
+}
+div#panel-setting > div{
+	opacity: 0.3;
+	transition: opacity 0.3s;
+}
+div#panel-setting > div:hover{
+	opacity: 1;
+}
+div#menu-wrapper{
+	position: relative;
+	width: 350px;
+	margin: auto auto 20px auto;
+	background-color: #fff;
+	padding-top: 30px;
+	border-bottom: 4px solid #999;
+}
+div#menu-wrapper *{
+	color: #333;
+	letter-spacing: 1px;
+}
+div#menu-wrapper > *{
+	margin-bottom: 20px;
+	padding: 0px 20px;
+}
+a#main-logo{
+	font-size: 70px;
+	border-top: 1px solid #333;
+	border-bottom: 1px solid #333;
+
+}
+div#menu-wrapper blockquote{
+	font-size: 14px;
+	font-style: italic;
+	color: #333;
+	letter-spacing: 3px;
+	background-image: url('../images/strip.png');
+	padding: 10px 20px;
+	margin-bottom: 30px;
+}
+div#main-menu{
+	margin-bottom: 40px;
+}
+ul#main-menu-items li{
+	margin-bottom: 20px;
+}
+ul#main-menu-items li a{
+	font-size: 14px;
+	text-transform: uppercase;
+	padding: 5px 5px;
+	border-bottom: 1px dashed transparent;
+	border-top: 1px dashed transparent;
+	transition: border 0.3s;
+}
+ul#main-menu-items li a.active{
+	background-image: url("../images/strip.png");
+	border-bottom: 1px solid #999;
+	border-top: 1px solid #999;
+}
+ul#main-menu-items li a:hover{
+	border-bottom: 1px dashed #999;
+	border-top: 1px dashed #999;
+}
+
+div#socials{
+	position: relative;
+	bottom: 0px;
+	padding-bottom: 20px;
+}
+a#facebook-link{
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	border-radius: 20px;
+	background: #333;
+	color: #fff;
+	line-height: 30px;
+	font-size: 20px
+}
+span#phone-number{
+	margin-left: 10px;
+	padding-left: 10px;
+	border-left: 1px solid #999;
+}
+
+/*MAIN CONTENT*/
+div#content-container{
+	min-height: 100%;
+	position: relative;
+	background-image: url('../images/strip.png');
+}
+
+/*Product-slider*/

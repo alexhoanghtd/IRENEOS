@@ -1,0 +1,62 @@
+div#product-content-container{
+	padding: 0px 20px;
+	background-color: #fff;
+}
+div#grid-view-wrapper{
+	padding-top: 70px;
+	width: 100%;
+	height: 100%;
+}
+.ic-main-grid > li{
+	width: 100%;
+	padding-bottom: 140%;
+	position: relative;
+	display: block;
+	float: left;
+	margin-bottom: 20px;
+	box-shadow: 0px 0px 4px 1px #ddd;
+	border: 1px solid #999;
+}
+/*3 Colums Grid*/
+.grid-3-cols ul.ic-main-grid > li{
+	width: 30%;
+	padding-bottom: 45%;
+}
+.grid-3-cols ul.ic-main-grid > li:nth-child(3n+2){
+	margin: 0px 0px 20px 4.6%;
+}
+.grid-3-cols ul.ic-main-grid > li:nth-child(3n+3){
+	float: right;
+}
+
+/*2 Colums Grid*/
+.grid-2-cols ul.ic-main-grid > li{
+	width: 48%;
+	padding-bottom: 65%;
+}
+.grid-2-cols ul.ic-main-grid > li:nth-child(2n){
+	float: left;
+}
+.grid-2-cols ul.ic-main-grid > li:nth-child(2n+2){
+	float: right;
+}
+
+
+div.collection-item-wrapper{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-image: url("../images/5.jpg");
+	background-size: 190%;
+	background-position: 50% -50px;
+}
+div.colection-hover{
+	background-color: #fff;
+	opacity: 0;
+	height: 100%;
+	width: 100%;
+	transition: opacity 0.3s;
+}
+div.colection-hover:hover{
+	opacity: 0.5;
+}

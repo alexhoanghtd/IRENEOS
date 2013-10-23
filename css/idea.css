@@ -1,0 +1,10 @@
+span{
+	line-height: 120px;
+	font-size: 100px;
+	border-top: 1px solid #333;
+	border-bottom: 1px solid #333;
+}
+blockquote{
+	font-size: 20px;
+	color: #aaa;
+}
