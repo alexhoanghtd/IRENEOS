@@ -192,4 +192,15 @@ div#content-container{
 	background-image: url('../images/strip.png');
 }
 
+div#menu-login{
+	position: relative;
+	padding-top: 30%;
+        margin: auto;
+}
+
+h1#menu-login{
+	text-align:center;
+}
+
+
 /*Product-slider*/
