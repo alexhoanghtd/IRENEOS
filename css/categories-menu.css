@@ -1,0 +1,28 @@
+div#categories-menu{
+	height: 30px;
+	padding: 20px 40px;
+	background-color: #fff;
+}
+div#categories-menu > nav{
+	height: 30px;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	background-color: #fff;
+}	
+div#categories-menu > nav > ul > li{
+	font-weight: bold;
+	display: block;
+	float: left;
+	line-height: 30px;
+	font-family: helvetica, sans-serif;
+	font-size: 10px;
+}
+div#categories-menu > nav > ul > li > a{
+	padding: 0px 20px;
+	color: #333;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+div#categories-menu > nav > ul > li > a:hover{
+	color: #ccc;
+}
