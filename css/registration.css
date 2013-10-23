@@ -31,7 +31,8 @@
 	float: left;
 	padding-right: 20px;
 }
-ul#input-lists > li > label{
+#input-lists li label{
 	display: inline-block;
+	float: left;
 	width: 150px;
 }
