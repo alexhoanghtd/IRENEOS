@@ -59,3 +59,22 @@ table {
 	clear: both;
 	height: 0;
 }	
+.fit-me-full{
+	position: absolute;
+	top:0px;
+	right:0px;
+	bottom: 0px;
+	left:0px;
+}
+.fit-me-bottom{
+	position: absolute;	
+	right:0px;
+	bottom: 0px;
+	left:0px;
+}
+.fit-me-top{
+	position: absolute;		
+	right:0px;
+	top: 0px;
+	left:0px;
+}

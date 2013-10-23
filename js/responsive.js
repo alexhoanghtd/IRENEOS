@@ -16,10 +16,10 @@ function gridController(){
 	//GRID VIEW CONTROLLER
 	var gridWrapper = $("#grid-view-wrapper");
 	var wrapperWidth = gridWrapper.css("width").replace("px","");
-	if(wrapperWidth > 900){
+	if(wrapperWidth > 850){
 		gridWrapper.removeClass("grid-2-cols").addClass("grid-3-cols");
 	}
-	if( 480 < wrapperWidth && wrapperWidth <= 900){
+	if( 480 < wrapperWidth && wrapperWidth <= 850){
 		gridWrapper.removeClass("grid-3-cols").addClass("grid-2-cols");
 	}
 	if( wrapperWidth <= 480){
