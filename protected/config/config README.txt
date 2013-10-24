@@ -1,0 +1,1 @@
+the config for the system will be put here in a php file

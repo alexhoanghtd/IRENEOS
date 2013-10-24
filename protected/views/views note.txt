@@ -1,0 +1,6 @@
+view folder
+
+view for each module will be put in separated foler
+
+example views for product will be put on: 
+views/product/
