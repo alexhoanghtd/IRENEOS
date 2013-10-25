@@ -1,0 +1,187 @@
+<!DOCTYPE html>	
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>И | COLLECTIONS</title>
+	<link rel="stylesheet" type="text/css" href="../../../css/default.css">
+	<link rel="stylesheet" type="text/css" href="../../../css/style.css">
+	<link rel="stylesheet" type="text/css" href="../../../css/grid-group-view.css">
+	<link rel="stylesheet" type="text/css" href="../../../css/bag.css">
+	<script type="text/javascript" src="../../../js/jquery2.js"></script>
+	<script type="text/javascript" src="../../../js/responsive.js"></script>
+	<script type="text/javascript" src="../../../js/elements.js"></script>
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			mainLayoutControl();
+			searchStyle();
+			gridController();
+		})
+	</script>
+</head>
+<body class="clearfix">
+	<div id="container" class="desktop-view">
+
+		<!--THE MAIN MENU SECTION -->
+		<div id="header-menu" class="clearfix">
+			<div id="panel-setting">
+				<div id="search-box">
+					<img src="../../../images/icons/searbt.png" style="float:left;padding-right: 10px;">
+					<form id="search-form">
+						<input tpye="text" name="search-input" id="search-input" placeholder="search...">
+						<div id="search-border"></div>
+					</form>
+				</div>
+				<div id="ajust-view-bt"style="float:right;">
+					<img src="../../../images/icons/close-bt.png">
+				</div>
+			</div>
+			<div id="menu-wrapper">
+				<div id="main-logo-wrapper">
+					<a href="#" id="main-logo">И</a>
+				</div>
+				<blockquote>
+					Fashion is all about showing<br /> WHO YOU ARE.
+				</blockquote>
+				<div id="main-menu">
+					<nav>
+						<ul id="main-menu-items">
+							<li><a href="#">New Arrivals</a></li>
+							<li><a href="#" class="active">Collections</a></li>
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">Contact Us</a></li>
+							<li><a href="#">Visit store</a></li>
+							<li><a href="#">Bag <span>(2)</span></a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<div id="socials">
+				<a id="facebook-link" href="http://facebook.com">f</a>
+				<span id="phone-number">+84 168 340 8828</span>
+			</div>
+		</div>
+
+		<!--THE MAIN CONTENT SECTION -->
+		<div id="content-container" class="clearfix">
+
+			<!--Content-header if you want :D-->
+			<div class="content-header">
+				<div class="header-wrapper clearfix">
+					<span id="bag-title">Shopping bag<span> (1)</span></span>
+					<div id="bag-checkout-detail">
+						<span class="span-shoppingbag span-total">Total<span> 112$</span></span>
+						<input type="submit" name="btCheckout" value="Check out" id="btcheckout">		
+					</div>
+
+				</div>
+			</div>
+
+			<!--CONTENT BODY WRAPPER NO PADDING! -->
+			<div id="product-content-container">
+				<div class="container-wrapper">
+					<ul id="bag-items">
+						<li class="clearfix">
+							<div class="div-imgproduct"></div>
+							<div class="div-productname">
+								<span class="span-productname">Product name</span>
+								<input type="submit" name="btRemove" value="Remove" class="btRemove">
+							</div>
+							<div class="edit">
+								<select class="size">
+									<option>S</option>
+									<option>M</option>
+									<option>L</option>
+								</select>
+								<select class="color">
+									<option>Black</option>
+									<option>White</option>
+									<option>Blue</option>
+								</select>
+								<select class="quantity">
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+								</select>
+							</div>
+						</li>
+						<li class="clearfix">
+							<div class="div-imgproduct"></div>
+							<div class="div-productname">
+								<span class="span-productname">Product name</span>
+								<input type="submit" name="btRemove" value="Remove" class="btRemove">
+							</div>
+							<div class="edit">
+								<select class="size">
+									<option>S</option>
+									<option>M</option>
+									<option>L</option>
+								</select>
+								<select class="color">
+									<option>Black</option>
+									<option>White</option>
+									<option>Blue</option>
+								</select>
+								<select class="quantity">
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+								</select>
+							</div>
+						</li>
+						<li class="clearfix">
+							<div class="div-imgproduct"></div>
+							<div class="div-productname">
+								<span class="span-productname">Product name</span>
+								<input type="submit" name="btRemove" value="Remove" class="btRemove">
+							</div>
+							<div class="edit">
+								<select class="size">
+									<option>S</option>
+									<option>M</option>
+									<option>L</option>
+								</select>
+								<select class="color">
+									<option>Black</option>
+									<option>White</option>
+									<option>Blue</option>
+								</select>
+								<select class="quantity">
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+								</select>
+							</div>
+						</li>
+						<li class="clearfix">
+							<div class="div-imgproduct"></div>
+							<div class="div-productname">
+								<span class="span-productname">Product name</span>
+								<input type="submit" name="btRemove" value="Remove" class="btRemove">
+							</div>
+							<div class="edit">
+								<select class="size">
+									<option>S</option>
+									<option>M</option>
+									<option>L</option>
+								</select>
+								<select class="color">
+									<option>Black</option>
+									<option>White</option>
+									<option>Blue</option>
+								</select>
+								<select class="quantity">
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+								</select>
+							</div>
+						</li>
+					</ul>
+				</div>	
+			</div>	
+		</div>
+	</div>	
+</body>
+</html>
