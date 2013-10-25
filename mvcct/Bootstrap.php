@@ -31,7 +31,16 @@ class Bootstrap{
             $controller = $this->requestController($this->urlArr['controller']);
             //if doesn't exist
             if(!$controller){
-                $this->error("controller doesn't exist'");
+                $this->error(" controller doesn't exist");
+            }else{
+                //if the controller exist,start checking action
+                if(isset($this->urlArr['action'])){
+                    //if the url has the part for action
+                    
+                }else{
+                    //if action is not set
+                    $controller->actionIndex();
+                }
             }
         }else{
             //if controller name is not set
@@ -47,6 +56,8 @@ class Bootstrap{
     /*
      * include controller class file into the process flow
      * intanitiate the controller object
+     * @return the controller object if created
+     * @return false if can't create the object
      */
     function requestController($controllerName){
         $controlerFolder = '/protected/controllers/';
@@ -60,7 +71,7 @@ class Bootstrap{
     }
     
     function error($errorString){
-        echo 'SORRY!,'.$errorString;
+        echo ':( SORRY!'.$errorString;
     }
     
     /*

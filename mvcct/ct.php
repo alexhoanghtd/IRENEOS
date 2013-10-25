@@ -1,16 +1,19 @@
 <?php
 //define the base path to CTMVC
 define ('CT_PATH', dirname(__FILE__));
-
+echo CT_PATH;
 //add the Bootstrap class
 require '/Bootstrap.php';
-set_include_path('/base/');
-    
+
+
+
+
 /*
  * This class is bascially static and it does:
  * create a bootstrap class, start to deal with mvc
  * get the system config from the app itself
  */
+$ctControl = new CTController();
 class ct{
    //static configuration for the app
    static $_CONFIG;
