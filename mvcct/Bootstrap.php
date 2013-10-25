@@ -1,15 +1,19 @@
 <?php
-/*
-*   with this class, we will analyze the request url and call
-*   the acorrding M V C functions
-*/
+/**
+ * with this class, we will analyze the request url
+ *  and call the acorrding M V C functions
+ * 
+ * @author alexhoang <alexhoang.htd@gmail.com>
+ * @copyright &copy; 2013 Creative Team 
+ */
+
 class Bootstrap{
     //stored analyzed url
     private $urlArr = array(
-         "controller" =>  "",
-            "action" => "",
-            "parameter"=> "",
-            "parameterAction" => "",
+         "controller" =>  null,
+         "action" => null,
+         "param"=> null,
+         "trash" => null,
     );
     function __construct() {
 
@@ -25,17 +29,37 @@ class Bootstrap{
     private function startMVC(){
         //if controllerName is set then check if that controller with this name
         //exists
-        if(isset($this->urlArr['controller'])){
+        //echo $this->urlArr['controller'];
+        if($this->urlArr['trash'] != null){
+            $this->error('404');
+            return;
+        }
+        if($this->urlArr['controller'] != null){
             //if it controller name is set, try to instanitiate the controller
             //object, if not exist controller, return false
             $controller = $this->requestController($this->urlArr['controller']);
             //if doesn't exist
             if(!$controller){
-                $this->error(" controller doesn't exist");
+                $this->error("controller doesn't exist");
             }else{
                 //if the controller exist,start checking action
-                if(isset($this->urlArr['action'])){
+                if($this->urlArr['action'] !=null){
                     //if the url has the part for action
+                    //Need to get the list of that controller action and check
+                    //if the action exist 
+                   
+                    if($this->isMethodExist($controller, $this->urlArr['action'])){
+                        //action of class exist
+                        $action = 'action'.$this->urlArr['action'];
+                        $controller->{$action}($this->urlArr['param']);
+                    }else{
+                        //Call controler's default's action with param as 
+                        //recieved action name
+                        //$param = 'action'.$this->urlArr['action'];
+                        //$controller->actionIndex($param);
+                        $this->error("action doesn't exist'");
+                    }
+                    
                     
                 }else{
                     //if action is not set
@@ -43,10 +67,12 @@ class Bootstrap{
                 }
             }
         }else{
+            $controllerName = ct::$_CONFIG['defaultController'];
             //if controller name is not set
-            
+            require BASE_PATH.'/protected/controllers/'.$controllerName.'Controller.php';
             //instanitiate default controler with defaul action
-            $controller = new ct::$_CONFIG['defaultController'];
+            $controllerClass = $controllerName."Controller";
+            $controller = new $controllerClass;
             $controller->actionIndex();
         }
     }
@@ -63,18 +89,36 @@ class Bootstrap{
         $controlerFolder = '/protected/controllers/';
         $controllerFile = BASE_PATH.$controlerFolder.$controllerName.'Controller.php';
         if(file_exists($controllerFile)){
-            require BASE_PATH.$controlerFolder.$controllerName.'Controller.php';
-            return new $controllerName;
+            require $controllerFile;
+            //echo $controllerFile;
+            $controllerClass = $controllerName.'Controller';
+            return new $controllerClass;
         }else{
             return false;
         }
     }
     
-    function error($errorString){
+    /**
+     * show if there is an error
+     * @param show $errorString
+     */
+    static function error($errorString){
         echo ':( SORRY!'.$errorString;
     }
     
-    /*
+    /**
+     * check if the controller has the action
+     */
+    private function isMethodExist($controller, $action){
+        $actions = get_class_methods($controller);
+        foreach($actions as $actionItem){
+            if('action'.$action == $actionItem) return true;
+        }
+        //print_r($actions);
+        return false;
+    }
+    
+    /** 
      *  Analyse the url into part
      */
     private function analyzeURL(){
@@ -82,11 +126,12 @@ class Bootstrap{
         $url = isset($_GET['url']) ? $_GET['url'] : null;
         $url = rtrim($url, '/');
         $url = explode('/', $url);
+        //print_r($url);
         $this->urlArr = array(
             "controller" => isset($url[0]) ? $url[0] : null,
             "action" => isset($url[1]) ? $url[1] : null,
-            "parameter"=> isset($url[2]) ? $url[2] : null,
-            "parameterAction" => isset($url[3]) ? $url[3] : null,
+            "param"=> isset($url[2]) ? $url[2] : null,
+            "trash" => isset($url[3]) ? $url[3] : null,
         );
     }
 }

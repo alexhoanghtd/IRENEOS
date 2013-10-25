@@ -7,7 +7,11 @@
      */
     class exampleController extends CTController{
         
-        public function actionIndex() {
+        public function actionIndex($param = 0) {
             echo 'I am the index action for example controller';
         }
+        public function actionView($param){
+            echo ' viewing product example id = '.$param;
+        }
+
     }

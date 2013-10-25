@@ -1,12 +1,16 @@
 <?php
 //define the base path to CTMVC
 define ('CT_PATH', dirname(__FILE__));
-echo CT_PATH;
 //add the Bootstrap class
-require '/Bootstrap.php';
+$includes = array(
+   '/Bootstrap.php',
+   '/base/CTController.php',
+   '/base/CTModel.php',
+);
 
-
-
+foreach($includes as $file) {
+     include_once $file;
+}
 
 /*
  * This class is bascially static and it does:
