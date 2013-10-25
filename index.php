@@ -2,6 +2,13 @@
 //this will call the base mvc model
 $ct = dirname(__FILE__)."/mvcct/ct.php";
 //call all the config for the CT application
-$config =dirname(__FILE__)."/protected/config/main.php";
+$config = dirname(__FILE__)."/protected/config/main.php";
+
+//define the path to the app code
+define ('BASE_PATH',  dirname(__FILE__));
+
+
 
 require_once($ct);
+
+ct::run($config);
