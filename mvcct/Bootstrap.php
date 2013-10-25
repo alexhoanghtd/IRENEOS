@@ -10,7 +10,8 @@ class Bootstrap{
         $url = rtrim($url, '/');
         $url = explode('/', $url);
         
-        //print_r($url);     
+        //echo $url[0];
+        //In case the url array has only element equal to null
         
     }
 }
