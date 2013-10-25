@@ -38,7 +38,7 @@ class Bootstrap{
             
             //instanitiate default controler with defaul action
             $controller = new ct::$_CONFIG['defaultController'];
-            //$controller->'
+            $controller->actionIndex();
         }
     }
     
