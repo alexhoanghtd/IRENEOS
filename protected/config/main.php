@@ -6,5 +6,6 @@ return array(
         'tablePrefix' => 'ic_',
     ),  
     'defaultController' => 'site',
+    'defaultLayout'=>'main',
 );
 

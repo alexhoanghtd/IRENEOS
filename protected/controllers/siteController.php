@@ -10,6 +10,11 @@
 class siteController extends CTController{
     
     function actionIndex() {
-        echo 'INDDDEEEXXX for site controller, point to NEW ARRIVAL collection';
+        $data = array(
+            "ID" => "1",
+            "name" => "Nina Black",
+            "price" => "120",
+        );
+        $this->render($data,"index");
     }
 }

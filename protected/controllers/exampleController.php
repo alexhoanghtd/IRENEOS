@@ -8,10 +8,17 @@
     class exampleController extends CTController{
         
         public function actionIndex($param = 0) {
-            echo 'I am the index action for example controller';
+            $this->render('data', 'index');
         }
         public function actionView($param){
-            echo ' viewing product example id = '.$param;
+            //example data
+            $data = array(
+                "id" => $param,
+                "name" => "Nina Black",
+                "description" => "Lorem ispilitum salenacopet topcare monitor lief",
+            );
+            $this->render($data, 'view');
+            //echo 'aready render the data';
         }
 
     }

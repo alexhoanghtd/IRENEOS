@@ -17,23 +17,27 @@ foreach($includes as $file) {
  * create a bootstrap class, start to deal with mvc
  * get the system config from the app itself
  */
-$ctControl = new CTController();
 class ct{
    //static configuration for the app
-   static $_CONFIG;
-
+   static $_CONFIG = array();
    /*
     *start the application load the config and start bootstrap
     */   
    public function run($config) {
        ct::$_CONFIG = ct::getConfig($config);
        //print_r(ct::$_CONFIG);
+       
        $bootstrap = new Bootstrap();
    }
 
+   public static function baseURL(){
+       return 'http://'.$_SERVER['SERVER_NAME'];
+   }
+   
    /*
     * function to get configuration when the app started
     */
+
    private function getConfig($config){
         return require $config;
    }
