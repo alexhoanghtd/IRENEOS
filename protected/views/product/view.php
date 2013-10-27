@@ -17,7 +17,7 @@
     <!--product picture-->
     <div id="product-detail-col-left" class="clearfix">
         <div class="fit-me-top">
-            <div id="product-main-view" style="background-image: url('/images/products/nina-black/view1.jpg')"></div>
+            <div id="product-main-view" style="background-image: url('<?php echo $data['coverURL'] ?>')"></div>
             <div id="product-more-view">
                 <ul>
                     <li></li>
@@ -31,12 +31,14 @@
     <div id="product-detail-col-right">
         <div class="fit-me-full">
             <div id="product-detail-header">
-                <h1>NINA BLACK</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat.</p>
-                <span class="product-price">$260<span class="product-old-price">$326</span></span>	
+                <h1><?php echo $data['product_name'] ?></h1>
+                <p><?php echo $data['product_description'] ?></p>
+                <span class="product-price"><?php if($data['sale'] > 0){
+                    echo '$'.($data['price'] - ($data['price'] * $data['sale'] /100)); ?>
+                    <span class="product-old-price">
+                        <?php echo '$'.$data['price']; ?>
+                    </span>
+                <?php }else{ echo '$'.$data['price'];}?> </span>	
             </div>
             <form id="product-order-form">
                 <div id="order-options">
