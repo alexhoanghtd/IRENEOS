@@ -5,7 +5,17 @@ return array(
         'connectionString' => 'sqlite:protected/data/ICOS.db',
         'tablePrefix' => 'ic_',
     ),  
-    'defaultController' => 'site',
+    'defaultController' => 'Site',
     'defaultLayout'=>'main',
+    'widgets'=> array(
+        'MainMenu' => array(
+            'new arrivals' => ct::baseURL(),
+            'collections' => '/Collection/',
+            'about us' => '/Site/About/',
+            'contact us' => '/Site/Contact',
+            'visit store' => '/Category/',
+            'bag' => '/bag/'
+         )
+    ),
 );
 

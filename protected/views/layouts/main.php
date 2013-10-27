@@ -3,12 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>И | NEW ARRIVALS</title>
+	<title># NEW ARRIVALS</title>
         <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/default.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/product-detail.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/categories-menu.css">
-	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/jquery2.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/collection-view.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/grid-group-view.css">
+        <script type="text/javascript" src="<?php echo ct::baseURL()?>/js/jquery2.js"></script>
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/responsive.js"></script>
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/elements.js"></script>
 	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>	
@@ -16,7 +18,7 @@
 		$(document).ready(function(){
 			mainLayoutControl();
 			searchStyle();
-			//gridController();
+			gridController();
 		})
 	</script>
 </head>
@@ -44,16 +46,9 @@
 					Fashion is all about showing<br /> WHO YOU ARE.
 				</blockquote>
 				<div id="main-menu">
-					<nav>
-						<ul id="main-menu-items">
-							<li><a href="#" >New Arrivals</a></li>
-							<li><a href="#">Collections</a></li>
-							<li><a href="#">About Us</a></li>
-							<li><a href="#">Contact Us</a></li>
-							<li><a href="#" class="active">Visit store</a></li>
-							<li><a href="#">Bag <span>(2)</span></a></li>
-						</ul>
-					</nav>
+                                    <?php 
+                                        CT::widgets('MainMenu')->show('new arrivals');
+                                    ?>
 				</div>
 			</div>
 			<div id="socials">
@@ -62,21 +57,7 @@
 			</div>
 		</div>
 		<div id="content-container" class="clearfix">
-			<!--Content-header if you want :D-->
-			<div class="content-header">
-				<div id="categories-menu">
-					<nav>
-						<ul>
-							<li><a href="#">Jacket</a></li>
-							<li><a href="#">Top</a></li>
-							<li><a href="#">Trouser</a></li>
-							<li><a href="#">hat</a></li>
-						</ul>
-					</nav>
-				</div>
-			</div>
-                           <?php echo $content ?>
-			</div>
+                    <?php echo $content ?>
 		</div>
 	</div>	
 </body>

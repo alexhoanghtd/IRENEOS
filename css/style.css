@@ -189,7 +189,7 @@ span#phone-number{
 div#content-container{
 	min-height: 100%;
 	position: relative;
-	background-image: url('../images/strip.png');
+	/*background-image: url('../images/strip.png');*/
 }
 
 div#menu-login{
