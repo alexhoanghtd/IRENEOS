@@ -6,6 +6,8 @@
  * and open the template in the editor.
  */
 class Model extends CTModel{
-    
+    public function getProduct($id){
+        return;
+    }
     
 }

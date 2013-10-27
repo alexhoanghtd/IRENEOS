@@ -1,4 +1,3 @@
-
 <!--Content-header if you want :D-->
 <div class="content-header">
     <div id="categories-menu">

@@ -14,6 +14,15 @@ class SiteController extends CTController{
         $newArrival = 'data of new arrival collection';
         //$collection = $this->loadModel('collection');
         //$newArrival = $collection->getCollection(1);
-        $this->render($newArrival,"index");
+        $this->render("index",$newArrival);
+    }
+    
+    function actionAbout(){
+        CT::widgets('MainMenu')->setActive('about us');
+        $this->render('about','xampledata');
+    }
+        function actionContact(){
+        CT::widgets('MainMenu')->setActive('contact us');
+        $this->render('about','xampledata');
     }
 }

@@ -34,9 +34,9 @@ class CTController{
         $path = BASE_PATH.'models/' . $model . '.php'; 
        if(file_exists($path)){
             require $path;
-            $this->model = new $model();
+            return new $model();
         }else{
-            Bootstrap::error();
+            Bootstrap::error(' Can not load the model');
         }
     }
     
@@ -56,7 +56,7 @@ class CTController{
         //ERROR RENDER!
         $errorView->show();
     }
-    function render($data,$viewName){
+    function render($viewName,$data){
         /***RENDER PREPAREATION ***/
         // I need to create an View object which can show the content
         $view = new CTView();

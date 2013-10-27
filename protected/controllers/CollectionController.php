@@ -9,7 +9,8 @@
 class CollectionController extends CTController {
 
     public function actionIndex($param = 0) {
-        $this->render('data', 'index');
+        CT::widgets('MainMenu')->setActive('collections');
+        $this->render('index','data');
     }
 
     public function actionView($param) {
@@ -19,7 +20,8 @@ class CollectionController extends CTController {
             "name" => "NEW ARRIVALS",
             "description" => "Lorem ispilitum salenacopet topcare monitor lief",
         );
-        $this->render($data, 'view');
+        CT::widgets('MainMenu')->setActive('collections');
+        $this->render('view',$data);
         //echo 'aready render the data';
     }
 
