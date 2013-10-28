@@ -11,7 +11,7 @@
 
 
 class UserController extends CTController{
-    $id = 1;
+    //$id = 1;
     public function actionTestGetUser($id) {
         //$model = $this->loadModel('User');
         //$userData = $model->getUser($id);
