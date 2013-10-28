@@ -27,7 +27,7 @@ class CTController{
     }
 
     /**
-     * Loat model with model name
+     * Load model with model name
      * @param String name of the model you want to load.
      */
     function loadModel($model){

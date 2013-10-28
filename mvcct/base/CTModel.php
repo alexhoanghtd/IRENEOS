@@ -86,5 +86,18 @@ class CTModel {
     public function create($data) {
         
     }
+    /**
+     * Load model with model name
+     * @param String name of the model you want to load.
+     */
+    function loadModel($model){
+       $path = BASE_PATH.'/protected/models/' . $model . '.php'; 
+       if(file_exists($path)){
+            require $path;
+            return new $model();
+        }else{
+            Bootstrap::error('Can not load the model');
+        }
+    }
 
 }
