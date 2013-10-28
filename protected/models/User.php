@@ -39,7 +39,7 @@ class User extends CTModel{
         $results = $this->db->query('SELECT * FROM ic_user WHERE id='.$id);
         if($row = $results->fetchArray()){
 
-            $blockUserQuery = 'UPDATE ic_user SET active='0'';
+            $blockUserQuery = 'UPDATE ic_user SET active=0';
             $this->db->query($blockUserQuery);
             return true;
         }else{
