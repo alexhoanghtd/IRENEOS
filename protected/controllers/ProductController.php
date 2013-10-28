@@ -23,14 +23,18 @@ class ProductController extends CTController {
         //$model = $this->loadModel('Product');
         //$productData = $model->getProduct($id);
         //this->render
-        $model = $this->loadModel('Product');
-        $row = $model->getProduct($id);
-        if (empty($row)) {
-            Bootstrap::error('404');
-        } else {
-            $productData = $row;
-            CT::widgets('MainMenu')->setActive('visit store');
-            $this->render('view', $productData);
+        if (!empty($id)) {
+            $model = $this->loadModel('Product');
+            $row = $model->getProduct($id);
+            if (empty($row)) {
+                Bootstrap::error('404');
+            } else {
+                $productData = $row;
+                CT::widgets('MainMenu')->setActive('visit store');
+                $this->render('view', $productData);
+            }
+        }else{
+            header("Location: http://irene.local/Category/");
         }
     }
 

@@ -7,8 +7,8 @@
  */
 class Product extends CTModel{
     public function getProduct($id){
+        $this->connect();
         $results = $this->db->query('SELECT * FROM ic_product WHERE id='.$id);
-
         if($row = $results->fetchArray()){
             $getPicQuery = 'SELECT * FROM ic_pictures WHERE id='.$row['cover_id'];
             $covers = $this->db->query($getPicQuery);
