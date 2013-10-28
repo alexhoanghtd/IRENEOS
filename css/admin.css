@@ -1,0 +1,157 @@
+/* 2col detail layout*/
+div#create-product-form{
+	padding-top: 70px;
+	background: #fff;
+}
+div#create-product-form > div{
+	width: 100%;
+	position: relative;
+	float: none;
+}
+div#create-product-form.detail-2-cols > div {
+	position: relative;
+	min-height: 400px;
+	float: left;
+	text-align: left;
+}
+.detail-2-cols div#product-detail-col-left {
+	width: 40%;
+}
+.detail-2-cols div#product-detail-col-right{
+	width: 60%;
+}
+
+/* STYLING THE MAIN PICTURE AREA*/
+
+div#product-detail-col-left > .fit-me-top{
+	padding: 0px 20px 20px 20px;
+}
+div#product-main-view{
+	padding-bottom: 120%;
+	background-color: #ccc;
+	background-image: url('../images/product_pics/nina-black.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	border: 1px solid #999;
+	box-shadow: 0px 0px 4px 1px #ddd;
+}
+div#product-more-view > ul{
+	padding-left: 35%;
+	padding-top: 10px;
+}
+div#product-more-view > ul > li{
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+	border-radius: 15px;
+	background-color: #999;
+	cursor: pointer;
+	margin: 0px 5px;
+}
+/* STYLING THE MAIN DETAIL AREA*/
+
+/*product detail*/
+div#product-detail-col-right > .fit-me-full{
+	padding: 0px 20px 20px 20px;
+}
+div#product-detail-header h1{
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+div#product-detail-header p{
+	background-image: url('../images/strip.png');
+	font-style: italic;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+span.product-price{
+	font-size: 28px;
+	line-height: 30px;
+}
+span.product-old-price{
+	display: inline-block;
+	margin-left: 10px;
+	font-size: 24px;
+	color: #999;
+	margin-bottom: 10px;
+	text-decoration: line-through;
+}
+
+/*order options*/
+#order-options > ul{
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 10px;
+}
+#order-options > ul > li{
+	margin-bottom: 10px;
+}
+#order-options > ul > li > label{
+	display: block;
+	float: left;
+	width: 100px;
+	font-size: 16px;
+}
+input.order-input{
+	width: 60px;
+	border: 1px solid #ccc;
+}
+.order-input{
+	font-size: 16px;
+	width: 80px;
+	float: right;
+}
+.sub-total{
+	text-align: right;
+	font-size: 24px;
+}
+.sub-total:before{
+	content: "Total";
+	font-style: italic;
+	color: #aaa;
+	display: inline-block;
+	float: left;
+	text-align: right;
+	font-size: 24px;
+}
+/*Product action group*/
+div#action-bts-group > a{
+	text-align: center;
+	display: block;
+	padding: 10px 20px;
+	text-transform: uppercase;
+	width: 180px;
+	margin: auto;
+	font-size: 14px;
+	font-weight: lighter;
+	margin-bottom: 10px;
+	border: 1px solid transparent;
+	transition: background-color .2s, color .2s, border .2s;
+}
+div#action-bts-group > a:hover{
+	background-color: #fff;
+	border: 1px solid #333;
+	color: #333;
+}
+a#add-to-bag{
+	color: #fff;
+	background-color: #333;
+}
+a#check-out{
+	color: #fff;
+	background-color: #999;
+}
+a#share-facebook{
+	color: #333;
+}
+
+a#share-facebook > span{
+	display: inline-block;
+	line-height: 25px;
+	background-color: #333;
+	height: 25px;
+	width: 25px;
+	border-radius: 20px;
+	color: #fff;
+	text-transform: none;
+	margin-left: 10px;
+}

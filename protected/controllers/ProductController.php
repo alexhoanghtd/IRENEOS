@@ -38,5 +38,10 @@ class ProductController extends CTController {
             header("Location: http://irene.local/Category/");
         }
     }
+    
+    public function actionCreate(){
+        $this->layout = 'admin';
+        $this->render('create', 'example');
+    }
 
 }
