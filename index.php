@@ -10,5 +10,4 @@ define ('BASE_PATH',  dirname(__FILE__));
 
 
 require_once($ct);
-
 ct::run($config);

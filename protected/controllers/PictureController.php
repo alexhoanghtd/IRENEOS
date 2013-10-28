@@ -7,5 +7,6 @@
  * @copyright &copy; 2013 Creative Team 
  */
 class PictureController extends CTController{
-    
+    public function actionIndex() {
+    }
 }

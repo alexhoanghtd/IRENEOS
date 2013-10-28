@@ -1,0 +1,19 @@
+/*all the content that might be put on the right side*/
+div#content-wrapper{
+	height: 100%;
+	text-align: left;	
+}
+/* 2 colums layout*/
+.l-2cols > * {
+	float: left;
+	color : #fff;
+}
+.col-left{
+	background-color: #aaa;
+	width: 40%;
+
+}
+.col-right{
+	background-color: #333;
+	width: 60%;
+}

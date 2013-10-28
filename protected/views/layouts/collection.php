@@ -3,12 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>И | NEW ARRIVALS</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/default.css">
+	<title># NEW ARRIVALS</title>
+        <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/default.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/product-detail.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/categories-menu.css">
-	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/jquery2.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/collection-view.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/grid-group-view.css">
+        <script type="text/javascript" src="<?php echo ct::baseURL()?>/js/jquery2.js"></script>
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/responsive.js"></script>
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/elements.js"></script>
 	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>	
@@ -54,29 +56,8 @@
 				<span id="phone-number">+84 168 340 8828</span>
 			</div>
 		</div>
-		<!--END HEADER MENU-->
-
-		<!--START CONTENT -->
 		<div id="content-container" class="clearfix">
-			<!--Content header area-->
-			<div id="content-header">
-				<div id="categories-menu">
-					<nav>
-						<ul>
-							<li><a href="#">Jacket</a></li>
-							<li><a href="#">Top</a></li>
-							<li><a href="#">Trouser</a></li>
-							<li><a href="#">hat</a></li>
-						</ul>
-					</nav>
-				</div>
-			</div>
-
-			<!--mainContentArea-->
-			<div id="content-wrapper" class="detail-2-cols clearfix">
-			<?php echo $content ?>		
-
-			</div>
+                    <?php echo $content ?>
 		</div>
 	</div>	
 </body>

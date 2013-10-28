@@ -39,7 +39,7 @@ class Bootstrap{
             //object, if not exist controller, return false
             $controller = $this->requestController($this->urlArr['controller']);
             //if doesn't exist
-            if(!$controller){
+            if(!$controller || $controller == 'protected'){
                 $this->error("controller doesn't exist");
             }else{
                 //if the controller exist,start checking action

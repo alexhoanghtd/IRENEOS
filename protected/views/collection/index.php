@@ -1,18 +1,3 @@
-
-<!--Content-header if you want :D-->
-<div class="content-header">
-    <div id="categories-menu">
-        <nav>
-            <ul>
-                <li><a href="#">Jacket</a></li>
-                <li><a href="#">Top</a></li>
-                <li><a href="#">Trouser</a></li>
-                <li><a href="#">hat</a></li>
-            </ul>
-        </nav>
-    </div>
-</div>
-
 <!--CONTENT BODY WRAPPER NO PADDING! -->
 <div id="product-content-container">
 

@@ -3,6 +3,7 @@
 define ('CT_PATH', dirname(__FILE__));
 //add the base classes
 $includes = array(
+   '/base/CTInterfaces.php',
    '/base/CTComponent.php',
    '/base/CTWidget.php',
    '/Bootstrap.php',
@@ -23,15 +24,15 @@ foreach($includes as $file) {
  */
 class CT{
    //static configuration for the app
+
    static $_CONFIG = array();
    static private $widgets = array();
    /*
     *start the application load the config and start bootstrap
     */   
    public function run($config) {
-       CT::$_CONFIG = CT::getConfig($config);
-       //print_r(CT::$_CONFIG)
-       CT::loadWidgets();
+       self::$_CONFIG = self::getConfig($config);
+       self::loadWidgets();
        $bootstrap = new Bootstrap();
    }
 
@@ -46,22 +47,22 @@ class CT{
         return require $config;
    }
    public static function config(){
-       return CT::$_CONFIG;
+       return self::$_CONFIG;
    }
    public static function widgets($widgetName){
-       return CT::$widgets[$widgetName];
+       return self::$widgets[$widgetName];
    }
    /**
     * 
     */
    private function loadWidgets(){
-       $widgetNames = array_keys(CT::$_CONFIG['widgets']);
-       $widgets = CT::$widgets;
+       $widgetNames = array_keys(self::$_CONFIG['widgets']);
+       $widgets = self::$widgets;
        foreach($widgetNames as $widgetName){
            require BASE_PATH.'/protected/widgets/'.$widgetName.'.php';
            //push a new widget to widget list of the app
-           if(!isset(CT::$widgets[$widgetName])){
-               CT::$widgets[$widgetName] = new $widgetName();
+           if(!isset(self::$widgets[$widgetName])){
+               self::$widgets[$widgetName] = new $widgetName();
            }
        }
    }

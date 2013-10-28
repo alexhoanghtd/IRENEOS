@@ -2,7 +2,9 @@
 /*Design And Implimentation By ALEX HOANG*/
 
 /****LAYOUT****/
-
+div#container{
+	height: 100%;
+}
 /*desktop main layout*/
 div#container.desktop-view div#header-menu{
 	position: fixed;
@@ -176,20 +178,12 @@ span#phone-number{
 
 /*MAIN CONTENT*/
 div#content-container{
-	min-height: 100%;
+	height: 100%;
 	position: relative;
 	/*background-image: url('../images/strip.png');*/
 }
 
-div#menu-login{
-	position: relative;
-	padding-top: 30%;
-        margin: auto;
+/* content header */
+div#content-header{
+	height: 70px;
 }
-
-h1#menu-login{
-	text-align:center;
-}
-
-
-/*Product-slider*/

@@ -11,6 +11,7 @@
 class SiteController extends CTController{
     
     function actionIndex() {
+        $this->layout = 'collection';
         $newArrival = 'data of new arrival collection';
         //$collection = $this->loadModel('collection');
         //$newArrival = $collection->getCollection(1);
