@@ -14,7 +14,7 @@ return array(
             'about us' => '/Site/About/',
             'contact us' => '/Site/Contact',
             'visit store' => '/Category/',
-            'bag' => '/bag/'
+            'bag' => '/bag/',
          )
     ),
 );

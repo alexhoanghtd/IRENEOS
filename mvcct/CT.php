@@ -13,7 +13,7 @@ $includes = array(
 );
 
 foreach($includes as $file) {
-     include_once $file;
+     include_once dirname(__FILE__).$file;
 }
 
 /*
@@ -38,7 +38,7 @@ class CT{
    public static function baseURL(){
        return 'http://'.$_SERVER['SERVER_NAME'];
    }
-   
+    
    /*
     * function to get configuration when the app started
     */

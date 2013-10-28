@@ -23,6 +23,7 @@ class ProductController extends CTController {
         //$model = $this->loadModel('Product');
         //$productData = $model->getProduct($id);
         //this->render
+        
         if (!empty($id)) {
             $model = $this->loadModel('Product');
             $row = $model->getProduct($id);
