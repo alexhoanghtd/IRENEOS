@@ -6,6 +6,9 @@
  * and open the template in the editor.
  */
 class Product extends CTModel{
+    public function tableLables(){
+        
+    }
     public function getProduct($id){
         $this->connect();
         $results = $this->db->query('SELECT * FROM ic_product WHERE id='.$id);

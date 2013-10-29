@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class CTModel {
+class CTModel{
 
     /**
      * Hold database connection
@@ -19,20 +19,17 @@ class CTModel {
      * @var string 
      */
     public $tableName;
-
+    
+    /**
+     * Hold the result of the data
+     */
+    public $row;
+    
     /**
      * Hold the structure of the table;
      * @var array
      */
-    protected $table = array(
-        'default_col' => array(
-            'dbName' => 'colname', // Name of colum in the database
-            'name' => 'name', // name definition
-            'type' => 'TEXT', // data type of the colum
-            'length' => '3', // the length of the talbe
-            'required' => '0', // is the colum value
-        ),
-    );
+    protected $table = array();
 
     /**
      * Contstructor does: 
@@ -41,18 +38,7 @@ class CTModel {
      */
     public function __construct() {
         $this->db = $this->connect();
-        $table = $this->db->query("pragma table_info(ic_product);");
-        while ($col = $table->fetchArray()) {
-            $this->table[$col['name']] = array(
-                'dbName' => $col['name'], // Name of colum in the database
-                'name' => '', // name definition
-                'type' => $col['type'], // data type of the colum
-                'length' => '', // the length of the talbe
-                'required' => $col['notnull'], // is the colum value
-            );
-            //echo $col['name'].'|'.$col['type'].'<br />';
-        }
-        // print_r($this->table);
+        $this->getTableStruct();
     }
 
     /**
@@ -66,7 +52,43 @@ class CTModel {
         $this->db = new SQLite3(BASE_PATH . $connectionString);
         return $this->db;
     }
-
+    
+    /**
+     * get all the basic structure of the table according to model name
+     * set to $this->table
+     */
+    protected function getTableStruct(){
+        //get the table name according to model name 
+        $tableName = $this->getTableName();
+        //querry table structure
+        $table = $this->db->query("pragma table_info(".$tableName.")");
+        //building the structure
+        while ($col = $table->fetchArray()) {
+            $this->table[$col['name']] = array(
+                'colName' => $col['name'], // Name of colum in the database
+                'name' => '', // name definition
+                'type' => $col['type'], // data type of the colum
+                'length' => '', // the length of the talbe
+                'required' => $col['notnull'], // is the colum value
+            );
+            //echo $col['name'].'|'.$col['type'].'<br />';
+        }
+        print_r($this->table);
+    }
+    /**
+     * get Cell info
+     */
+    private function getCells(){
+        
+    }
+    public function getTableName(){
+        //get table prefix from config file
+        $prefix = CT::$_CONFIG['db']['tablePrefix'];
+        $this->tableName = $tableName = $prefix.strtolower(get_class($this));  
+        return $this->tableName;
+    }
+    
+    
     public function update($id, $data) {
         
     }
@@ -79,11 +101,23 @@ class CTModel {
         
     }
 
-    public function getData($id) {
-        
+    public function get($id) {
+        $result = $this->db->query(
+                'SELECT * FROM '
+                .$this->tableName.
+                ' WHERE id='.$id
+                );
+        if($product = $result->fetchArray()){    
+            print_r($product);
+            return $product;
+        }
+        else{
+            echo "product with id = ".$id."doesn't exist";
+            return false;
+        }
     }
 
-    public function create($data) {
+    public function create() {
         
     }
     /**

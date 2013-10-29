@@ -26,6 +26,7 @@ class ProductController extends CTController {
         
         if (!empty($id)) {
             $model = $this->loadModel('Product');
+            $model->get($id);
             $row = $model->getProduct($id);
             if (empty($row)) {
                 Bootstrap::error('404');

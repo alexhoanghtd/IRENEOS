@@ -6,3 +6,11 @@
 interface IViewGenerate{
     
 }
+interface IDBRecord{
+    public function ShowTableStruct();
+    public function getTableName();
+    public function getData();
+    public function updateData();
+    public function delete();
+    public function create();
+}
