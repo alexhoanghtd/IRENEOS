@@ -1,10 +1,12 @@
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * User Model 
+ * 
+ * @author duyht <duyht@smartosc.com>
+ * @created 28 Oct 2013
+ * @copyright &copy; 2013 Createve Team 
  */
+
 class Product extends CTModel{
     public function getProduct($id){
         $this->connect();
@@ -20,5 +22,16 @@ class Product extends CTModel{
             return false;
         }
     }
-    
+
+    public function updateProduct($id){
+
+    }
+
+    public function createProduct($id){
+        
+    }
+
+    public function deleteProduct($id){
+        
+    }
 }
