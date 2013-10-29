@@ -215,3 +215,6 @@ pip-log.txt
 .mr.developer.cfg
 /nbproject/private/
 /mvc/nbproject/private/
+/protected/config/main.php
+
+/protected/data/ICOSTEMP.db

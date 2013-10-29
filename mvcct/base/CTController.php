@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Base Controller class
  * @author alexhoang <alexhoang.htd@gmail.com>

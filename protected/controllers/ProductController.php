@@ -19,28 +19,26 @@ class ProductController extends CTController {
         exit;
     }
 
+    /**
+     * show the product with id = $id
+     * @param int $id of the product
+     */
     public function actionView($id) {
-        //$model = $this->loadModel('Product');
-        //$productData = $model->getProduct($id);
-        //this->render
-        
         if (!empty($id)) {
-            $model = $this->loadModel('Product');
+            $model = new Product();
             $model->get($id);
-            $row = $model->getProduct($id);
-            if (empty($row)) {
-                Bootstrap::error('404');
-            } else {
-                $productData = $row;
-                CT::widgets('MainMenu')->setActive('visit store');
-                $this->render('view', $productData);
-            }
-        }else{
+            $model->setVal('id', 14);
+            $model->setVal('product_name','alex testimony');
+            print_r($model->getData());
+            $model->create();
+            //$model->update();
+            //print_r($model->get($id));
+        } else {
             header("Location: http://irene.local/Category/");
         }
     }
-    
-    public function actionCreate(){
+
+    public function actionCreate() {
         $this->layout = 'admin';
         $this->render('create', 'example');
     }
