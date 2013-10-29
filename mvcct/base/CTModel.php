@@ -142,6 +142,14 @@ class CTModel implements IDBRecord {
      * @param int $id id of the item you want to delete
      */
     public function delete() {
+        if(!empty($this->row['id'])){
+        return $this->db->exec('DELETE FROM '.
+                $this->tableName.
+                ' WHERE id='.
+                $this->row['id']);
+        }else{
+            return false;
+        }
         
     }
 
