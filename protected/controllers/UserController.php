@@ -11,12 +11,11 @@
 
 
 class UserController extends CTController{
-    //$id = 1;
     public function actionTestGetUser($id) {
         //$model = $this->loadModel('User');
         //$userData = $model->getUser($id);
         //this->render
-        
+        $id=1;
         if (!empty($id)) {
             $model = $this->loadModel('User');
             $row = $model->getUser($id);
@@ -24,7 +23,26 @@ class UserController extends CTController{
                 Bootstrap::error('404');
             } else {
                 $userData = $row;
-                //not done yet
+                print_r($userData);
+            }
+        }else{
+            header("Location: http://irene.local/");
+        }
+    }
+
+    public function actionTestGetUserRole($id) {
+        //$model = $this->loadModel('User');
+        //$userData = $model->getUser($id);
+        //this->render
+        $id=1;
+        if (!empty($id)) {
+            $model = $this->loadModel('User');
+            $row = $model->getUserRole($id);
+            if (empty($row)) {
+                Bootstrap::error('404');
+            } else {
+                $userRole = $row;
+                echo "Get User's role successful! Role is " .$userRole;
             }
         }else{
             header("Location: http://irene.local/");
