@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="../../../css/style.css">
         <link rel="stylesheet" type="text/css" href="../../../css/ic-content-layouts.css">
         <link rel="stylesheet" type="text/css" href="../../../css/categories-menu.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/product-detail.css">
         <script type="text/javascript" src="../../../js/jquery2.js"></script>
         <script type="text/javascript" src="../../../js/responsive.js"></script>
         <script type="text/javascript" src="../../../js/elements.js"></script>
@@ -84,27 +85,72 @@
 
                     <!-- layout $content will be shown here -->
                     <div id="content-inner" class="l-2cols clearfix">
-
                     	<!--2 colums layout left col -->
-                        <div class="col-left">
-                        	<h1>left</h1>
+                        <div class="col-left clearfix">
                             <div class="product-pics">
-                                <div class="main-view">
-
+                                <div class="main-view shadow-box">
+                                
                                 </div>
-                                <div class="more-view"></div>
+                                <div class="more-view">
+                                    <ul>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
                         <!-- 2 colums layout right col-->
                      	<div class="col-right">
-                        	<h1>right</h1>
+                            <div id="pdetail-container" class="col-right-container">
+                                <h1 class="col-right-header">Nina black</h1>
+                                <blockquote>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                    consequat. Duis aute irure dolor in .
+                                </blockquote>
+                                <span class="product-price">$250 <span class="old-price">$300</span></span>
+                                <form id="order-form">
+                                    <ul id="order-items">
+                                        <li class="clearfix"><label>Quantity</label>
+                                            <input type="text" value="1">
+                                        </li>
+                                        <li class="clearfix"><label>Color</label>
+                                            <select>
+                                                <option>Green</option>
+                                                <option>Red</option>
+                                                <option>Blue</option>
+                                            </select>
+                                        </li >
+                                        <li class="clearfix"><label>Size</label>
+                                            <select>
+                                                <option>XL</option>
+                                                <option>L</option>
+                                                <option>S</option>
+                                            </select>
+                                        </li>
+                                    </ul>
+                                    <hr/>   
+                                    <div class="sub-total clearfix">
+                                        <span class="label">Total</span>
+                                        <span class="sub">$250</span>
+                                    </div>
+                                    <div class="button-group">
+                                        <a href="" class="add-to-bag dark-bt">Add to bag</a>
+                                        <a href="" class="check-out dark-bt">Check out</a>
+                                    </div>                                   
+                                </form> 
+                                
+                            </div>
+
                         </div>
 
                     </div>
                     <!--end of layout $content -->
                 </div>
-            </div>
+            </div>  
         </div>	
     </body>
 </html>

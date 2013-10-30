@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/product-detail.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/categories-menu.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/ic-content-layouts.css">
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/jquery2.js"></script>
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/responsive.js"></script>
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/elements.js"></script>
@@ -73,7 +74,7 @@
 			</div>
 
 			<!--mainContentArea-->
-			<div id="content-wrapper" class="detail-2-cols clearfix">
+			<div id="content-wrapper" class="clearfix">
 			<?php echo $content ?>		
 
 			</div>
