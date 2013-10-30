@@ -228,7 +228,7 @@ class CTModel extends CTSQLite implements IDBRecord {
                 return false;
             }
         }
-        $this->prepareCreate();
+        return $this->prepareCreate();
     }
     
     /**
@@ -285,15 +285,21 @@ class CTModel extends CTSQLite implements IDBRecord {
     private function generateInsertQuery() {
         $query = 'INSERT INTO ' . $this->tableName . ' (';
         foreach ($this->table as $cell) {
-            //only add id to the query if the id in the row data not empty
-            if($cell['colName'] != 'id' || !empty($this->row['id'])){
+            //only add variable to the query if 
+            //the data is set and either the colum is not id or if it is id,it
+            //cant be null
+            if(($cell['colName'] != 'id' || !empty($this->row['id']))
+                    && isset($this->row[$cell['colName']])){
                 $query .= $cell['colName'].', ';
             }
         }
         $query .= ') VALUES (';
         foreach ($this->table as $cell){
-            //only add id to the query if the id in the row data not empty
-            if($cell['colName'] != 'id' || !empty($this->row['id'])){
+            //only add variable to the query if 
+            //the data is set and either the colum is not id or if it is id,it
+            //cant be null
+            if(($cell['colName'] != 'id' || !empty($this->row['id']))
+                    && isset($this->row[$cell['colName']])){
                 $query.= ':'.$cell['colName'].', ';
             }
         }
@@ -311,12 +317,13 @@ class CTModel extends CTSQLite implements IDBRecord {
         //generate the update querry
         $query = 'UPDATE ' . $this->tableName . ' SET ';
         foreach ($this->table as $cell) {
-            if ($cell['colName'] != 'id') {
+            if ($cell['colName'] != 'id' && !empty($this->row[$cell['colName']])) {
                 $query .= $cell['colName'] . '=:' . $cell['colName'] . ', ';
             }
         }
         $query = str_replace($cell['colName'] . ',', $cell['colName'], $query);
         $query .= " WHERE id=:id";
+        //echo $query;
         return $query;
     }
 
@@ -328,8 +335,9 @@ class CTModel extends CTSQLite implements IDBRecord {
         $stmt = $this->db->prepare($query);
         //automatic bind value for param
         foreach ($this->table as $cell) {
-            if ($cell['colName'] != 'id' || !empty($this->row['id'])) {
-                //echo $cell['type'] . '<br/>';
+            if (($cell['colName'] != 'id' || !empty($this->row['id']))
+                    && isset($this->row[$cell['colName']])) {
+                //echo $cell['colName'].'binded<br/>';
                 switch ($cell['type']) {
                     case 'INTERGER': {
                             $stmt->bindValue(':' . $cell['colName'], (int) $this->row[$cell['colName']], SQLITE3_INTEGER);

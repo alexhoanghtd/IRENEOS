@@ -43,7 +43,8 @@ class Product extends CTModel {
         if (!$result) {
             return false;
         } else {
-            print_r($result->fetchArray());
+            $id = $result->fetchArray();
+            return $id['id'];
         }
     }
 

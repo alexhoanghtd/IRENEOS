@@ -8,7 +8,7 @@
 }
 .main-view{
 	position: relative;
-	height: 100%;
+	padding-bottom: 120%;
 	background-color: #ccc;
 	background-repeat: no-repeat;
 	background-position: 50%;
@@ -44,6 +44,7 @@
 	cursor: pointer;
 	transition: box-shadow .2s, border .2s, color .2s;
 	border: 1px solid transparent;
+        margin-bottom: 20px;
 
 }
 .more-view >ul > li:hover{
@@ -151,6 +152,7 @@ ul#order-items > li > select{
 	letter-spacing: 1px;
 	border: 1px solid transparent;
 	transition: background .2s, border .2s, color .2s;
+        cursor: pointer;
 }
 .add-to-bag{
 	background-color: #333;

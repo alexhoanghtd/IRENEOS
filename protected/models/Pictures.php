@@ -21,14 +21,6 @@ class Pictures extends CTModel {
     }
 
     public function getProductPictures($productID) {
-        $this->connect();
-        $results = $this->db->query('SELECT * FROM ic_pictures WHERE product_id=' . $productID);
-        if ($row = $results->fetchArray()) {
-
-            return $row;
-        } else {
-            return false;
-        }
     }
 
     public function getCategoryPictures($categoryID) {
@@ -43,35 +35,46 @@ class Pictures extends CTModel {
     }
 
     public function uploadPicture($file) {
+        if( !$this->checkFileExisted($file) 
+                 && $this->checkFileSize($file, 200) 
+                 && $this->checkFileType($file)
+                ){
+             move_uploaded_file($file["tmp_name"], BASE_PATH."/images/products/" . $file["name"]);
+             return "/images/products/". $file["name"];
+        }else{
+            return false;
+        }
+    }
+    /**
+     * Check if the File type is allowed
+     * @param type $file
+     * @return type
+     */
+    public function checkFileType($file){
         $allowedExts = array("gif", "jpeg", "jpg", "png");
         $temp = explode(".", $file["name"]);
         $extension = end($temp);
-        if ((($file["type"] == "image/gif") 
+        return (
+                (//check file type
+                   ($file["type"] == "image/gif") 
                 || ($file["type"] == "image/jpeg") 
                 || ($file["type"] == "image/jpg") 
                 || ($file["type"] == "image/pjpeg") 
                 || ($file["type"] == "image/x-png") 
-                || ($file["type"] == "image/png")) 
-                && ($file["size"] < 20000) 
-                && in_array($extension, $allowedExts)) {
-            if ($file["error"] > 0) {
-                echo "Return Code: " . $file["error"] . "<br>";
-            } else {
-                echo "Upload: " . $file["name"] . "<br>";
-                echo "Type: " . $file["type"] . "<br>";
-                echo "Size: " . ($file["size"] / 1024) . " kB<br>";
-                echo "Temp file: " . $file["tmp_name"] . "<br>";
-
-                if (file_exists("upload/" . $file["name"])) {
-                    echo $file["name"] . " already exists. ";
-                } else {
-                    move_uploaded_file($file["tmp_name"], "upload/" . $file["name"]);
-                    echo "Stored in: " . "upload/" . $file["name"];
-                }
-            }
-        } else {
-            echo "Invalid file";
-        }
+                || ($file["type"] == "image/png")
+                ) 
+                && 
+                in_array($extension, $allowedExts)
+                ); 
     }
-
+    /**check for the valid size of picture**/
+    public function checkFileSize($file,$Kb){
+        return ($file["size"] <= $Kb * 1024) ;
+    }
+    /**
+     * check if fileName existed 
+     */
+    public function checkFileExisted($file){
+        return file_exists(BASE_PATH."/images/products/" . $file["name"]);
+    }
 }
