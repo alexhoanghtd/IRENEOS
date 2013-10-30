@@ -28,19 +28,34 @@ class ProductController extends CTController {
             $model = new Product();
             $model->get($id);
             $model->setVal('id', 14);
-            $model->setVal('product_name','alex testimony');
-            print_r($model->getData());
-            $model->create();
-            //$model->update();
-            //print_r($model->get($id));
+            $this->render('view', 'xampleData');
         } else {
             header("Location: http://irene.local/Category/");
         }
     }
 
+    /**
+     * Action to create a new product
+     */
     public function actionCreate() {
-        $this->layout = 'admin';
+//        if(isset($_FILES)){
+//            print_r($_FILES);
+//        }
+        $picture = new Pictures();
+        $picture->uploadPicture($_FILES['cover']);
+        if (isset($_POST['product'])) {
+            $product = $_POST['product'];
+            $model = new Product();
+            $model->setData($product);
+        }
+        $this->layout = 'main';
         $this->render('create', 'example');
     }
-
+    
+    /**
+     * update a product info
+     */
+    public function actionUpdate(){
+        
+    }
 }

@@ -1,7 +1,8 @@
 <!-- layout $content will be shown here -->
 <form id="create-product" class="l-2cols clearfix content-inner" 
       method="POST" 
-      action="/product/Create/">
+      action="/product/Create/"
+      enctype="multipart/form-data">
     <!--2 colums layout left col -->
     <div class="col-left clearfix">
         <div class="product-pics">
@@ -9,27 +10,27 @@
                 <img height="100%"/>
                 <input type="file" 
                        multiple accept='image/*'
-                       name="product[file]" class="file"
+                       name="cover" class="file"
                        onchange="preview(this)">
             </div>
             <div class="more-view">
                 <ul>
                     <li class="empty pic-input">
                         <img height="100%"/>
-                        <input type="file" name="product[preview]" 
+                        <input type="file" name="preview1" 
                                multiple accept='image/*'
                                class="file" onchange="preview(this)">
                     </li>
                     <li class="empty pic-input">
                         <img height="100%"/>
-                        <input type="file" name="product[preview]"
+                        <input type="file" name="preview2"
                                multiple accept='image/*'
                                class="file" onchange="preview(this)">
 
                     </li>
                     <li class="empty pic-input">
                         <img height="100%"/>
-                        <input type="file" name="product[preview]" 
+                        <input type="file" name="preview3" 
                                multiple accept='image/*'
                                class="file" onchange="preview(this)">
                     </li>
@@ -44,8 +45,8 @@
             <input type="text" class="col-right-header" placeholder="Product name" name="product[product_name]" required>
             <textarea  placeholder="Write the description here...." name="product[product_description]"></textarea>
             <span class="product-price">
-                <input type="text" placeholder="Price" name="product[price]" required> 
-                <input type="text" placeholder="Sale" style="display:block" name="product[sale]">
+                <input type="text" placeholder="Price" name="product[price]" required> $ <br/>
+                <input type="text" placeholder="Sale" name="product[sale]"> %
             </span>
             <div>
                 <input type="checkbox" name="product[available]" value="1"><label>active</label>

@@ -3,17 +3,33 @@ div#content-wrapper{
 	height: 100%;
 	text-align: left;	
 }
+.content-inner{
+	height: 100%;
+	text-align: left;	
+}
 /* 2 colums layout*/
 .l-2cols > * {
+	position: relative;
 	float: left;
-	color : #fff;
+	height: 100%;
 }
 .col-left{
-	background-color: #aaa;
 	width: 40%;
-
 }
 .col-right{
-	background-color: #333;
 	width: 60%;
+}
+.col-right-container{
+	padding: 0px 20px;
+}
+.col-right-header{
+	width: 90%;
+	display: block;
+	font-size: 40px;
+	font-style: italic;
+}
+.col-right hr{
+	border: none;
+	border-top: 1px solid #ccc;
+	background-color: transparent;
 }

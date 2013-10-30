@@ -9,7 +9,31 @@
 class ExampleController extends CTController {
 
     public function actionIndex($param = 0) {
-        $this->render('data', 'index');
+        $model = new Product();
+        echo $model->hasCol('name') ? 'exited' : 'not exited<br/>';
+        $arr = array(
+            'something' => 'smt',
+            'someEmpty' => "ks;g,mniei<eslk b/sklsi dcon gà trống nó đi ăn đêmownde //n",
+            'array' => array(
+              'araaaaay' => '', 
+            ),
+            'bool' => true,
+            'aFloat' => 9.3,
+            'aint' => 1,
+            'and null' => null,
+        );
+        if(isset($arr['notexisted'])){
+            echo 'seted <br/>';
+        }else{
+            echo 'is not set <br/>';
+        }
+        foreach (array_keys($arr) as $val){
+            echo gettype($arr[$val]).' | ';
+            echo $val."<br/>";
+        }
+        
+        echo ('INTEGER' == 'integer') ? 'yes' : 'no';
+        
     }
 
     public function actionView($param) {

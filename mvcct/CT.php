@@ -5,6 +5,7 @@ define('CT_PATH', dirname(__FILE__));
 //add the base classes
 $includes = array(
     '/base/CTInterfaces.php',
+    '/base/CTSQLite.php',
     '/base/CTComponent.php',
     '/base/CTWidget.php',
     '/base/CTController.php',

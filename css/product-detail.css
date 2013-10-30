@@ -1,0 +1,167 @@
+.product-pics{
+	display: block;
+	width: 100%;
+	height: 70%;
+}
+.product-pics > *{
+	margin-left: 20px;
+}
+.main-view{
+	position: relative;
+	height: 100%;
+	background-color: #ccc;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-size: cover;
+	cursor: pointer;
+	transition: border .2s, box-shadow .2s;
+}
+.main-view:hover{
+	border: 1px solid #333;
+	box-shadow: 0px 0px 7px 3px #ddd;
+}
+#create-product .main-view.empty:after{
+	content : "Add product cover";
+	text-align: center;
+	color: #999;
+	font-size: 24px;
+	font-style: italic;
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 50%;
+}
+
+.more-view >ul > li{
+	position: relative;
+	margin-top: 20px;
+	display: block;
+	float: left;
+	width: 30%;
+	padding-bottom: 44%;
+	background-color: #ccc;
+	cursor: pointer;
+	transition: box-shadow .2s, border .2s, color .2s;
+	border: 1px solid transparent;
+
+}
+.more-view >ul > li:hover{
+	color: #000;
+	border: 1px solid #333;
+	box-shadow: 0px 0px 4px 2px #ddd;
+}
+.more-view > ul > .empty:after{
+	content: "Preview Not Avaiable";
+	font-style: italic;
+	color: #999;
+	text-align: center;
+	padding-top: 50%;
+	display: block;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	z-index: 1;
+}
+#create-product .more-view > ul > li.empty:after{
+	content: "Add preview";
+}
+.more-view >ul > li:nth-child(3){
+	float: right;
+}
+.more-view >ul > li:nth-child(2){
+	margin-left: 4%;
+}
+.pdetail-container > *{
+	margin-bottom: 10px;
+}
+.pdetail-container blockquote , .pdetail-container textarea{
+	padding: 10px;
+	background-image: url('../images/strip.png');
+}
+.pdetail-container textarea{
+	position: relative;
+	display: block;
+	right: 0px;
+	left:0px;
+	height: 100px;
+	width: 90%;
+}
+.product-price{
+	display: block;
+	font-size: 24px;
+}
+.product-price > input[type="text"]{
+    width: 50px;
+}
+.old-price{
+	color: #ccc;
+	text-decoration: line-through;
+}
+
+ul#order-items > li{
+	padding-bottom: 10px;
+}
+ul#order-items > li > *{
+	font-size : 18px;
+}
+ul#order-items > li > label{
+	width: 200px;
+	float: left;
+}
+ul#order-items > li > input{
+	float: right;
+	width: 80px;
+	border: 1px solid #999;
+}
+ul#order-items > li > select{
+	float: right;
+	width: 102px;
+	border: 1px solid #999;
+}
+.sub-total {
+	margin-bottom: 20px;
+}
+.sub-total >span {
+	font-size: 24px;
+}
+.sub-total .label{
+	float: left;
+	color: #ccc;
+}
+.sub-total .sub{
+	float: right;
+}
+
+.button-group{
+	text-align: center;
+	margin-top: 20px;
+}
+
+.button-group > a, .button-group >input{
+	display: block;
+	height: 40px;
+	width: 200px;
+	margin: auto;
+	line-height: 40px;
+	margin-bottom: 10px;
+	text-transform: uppercase;
+	font-size: 14px;
+	letter-spacing: 1px;
+	border: 1px solid transparent;
+	transition: background .2s, border .2s, color .2s;
+}
+.add-to-bag{
+	background-color: #333;
+	color: #fff;
+}
+.check-out{
+	color: #fff;
+	background-color: #999;
+}
+.dark-bt:hover{
+	color: #000;
+	border: 1px solid #333;
+	background-color: #fff;
+}

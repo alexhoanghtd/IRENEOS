@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class CTModel implements IDBRecord {
+class CTModel extends CTSQLite implements IDBRecord {
 
     /**
      * Hold database connection
@@ -41,22 +41,10 @@ class CTModel implements IDBRecord {
         $this->db = $this->connect();
         $this->analyzeTableStruct();
         $row = array();
+        $this->db = self::connect();
         //$this->row['id'] = ':SDLK';
         //$this->generateInsertQuery();
     }
-
-    /**
-     * Start the connection to sqlite 3 and return the database connection
-     * that help you to execute the query
-     * @return sqlite3 database connection
-     */
-    protected function connect() {
-        $dbInfo = CT::$_CONFIG['db'];
-        $connectionString = $dbInfo['connectionString'];
-        $this->db = new SQLite3(BASE_PATH . $connectionString);
-        return $this->db;
-    }
-
     /**
      * get all the basic structure of the table according to model name
      * set to $this->table
@@ -277,16 +265,17 @@ class CTModel implements IDBRecord {
         $stmt = $this->prepareStmt($query);
         $result = $stmt->execute();
         if ($result) {
-            echo 'up dated rows: ', $this->db->changes();
+            //echo 'up dated rows: ', $this->db->changes();
             return $result;
         } else {
+            echo $this->db->lastErrorMsg();
             return false;
         }
     }
     private function prepareCreate(){
         $query = $this->generateInsertQuery();
         $stmt = $this->prepareStmt($query);
-        print_r($stmt);
+        //print_r($stmt);
         return $stmt->execute();
     }
     /**
@@ -310,7 +299,7 @@ class CTModel implements IDBRecord {
         }
         $query .= ')';
         $query = str_replace(', )', ' )', $query);
-        echo $query;
+        //echo $query;
         return $query;
     }
 
@@ -360,7 +349,25 @@ class CTModel implements IDBRecord {
                 }
             }
         }
-        return $stmt;
+        return $stmt;        
     }
-
+    /**
+     * check if that colum in the corresponding table exist
+     * @param string $colName name of the colum you want to check
+     */
+    public function hasCol($colName){
+        return isset($this->table[$colName]);
+    }
+    
+    /**
+     * get all value in the array and stored in 
+     * @param type $dataArr
+     */
+    public function setData($dataArr){
+        foreach(array_keys($dataArr) as $colName){
+            if($this->hasCol($colName)){
+                $this->row[$colName] = $dataArr[$colName];
+            }
+        }
+    }
 }
