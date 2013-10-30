@@ -18,7 +18,9 @@
 			mainLayoutControl();
 			searchStyle();
 			gridController();
-		})
+                        
+
+		});
 	</script>
 </head>
 <body class="clearfix">

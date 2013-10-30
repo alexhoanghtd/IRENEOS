@@ -1,23 +1,37 @@
 <!-- layout $content will be shown here -->
-<form id="create-product" class="l-2cols clearfix content-inner" method="POST" action="/product/Create/">
+<form id="create-product" class="l-2cols clearfix content-inner" 
+      method="POST" 
+      action="/product/Create/">
     <!--2 colums layout left col -->
     <div class="col-left clearfix">
         <div class="product-pics">
-            <div class="main-view shadow-box empty">
-                <input type="hidden" id="product[cover_url]" 
-                       name="product[cover_url]"/>
+            <div class="main-view shadow-box empty pic-input">
+                <img height="100%"/>
+                <input type="file" 
+                       multiple accept='image/*'
+                       name="product[file]" class="file"
+                       onchange="preview(this)">
             </div>
             <div class="more-view">
                 <ul>
-                    <li class="empty">
-                       <input type="hidden" id="product[prev_url]" 
-                       name="product[cover_url]"/>
+                    <li class="empty pic-input">
+                        <img height="100%"/>
+                        <input type="file" name="product[preview]" 
+                               multiple accept='image/*'
+                               class="file" onchange="preview(this)">
                     </li>
-                    <li class="empty">
-                        
+                    <li class="empty pic-input">
+                        <img height="100%"/>
+                        <input type="file" name="product[preview]"
+                               multiple accept='image/*'
+                               class="file" onchange="preview(this)">
+
                     </li>
-                    <li class="empty">
-                        
+                    <li class="empty pic-input">
+                        <img height="100%"/>
+                        <input type="file" name="product[preview]" 
+                               multiple accept='image/*'
+                               class="file" onchange="preview(this)">
                     </li>
                 </ul>
             </div>
@@ -37,10 +51,10 @@
                 <input type="checkbox" name="product[available]" value="1"><label>active</label>
                 <input type="checkbox" name="product[is_new]" value="1"><label>is new</label>
             </div>
-                <div class="button-group">
-                    <input type="submit" class="add-to-bag dark-bt">
-                    <input type="reset" href="" class="check-out dark-bt">Cancel</a>
-                </div>                                   
+            <div class="button-group">
+                <input type="submit" class="add-to-bag dark-bt">
+                <input type="reset" href="" class="check-out dark-bt">
+            </div>                                   
 
         </div>
 
