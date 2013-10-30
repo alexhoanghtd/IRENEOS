@@ -4,13 +4,21 @@
     <div class="col-left clearfix">
         <div class="product-pics">
             <div class="main-view shadow-box empty">
-
+                <input type="hidden" id="product[cover_url]" 
+                       name="product[cover_url]"/>
             </div>
             <div class="more-view">
                 <ul>
-                    <li class="empty"></li>
-                    <li class="empty"></li>
-                    <li class="empty"></li>
+                    <li class="empty">
+                       <input type="hidden" id="product[prev_url]" 
+                       name="product[cover_url]"/>
+                    </li>
+                    <li class="empty">
+                        
+                    </li>
+                    <li class="empty">
+                        
+                    </li>
                 </ul>
             </div>
         </div>
@@ -19,10 +27,10 @@
     <!-- 2 colums layout right col-->
     <div class="col-right">
         <div class="col-right-container pdetail-container">
-            <input type="text" class="col-right-header" placeholder="Product name" name="product[product_name]">
+            <input type="text" class="col-right-header" placeholder="Product name" name="product[product_name]" required>
             <textarea  placeholder="Write the description here...." name="product[product_description]"></textarea>
             <span class="product-price">
-                <input type="text" placeholder="Price" name="product[price]"> 
+                <input type="text" placeholder="Price" name="product[price]" required> 
                 <input type="text" placeholder="Sale" style="display:block" name="product[sale]">
             </span>
             <div>
