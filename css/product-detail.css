@@ -45,6 +45,9 @@
 	transition: box-shadow .2s, border .2s, color .2s;
 	border: 1px solid transparent;
         margin-bottom: 20px;
+        background-position: 50%;
+        background-size: 110%;
+        background-repeat: no-repeat;
 
 }
 .more-view >ul > li:hover{

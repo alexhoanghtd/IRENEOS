@@ -20,18 +20,6 @@ class Product extends CTModel {
     }
 
     public function getProduct($id) {
-        $this->connect();
-        $results = $this->db->query('SELECT * FROM ic_product WHERE id=' . $id);
-        if ($row = $results->fetchArray()) {
-            $getPicQuery = 'SELECT * FROM ic_pictures WHERE id=' . $row['cover_id'];
-            $covers = $this->db->query($getPicQuery);
-            $cover = $covers->fetchArray();
-            $coverURL = $cover['url'];
-            $row['coverURL'] = $coverURL;
-            return $row;
-        } else {
-            return false;
-        }
     }
 
     public function getProductIdByName($name) {
@@ -46,6 +34,26 @@ class Product extends CTModel {
             $id = $result->fetchArray();
             return $id['id'];
         }
+    }
+
+    public function generateFolderName() {
+        $name = $this->getVal('product_name');
+        if ($name) {
+            return $this->seoFriendLy($name);
+        }else{
+            return false;
+        }
+    }
+
+    public function seoFriendLy($productName) {
+        $string = $productName;
+        $string = str_replace(array('[\', \']'), '', $string);
+        $string = preg_replace('/\[.*\]/U', '', $string);
+        $string = preg_replace('/&(amp;)?#?[a-z0-9]+;/i', '-', $string);
+        $string = htmlentities($string, ENT_COMPAT, 'utf-8');
+        $string = preg_replace('/&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig|quot|rsquo);/i', '\\1', $string);
+        $string = preg_replace(array('/[^a-z0-9]/i', '/[-]+/'), '-', $string);
+        return strtolower(trim($string, '-'));
     }
 
 }

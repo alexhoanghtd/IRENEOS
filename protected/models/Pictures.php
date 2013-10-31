@@ -21,6 +21,19 @@ class Pictures extends CTModel {
     }
 
     public function getProductPictures($productID) {
+        $conn = CTSQLite::connect();
+        $query = 'SELECT url FROM ic_pictures WHERE product_id ='.$productID;
+        $result = $conn->query($query);
+        if($result){
+            $urls = array();
+            while($url = $result->fetchArray()){
+                array_push($urls, $url['url']);
+            }    
+            return $urls;
+        }else{
+            echo 'cant get product pictures <br/>';
+            return FALSE;
+        }
     }
 
     public function getCategoryPictures($categoryID) {
@@ -34,13 +47,13 @@ class Pictures extends CTModel {
         }
     }
 
-    public function uploadPicture($file) {
+    public function uploadPicture($file,$folerName) {
         if( !$this->checkFileExisted($file) 
-                 && $this->checkFileSize($file, 200) 
+                 && $this->checkFileSize($file, 400) 
                  && $this->checkFileType($file)
                 ){
-             move_uploaded_file($file["tmp_name"], BASE_PATH."/images/products/" . $file["name"]);
-             return "/images/products/". $file["name"];
+             move_uploaded_file($file["tmp_name"], BASE_PATH."/images/products/" .$folerName.'/'. $file["name"]);
+             return "/images/products/".$folerName.'/'. $file["name"];
         }else{
             return false;
         }
@@ -76,5 +89,11 @@ class Pictures extends CTModel {
      */
     public function checkFileExisted($file){
         return file_exists(BASE_PATH."/images/products/" . $file["name"]);
+    }
+    
+    public static function createPictureFoler($folderName){
+        $dir = BASE_PATH.'/images/products/'.$folderName.'/';
+        echo $dir;
+        return mkdir($dir);
     }
 }

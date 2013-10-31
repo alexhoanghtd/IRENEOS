@@ -27,10 +27,12 @@ class ProductController extends CTController {
         if (!empty($id)) {
             $model = new Product();
             $model->get($id);
-            $model->setVal('id', 14);
-            $model->setVal("product_name", "alex's fashion");
-            $model->update();
-            $this->render('view', 'xampleData');
+            $picture = new Pictures();
+            $pictureUrls = $picture->getProductPictures($id);
+            $this->render('view', array(
+               'model'=>$model->getData(),
+               'pictureUlrs'=>  $pictureUrls,
+            ));
         } else {
             header("Location: http://irene.local/Category/");
         }
@@ -44,34 +46,47 @@ class ProductController extends CTController {
             $product = $_POST['product'];
             $model = new Product();
             $model->setData($product);
+            //create product with the val get from form
             if ($model->create()) {
                 $productName = $model->getVal('product_name');
-                echo 'product' .$productName. ' created succesfuly! :)<br/>';
+                echo 'product' . $productName . ' created succesfuly! :)<br/>';
                 $productID = $model->getProductIdByName($productName);
-                echo 'product id = '.$productID.'<br/>';
-                foreach (array_keys($_FILES) as $key) {
-                    if ($_FILES[$key]['error'] == 0) {
-                        $pic = new Pictures();
-                        $pic->setVal('product_id',$productID);
-                        $pic->setVal('name', $productName);
-                        if($url = $pic->uploadPicture($_FILES[$key])){
-                            if($key = 'cover'){
-                                $pic->setVal('type', 1);
+                $folderName = $model->generateFolderName();
+                echo 'folder: '.$folderName.'<br/>';
+                //create a folder acording to the product name
+                if (Pictures::createPictureFoler($folderName)) {
+                    //if create folder sucessfully
+                    foreach (array_keys($_FILES) as $key) {
+                        if ($_FILES[$key]['error'] == 0) {
+                            //create a new picture model 
+                            $pic = new Pictures();
+                            //set product_id for the pic
+                            $pic->setVal('product_id', $productID);
+                            //set the product name associated with the picture
+                            $pic->setVal('name', $productName);
+                            if ($url = $pic->uploadPicture($_FILES[$key], $folderName)) {
+                                if ($key == 'cover') {
+                                    $pic->setVal('type', 1);
+                                } else {
+                                    $pic->setVal('type', 2);
+                                }
+                                //if upload that picture sucessfully, save 
+                                //information about that picture to database
+                                $pic->setVal('url', $url);
+                                print_r($pic->getData());
+                                if ($pic->create()) {
+                                    echo 'save picture sucessfully <br/>';
+                                } else {
+                                    echo 'save picture failed <br/>';
+                                }
                             }else{
-                                $pic->setVal('type', 2);
+                                echo 'failed to upload the picture';
                             }
-                            $pic->setVal('url', $url);
-                            if($pic->create()){
-                                echo 'upload picture sucessfully';
-                            }
-                            else{
-                                echo 'upload picture failed';
-                            }
+                        } else {
+                            echo 'picture has error';
                         }
-                        
                     }
                 }
-
             }
         }
         $this->layout = 'main';
@@ -83,6 +98,12 @@ class ProductController extends CTController {
      */
     public function actionUpdate() {
         
+    }
+
+    public function actionTest() {
+        $model = new Product();
+        $folderName = $model->seoFriendLy('Nina very super Black');
+        Pictures::createPictureFoler($folderName);
     }
 
 }
