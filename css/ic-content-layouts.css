@@ -53,20 +53,43 @@ li > .grid-item-wrapper{
 	background-image: url('../images/1.jpg'); 
 	/*default*/
 }
+/**3 colums grid**/
 .gl-3cols >ul.grid-items > li{
 	width: 33.33%;
 	padding-bottom: 45%;
 }
-.gl-3cols li:nth-child(3n+1) > .grid-item-wrapper{
+.gl-3cols > ul > li:nth-child(3n+1) > .grid-item-wrapper{
+	left: 20px;
+	right: 7px;
+}
+.gl-3cols > ul > li:nth-child(3n+2)> .grid-item-wrapper{
+	left: 13px;
+	right: 13px;
+
+}
+.gl-3cols > ul > li:nth-child(3n+3)> .grid-item-wrapper{
+	right: 20px;
+	left: 7px;
+}
+/**2 colums grid**/
+.gl-2cols >ul.grid-items> li{
+	width: 50%;
+	padding-bottom: 60%;
+}
+.gl-2cols >ul.grid-items> li:nth-child(2n+1) >.grid-item-wrapper{
 	left: 20px;
 	right: 10px;
 }
-.gl-3cols li:nth-child(3n+2)> .grid-item-wrapper{
-	left: 15px;
-	right: 15px;
-
-}
-.gl-3cols li:nth-child(3n+3)> .grid-item-wrapper{
-	right: 20px;
+.gl-2cols >ul.grid-items> li:nth-child(2n+2) >.grid-item-wrapper{
 	left: 10px;
+	right: 20px;
+}
+/**1 column grid ***/
+.gl-1col > ul.grid-items>li{
+	width: 100%;
+	padding-bottom: 110%;
+}
+.gl-1col >ul.grid-items> li > .grid-item-wrapper{
+	left: 20px;
+	right: 20px;
 }

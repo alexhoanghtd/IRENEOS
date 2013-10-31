@@ -28,10 +28,10 @@ class ProductController extends CTController {
             $model = new Product();
             $model->get($id);
             $picture = new Pictures();
-            $pictureUrls = $picture->getProductPictures($id);
+            $pictureUrls = Pictures::getProductPictures($id);
             $this->render('view', array(
-               'model'=>$model->getData(),
-               'pictureUlrs'=>  $pictureUrls,
+                'model' => $model->getData(),
+                'pictureUlrs' => $pictureUrls,
             ));
         } else {
             header("Location: http://irene.local/Category/");
@@ -52,7 +52,7 @@ class ProductController extends CTController {
                 echo 'product' . $productName . ' created succesfuly! :)<br/>';
                 $productID = $model->getProductIdByName($productName);
                 $folderName = $model->generateFolderName();
-                echo 'folder: '.$folderName.'<br/>';
+                //echo 'folder: ' . $folderName . '<br/>';
                 //create a folder acording to the product name
                 if (Pictures::createPictureFoler($folderName)) {
                     //if create folder sucessfully
@@ -64,26 +64,25 @@ class ProductController extends CTController {
                             $pic->setVal('product_id', $productID);
                             //set the product name associated with the picture
                             $pic->setVal('name', $productName);
-                            if ($url = $pic->uploadPicture($_FILES[$key], $folderName)) {
+                            if ($url = Pictures::uploadPicture($_FILES[$key], $folderName)) {
                                 if ($key == 'cover') {
                                     $pic->setVal('type', 1);
                                 } else {
                                     $pic->setVal('type', 2);
                                 }
-                                //if upload that picture sucessfully, save 
-                                //information about that picture to database
                                 $pic->setVal('url', $url);
-                                print_r($pic->getData());
+                                //echo $url;
+                                //print_r($pic->getData());
                                 if ($pic->create()) {
-                                    echo 'save picture sucessfully <br/>';
+                                    //echo 'save picture sucessfully <br/>';
                                 } else {
-                                    echo 'save picture failed <br/>';
+                                    //echo 'save picture failed <br/>';
                                 }
-                            }else{
-                                echo 'failed to upload the picture';
+                            } else {
+                                //echo 'failed to upload the picture';
                             }
                         } else {
-                            echo 'picture has error';
+                            //echo 'picture has error';
                         }
                     }
                 }
@@ -96,14 +95,53 @@ class ProductController extends CTController {
     /**
      * update a product info
      */
-    public function actionUpdate() {
-        
+    public function actionUpdate($id) {
+        if (isset($_POST['product'])) {
+            $product = new Product();
+            $product->setData($_POST['product']);
+            if ($product->changesThanOrigin()) {
+                $oldProductInfo = new Product($_POST['product']['id']);
+                if ($product->update()) {
+                    if ($oldProductInfo->getVal('product_name') != $product->getVal('product_name')) {
+                        //if the folder name is updated
+                        $product->updatePicUrls();
+                    }
+                    echo 'update product basic info sucessfully <br/>';
+                } else {
+                    echo 'update product failed';
+                }
+            }
+            if ($this->hasChanges($_FILES)) {
+                $product->updatePictures($_FILES);
+            }
+        }
+        if (!empty($id)) {
+            $model = new Product();
+            $model->get($id);
+            $picture = new Pictures();
+            $pictureUrls = Pictures::getProductPictures($id);
+            $this->render('update', array(
+                'model' => $model->getData(),
+                'pictureUlrs' => $pictureUrls,
+            ));
+        } else {
+            header("Location: http://irene.local/Category/");
+        }
     }
-
+    
+    /**just for testing **/
     public function actionTest() {
-        $model = new Product();
-        $folderName = $model->seoFriendLy('Nina very super Black');
-        Pictures::createPictureFoler($folderName);
+        $product = new Product();
+        $product->setVal('product_name', 'kamasutra $*#* rada zenga');
+        echo $product->generateFolderName();
     }
 
+    private function hasChanges($files) {
+        foreach ($files as $file) {
+            if (!empty($file['name'])) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

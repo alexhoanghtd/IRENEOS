@@ -30,9 +30,20 @@
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	top: 50%;
+	top: 45%;
 }
-
+#update-product .main-view:after{
+    	content : "Change product cover";
+	text-align: center;
+	color: #999;
+	font-size: 24px;
+	font-style: italic;
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 45%;
+}
 .more-view >ul > li{
 	position: relative;
 	margin-top: 20px;
@@ -71,6 +82,9 @@
 #create-product .more-view > ul > li.empty:after{
 	content: "Add preview";
 }
+#update-product .more-view > ul > li.empty:after{
+	content: "Add preview";
+}
 .more-view >ul > li:nth-child(3){
 	float: right;
 }
@@ -89,7 +103,7 @@
 	display: block;
 	right: 0px;
 	left:0px;
-	height: 100px;
+	height: 130px;
 	width: 90%;
 }
 .product-price{
@@ -97,7 +111,10 @@
 	font-size: 24px;
 }
 .product-price > input[type="text"]{
-    width: 50px;
+    width: 70px;
+    height: 30px;
+    margin-bottom: 10px;
+    font-size: 24px;
 }
 .old-price{
 	color: #ccc;

@@ -9,18 +9,23 @@
  */
 class Pictures extends CTModel {
 
-    public function getPicture($id) {
-        $this->connect();
-        $results = $this->db->query('SELECT * FROM ic_pictures WHERE id=' . $id);
-        if ($row = $results->fetchArray()) {
-
-            return $row;
-        } else {
-            return false;
+    /**
+     * 
+     * @param int $id id of the picture you want to get
+     */
+    public function __construct($id=0) {
+        parent::__construct();
+        if($id != 0){
+            $this->get($id);
+        
         }
     }
-
-    public function getProductPictures($productID) {
+    /**
+     * get product picture urls
+     * @param type $productID
+     * @return boolean|array array of product picture url
+     */
+    public static function getProductPictures($productID) {
         $conn = CTSQLite::connect();
         $query = 'SELECT url FROM ic_pictures WHERE product_id ='.$productID;
         $result = $conn->query($query);
@@ -35,25 +40,36 @@ class Pictures extends CTModel {
             return FALSE;
         }
     }
-
-    public function getCategoryPictures($categoryID) {
-        $this->connect();
-        $results = $this->db->query('SELECT * FROM ic_pictures WHERE category_id=' . $categoryID);
-        if ($row = $results->fetchArray()) {
-
-            return $row;
-        } else {
+    /**
+     * Get an array of picture model belong to product with id = $productID
+     * @param int $productID
+     */
+    public static function getProductPictureModels($productID){
+        $conn = CTSQLite::connect();
+        $query = 'SELECT id FROM ic_pictures WHERE product_id ='.$productID;
+        $result = $conn->query($query);
+        if($result){
+            $pictures = array();
+            while($picID = $result->fetchArray()){
+                $picture = new Pictures($picID['id']);
+                array_push($pictures,$picture);
+            }
+            return $pictures;
+        }else{
             return false;
         }
     }
 
-    public function uploadPicture($file,$folerName) {
-        if( !$this->checkFileExisted($file) 
-                 && $this->checkFileSize($file, 400) 
-                 && $this->checkFileType($file)
-                ){
-             move_uploaded_file($file["tmp_name"], BASE_PATH."/images/products/" .$folerName.'/'. $file["name"]);
-             return "/images/products/".$folerName.'/'. $file["name"];
+    public function getCategoryPictures($categoryID) {
+    }
+
+    public static function uploadPicture($file,$folderName) {
+        if( self::checkFileSize($file, 400) && self::checkFileType($file)){
+            if(self::checkFileExisted($file,$folderName)){
+                
+            } 
+             move_uploaded_file($file["tmp_name"], BASE_PATH."/images/" .$folderName.'/'. $file["name"]);
+             return "/images/".$folderName.'/'. $file["name"];
         }else{
             return false;
         }
@@ -63,7 +79,7 @@ class Pictures extends CTModel {
      * @param type $file
      * @return type
      */
-    public function checkFileType($file){
+    public static function checkFileType($file){
         $allowedExts = array("gif", "jpeg", "jpg", "png");
         $temp = explode(".", $file["name"]);
         $extension = end($temp);
@@ -81,19 +97,18 @@ class Pictures extends CTModel {
                 ); 
     }
     /**check for the valid size of picture**/
-    public function checkFileSize($file,$Kb){
+    public static function checkFileSize($file,$Kb){
         return ($file["size"] <= $Kb * 1024) ;
     }
     /**
      * check if fileName existed 
      */
-    public function checkFileExisted($file){
-        return file_exists(BASE_PATH."/images/products/" . $file["name"]);
+    public static function checkFileExisted($file,$folderName){
+        return file_exists(BASE_PATH."/images/" .$folderName.'/'. $file["name"]);
     }
     
     public static function createPictureFoler($folderName){
-        $dir = BASE_PATH.'/images/products/'.$folderName.'/';
-        echo $dir;
+        $dir = BASE_PATH.'/images/'.$folderName.'/';
         return mkdir($dir);
     }
 }

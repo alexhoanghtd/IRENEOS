@@ -13,16 +13,21 @@ function mainLayoutControl(){
 	}
 }
 function gridController(){
-	//GRID VIEW CONTROLLER
-	var gridWrapper = $("#grid-view-wrapper");
-	var wrapperWidth = gridWrapper.css("width").replace("px","");
-	if(wrapperWidth > 850){
-		gridWrapper.removeClass("grid-2-cols").addClass("grid-3-cols");
+	var container = $("#content-inner.grid-layout");
+	var width = parseInt(container.css("width"));
+	if(width <= 480){
+		container.removeClass("gl-2cols");
+		container.removeClass("gl-3cols");
+		container.addClass("gl-1col");
 	}
-	if( 480 < wrapperWidth && wrapperWidth <= 850){
-		gridWrapper.removeClass("grid-3-cols").addClass("grid-2-cols");
+	if(480 < width && width <= 640){
+		container.removeClass("gl-1col");
+		container.removeClass("gl-3cols");
+		container.addClass("gl-2cols");
 	}
-	if( wrapperWidth <= 480){
-		gridWrapper.removeClass("grid-3-cols grid-2-cols");
+	if( width > 640){
+		container.removeClass("gl-2cols");
+		container.removeClass("gl-1col");
+		container.addClass("gl-3cols");
 	}
 }

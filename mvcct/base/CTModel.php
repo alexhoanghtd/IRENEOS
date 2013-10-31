@@ -37,11 +37,14 @@ class CTModel extends CTSQLite implements IDBRecord {
      * +set the public attribute $db as the connection to sql database
      * +analyze and store the table structure
      */
-    public function __construct() {
+    public function __construct($id=0) {
         $this->db = $this->connect();
         $this->analyzeTableStruct();
         $row = array();
         $this->db = self::connect();
+        if($id != 0){
+            $this->get($id);
+        }
         //$this->row['id'] = ':SDLK';
         //$this->generateInsertQuery();
     }
@@ -304,7 +307,6 @@ class CTModel extends CTSQLite implements IDBRecord {
         }
         $query .= ')';
         $query = str_replace(', )', ' )', $query);
-        echo $query;
         return $query;
     }
 
@@ -381,4 +383,20 @@ class CTModel extends CTSQLite implements IDBRecord {
     /**
      * get an array of model with condition
      */
+    
+    public function changesThanOrigin(){
+        if(isset($this->row['id'])){
+            if(!empty($this->row['id'])){
+                $data = $this->getData();
+                $origin = $this->get($this->row['id']);
+                foreach(array_keys($data) as $key){
+                    if($data[$key] != $origin[$key]){
+                        $this->setData($data);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

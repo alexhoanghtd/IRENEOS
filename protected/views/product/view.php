@@ -5,7 +5,8 @@
     <div class="col-left clearfix">
         <div class="product-pics">
             <div class="main-view shadow-box"
-                 style="background-image: url('<?php echo $data['pictureUlrs'][0] ?>')">
+                 style="background-image: 
+                 url('<?php echo isset($data['pictureUlrs'][0])? $data['pictureUlrs'][0] : '';  ?>')">
 
             </div>
             <div class="more-view">
@@ -13,6 +14,7 @@
                     <li class="<?php
                     echo (isset($data['pictureUlrs'][1])) ? '' : 'empty';
                     ?>"
+                        onclick="viewOver(this)"
                         style="background-image: 
                         url('<?php
                         echo (isset($data['pictureUlrs'][1])) ? $data['pictureUlrs'][1] : '';

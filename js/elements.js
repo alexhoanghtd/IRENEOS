@@ -18,3 +18,8 @@ function preview(input) {
         parent.setAttribute("class",css);
     }
 }
+
+function viewOver(input){
+    var url = input.getAttribute("style");
+    alert(url);
+}
