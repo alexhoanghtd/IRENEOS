@@ -338,7 +338,7 @@ class CTModel extends CTSQLite implements IDBRecord {
                     && isset($this->row[$cell['colName']])) {
                 //echo $cell['colName'].'binded<br/>';
                 switch ($cell['type']) {
-                    case 'INTERGER': {
+                    case 'INTEGER': {
                             $stmt->bindValue(':' . $cell['colName'], (int) $this->row[$cell['colName']], SQLITE3_INTEGER);
                             break;
                         }

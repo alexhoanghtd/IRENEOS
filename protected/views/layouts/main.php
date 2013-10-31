@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/product-detail.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/categories-menu.css">
         <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/ic-content-layouts.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/grid-group-view.css">
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/jquery2.js"></script>
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/responsive.js"></script>
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/elements.js"></script>
