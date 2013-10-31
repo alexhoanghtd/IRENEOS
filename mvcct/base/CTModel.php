@@ -378,4 +378,7 @@ class CTModel extends CTSQLite implements IDBRecord {
             }
         }
     }
+    /**
+     * get an array of model with condition
+     */
 }

@@ -33,3 +33,40 @@ div#content-wrapper{
 	border-top: 1px solid #ccc;
 	background-color: transparent;
 }
+/*
+GRID LAYOUT CONTROL
+*/
+.grid-layout > ul.grid-items > li{
+	position: relative;
+	display: block;
+	float: left;
+}
+li > .grid-item-wrapper{
+	position: absolute;
+	text-align: center;
+	padding: 10px;
+	top: 0px;
+	bottom: 20px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-image: url('../images/1.jpg'); 
+	/*default*/
+}
+.gl-3cols >ul.grid-items > li{
+	width: 33.33%;
+	padding-bottom: 45%;
+}
+.gl-3cols li:nth-child(3n+1) > .grid-item-wrapper{
+	left: 20px;
+	right: 10px;
+}
+.gl-3cols li:nth-child(3n+2)> .grid-item-wrapper{
+	left: 15px;
+	right: 15px;
+
+}
+.gl-3cols li:nth-child(3n+3)> .grid-item-wrapper{
+	right: 20px;
+	left: 10px;
+}
