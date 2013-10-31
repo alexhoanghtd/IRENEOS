@@ -304,7 +304,7 @@ class CTModel extends CTSQLite implements IDBRecord {
         }
         $query .= ')';
         $query = str_replace(', )', ' )', $query);
-        //echo $query;
+        echo $query;
         return $query;
     }
 
@@ -320,9 +320,10 @@ class CTModel extends CTSQLite implements IDBRecord {
                 $query .= $cell['colName'] . '=:' . $cell['colName'] . ', ';
             }
         }
-        $query = str_replace($cell['colName'] . ',', $cell['colName'], $query);
+        //$query = str_replace($cell['colName'] . ',', $cell['colName'], $query);
+        $query = substr_replace($query, "", -2);
         $query .= " WHERE id=:id";
-        //echo $query;
+        //echo $query.'</br>';
         return $query;
     }
 
@@ -336,10 +337,10 @@ class CTModel extends CTSQLite implements IDBRecord {
         foreach ($this->table as $cell) {
             if (($cell['colName'] != 'id' || !empty($this->row['id']))
                     && isset($this->row[$cell['colName']])) {
-                //echo $cell['colName'].'binded<br/>';
+                //echo $cell['colName'].' | '.$cell['type'].' ABOUT TO BE binded with value '.(int)$this->row[$cell['colName']].'<br/>' ;
                 switch ($cell['type']) {
-                    case 'INTEGER': {
-                            $stmt->bindValue(':' . $cell['colName'], (int) $this->row[$cell['colName']], SQLITE3_INTEGER);
+                    case 'INTEGER': { 
+                            $stmt->bindValue(':' . $cell['colName'], (int)$this->row[$cell['colName']], SQLITE3_INTEGER);
                             break;
                         }
                     case 'TEXT': {
