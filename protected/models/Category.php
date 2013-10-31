@@ -21,6 +21,8 @@ class Category extends CTModel {
             $row['coverURL'] = $coverURL;
 
             return $row;
+            $db->close();
+            unset($db);
         } else {
             return false;
         }
@@ -40,38 +42,60 @@ class Category extends CTModel {
             $ProductId = $db->query($getProductQuery);
             if ($row = $ProductId->fetchArray()) {
                 return $row;
+                $db->close();
+                unset($db);
             } else {
                 return false;
             }
         }
     }
 
-    public function createCategory($id) {
-        $db = CTSQLite::connect();
-        $Insertquery = $this->generateInsertQuery();
-        $results = $db->query($InsertQuery);
-        if ($row = $results->fetchArray()) {
-            return $row;
+    public function deleteCategory($id) {
+//      $db = CTSQLite::connect();
+//      $DeleteQuery = 'DELETE FROM ic_category WHERE id=' .$id;
+//      $results = $db->query($DeleteQuery);
+        $model = new Category();
+        $model->get($id);
+        $results = $model->delete();
+        if ($results) {
+            return $results;
+            echo "Successfully!!!";
+            $db->close();
+            unset($db);
         } else {
+            echo "Can't excute";
+            return false;
+        }
+    }
+    
+    public function createCategory($data) {
+        $model = new Category();
+        $model->setData($data);
+        $results = $model->create();
+        if ($results) {
+            return $results;
+            echo "Successfully!!!";
+            $db->close();
+            unset($db);
+        } else {
+            echo "Can't excute";
             return false;
         }
     }
 
-    public function deleteCategory($id) {
-        $db = CTSQLite::connect();
-        $DeleteQuery = 'DELETE FROM ic_category WHERE id='.$id;
-        $results = $db->query($DeleteQuery);
-//        if ($row = $results->fetchArray()) {
-//            return $row;
-//        } else {
-//            return false;
-//        }
-        
-        return $results;
-    }
-
-    public function updateCategory($id) {
-        
+    public function updateCategory($data) {
+        $model = new Category();
+        $model->setData($data);
+        $results = $model->update();
+         if ($results) {
+            return $results;
+            echo "Successfully!!!";
+            $db->close();
+            unset($db);
+        } else {
+            echo "Can't excute";
+            return false;
+        }
     }
 
 }

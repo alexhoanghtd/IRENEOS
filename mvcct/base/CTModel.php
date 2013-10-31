@@ -137,8 +137,7 @@ class CTModel extends CTSQLite implements IDBRecord {
                 $this->row['id']);
         }else{
             return false;
-        }
-        
+        }  
     }
 
     /**

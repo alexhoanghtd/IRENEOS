@@ -1,7 +1,7 @@
 <!-- layout $content will be shown here -->
-<form id="create-category"  
+<form id="update-category"  
       method="POST" 
-      action="/category/Create/"
+      action="/category/Update/"
       enctype="multipart/form-data">
     <input type="text" name="category[id]" placeholder="Category id"/></br>
     <input type="text" name="category[name]" placeholder="name"/></br>
@@ -13,6 +13,6 @@
     <input type="text" name="category[vote]" placeholder="is new"/></br>
     <input type="text" name="category[view]" placeholder="is new"/></br>
     <input type="text" name="category[cover_id]" placeholder="cover id"/></br>
-    <input type="submit" value="Create Category"/>
+    <input type="submit" value="Update Category"/>
 </form>
 <!--end of layout $content -->

@@ -218,5 +218,9 @@ pip-log.txt
 /protected/config/main.php
 
 /protected/data/ICOSTEMP.db
+<<<<<<< HEAD
 
 /images/products
+=======
+products
+>>>>>>> d8c440860a3126fa7b9f51cea69a7348f53dc14d

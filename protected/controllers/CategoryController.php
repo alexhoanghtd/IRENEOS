@@ -32,29 +32,43 @@ class CategoryController extends CTController {
             $model = new Category();
             $data = $model->getCategory($id);
             CT::widgets('MainMenu')->setActive('visit store');
-            $this->render('view',$data);
+            $this->render('view', $data);
         } else {
             header("Location: http://irene.local/");
         }
     }
 
+    public function actionDelete() {
+        if (isset($_POST['category'])) {
+            $model = new Category();
+            $model->deleteCategory($_POST['category']['id']);
+        }
+        $this->layout = 'admin';
+        $this->render('delete', 'example');
+    }
+
     public function actionCreate() {
-        $model = new Category();
-//        $model->setVal('id', 2);
-//        $model->setVal('name', 'Hat');
-//        print_r($model->getData());
-//        $model->create();
-
-        $create = $model->createCategory($_POST['category']);
-        $this->layout = 'admin';
+        if (isset($_POST['category'])) {
+            $category = $_POST['category'];
+            $model = new Category();
+            if ($model->createCategory($category)) {
+                echo 'Category created succesfuly! :)<br/>';
+            }
+        }
+        $this->layout = 'main';
         $this->render('create', 'example');
     }
-
-    public function actionDelete(){
-        $model = new Category();
-        $model->deleteCategory(2);
-        
-        $this->layout = 'admin';
-        $this->render('create', 'example');
+    
+     public function actionUpdate() {
+        if (isset($_POST['category'])) {
+            $category = $_POST['category'];
+            $model = new Category();
+            if ($model->updateCategory($category)) {
+                echo 'Category updated succesfuly! :)<br/>';
+            }
+        }
+        $this->layout = 'main';
+        $this->render('update', 'example');
     }
+
 }

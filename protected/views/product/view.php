@@ -46,7 +46,7 @@
             <span class="product-price">
                 <?php $sale = (isset($product['sale']))? $product['sale'] : '';
                         if(!empty($sale)){
-                            $newPrice = ($product['price'] * $sale)/ 100;
+                            $newPrice = $product['price'] - (($product['price'] * $sale)/ 100);
                             echo '$'.$newPrice;?>
                 <span class="old-price"><?php  echo '$'.$product['price'];?></span>
                             
