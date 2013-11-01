@@ -10,19 +10,18 @@ class CollectionController extends CTController {
 
     public function actionIndex($param = 0) {
         CT::widgets('MainMenu')->setActive('collections');
-        $this->render('index','data');
+        $this->render('index', 'data');
     }
 
-    public function actionView($param) {
-        //example datam 
-        $data = array(
-            "id" => $param,
-            "name" => "NEW ARRIVALS",
-            "description" => "Lorem ispilitum salenacopet topcare monitor lief",
-        );
-        CT::widgets('MainMenu')->setActive('collections');
-        $this->render('view',$data);
-        //echo 'aready render the data';
+    public function actionView($id) {
+        if (!empty($id)) {
+            $model = new Collection();
+            $data = $model->getCollection($id);
+            CT::widgets('MainMenu')->setActive('collections');
+            $this->render('view', $data);
+        } else {
+            header("Location: http://irene.local/");
+        }
     }
 
 }
