@@ -6,5 +6,12 @@
  * @copyright &copy; 2013 Creative Team 
  */
 class CTComponent{
-    public $layout;
+    public function rules(){
+        return array(
+            CT_USER => "*",
+            CT_VISITOR => "*",
+            CT_ADMIN => "*",
+            "allow" => "*",
+        );
+    }
 }

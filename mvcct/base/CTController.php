@@ -6,7 +6,7 @@
  * @created 25 Oct 2013
  * @copyright &copy; 2013 Creative Team 
  */
-class CTController{
+class CTController extends CTComponent{
     /**
      * the default layout of the Controller
      * @var string

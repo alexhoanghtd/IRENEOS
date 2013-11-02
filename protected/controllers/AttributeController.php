@@ -13,6 +13,19 @@
  */
 class AttributeController extends CTController {
 
+    /** return an array of rules that specify the acess level of user in the 
+     * system
+     * @return array
+     */
+    public function rules(){
+        return array(
+            CT_ADMIN => "*",
+            CT_VISITOR => "View",
+            CT_USER => "View",
+            "allow" => "*", //who can access the controller
+        );
+    }
+    
     public function actionView($productID) {
         //get the product atrributes list
         //get the product info

@@ -73,7 +73,7 @@
                     </li>
                     <li>
                         <?php 
-                        foreach($attrs as $att){
+                        if(!empty($attrs)){foreach($attrs as $att){
                             ?>
                         <ul class="tbl-3cols clearfix">
                             <input type="hidden" value="<?=$att['id']?>" name="attribute[<?=$att['id']?>]">
@@ -91,7 +91,7 @@
 
                         </ul>
                             <?php
-                        }
+                        }}
                         ?>
 
                     </li>

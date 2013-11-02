@@ -8,21 +8,28 @@
  */
 class ExampleController extends CTController {
 
+    public function rules() {
+        return array(
+            CT_ADMIN => "*",//Which action Admin can acess
+            CT_VISITOR => "View,Index",//Which action visitor can access
+            CT_USER => "View,Index", //Which action authorized user can acess
+            "allow" => array(CT_ADMIN,CT_USER,CT_VISITOR) //who can access the controller
+        );
+    }
+
     public function actionIndex($param = 0) {
-        $model = new Attribute();
-        $model->setVal('product_id', '1');
-        $model->setVal('size_id','6');
-        $models = $model->select();
+        echo 'you are in index action of Example controller';
     }
 
     public function actionView($param) {
-        //example datam 
+        //$user = new CTUserIdentity();
+        echo '<br/> you are in Example controller View action ';
         $data = array(
             "id" => $param,
             "name" => "Nina Black",
             "description" => "Lorem ispilitum salenacopet topcare monitor lief",
         );
-        $this->render($data, 'view');
+        //$this->render($data, 'view');
         //echo 'aready render the data';
     }
 

@@ -19,7 +19,7 @@ class Bootstrap {
 
     function __construct() {
         //load include all the model classes
-        foreach (glob(BASE_PATH."/protected/models/*php") as $filename) {
+        foreach (glob(BASE_PATH . "/protected/models/*php") as $filename) {
             //echo $filename.'<br/>';
             include_once $filename;
         }
@@ -46,30 +46,39 @@ class Bootstrap {
             //if it controller name is set, try to instanitiate the controller
             //object, if not exist controller, return false
             $controller = $this->requestController($this->urlArr['controller']);
-            //if doesn't exist
-            if (!$controller || $controller == 'protected') {
+            if (!$controller) {
                 $this->error("controller doesn't exist");
             } else {
-                //if the controller exist,start checking action
-                if ($this->urlArr['action'] != null) {
-                    //if the url has the part for action
-                    //Need to get the list of that controller action and check
-                    //if the action exist 
+                if (CT::user()->isAllowed($controller)) {
+                    //if the controller exist,start checking action
+                    $action = $this->urlArr['action'];
+                    if ($action != null) {
+                        //if the url has the part for action
+                        //Need to get the list of that controller action and check
+                        //if the action exist 
 
-                    if ($this->isMethodExist($controller, $this->urlArr['action'])) {
-                        //action of class exist
-                        $action = 'action' . $this->urlArr['action'];
-                        $controller->{$action}($this->urlArr['param']);
-                    } else {
-                        //Call controler's default's action with param as 
-                        //recieved action name
-                        //$param = 'action'.$this->urlArr['action'];
-                        //$controller->actionIndex($param);
-                        $this->error("action doesn't exist'");
+                        if ($this->isMethodExist($controller, $action)) {
+                            //action of class exist
+                            $actionMethod = 'action' . $action;
+                            if (CT::user()->isAllowed($controller, $action)) {
+                                $controller->{$actionMethod}($this->urlArr['param']);
+                            } else {
+                                echo 'you are not authorized for this action';
+                            }
+                        } else {
+                            //Call controler's default's action with param as 
+                            //recieved action name
+                            $this->error("action doesn't exist'");
+                        }
+                    } else {//if action is not set
+                        if (CT::user()->isAllowed($controller, 'Index')) {
+                            $controller->actionIndex();
+                        } else {
+                            echo 'you are not authorized to access this action!';
+                        }
                     }
                 } else {
-                    //if action is not set
-                    $controller->actionIndex();
+                    echo 'You are not authorized for this controller';
                 }
             }
         } else {
@@ -92,7 +101,7 @@ class Bootstrap {
      * @return false if can't create the object
      */
 
-    function requestController($controllerName) {
+    private function requestController($controllerName) {
         $controlerFolder = '/protected/controllers/';
         $controllerFile = BASE_PATH . $controlerFolder . $controllerName . 'Controller.php';
         if (file_exists($controllerFile)) {
