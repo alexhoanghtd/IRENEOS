@@ -36,6 +36,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+        color: 333;    
 	text-align: center;
 	font-family: georgia, arial, helvetica;
 }
@@ -47,6 +48,10 @@ ol, ul {
 }
 blockquote, q {
 	quotes: none;
+}
+blockquote{
+    	padding: 10px;
+	background-image: url('../images/strip.png');
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
@@ -98,6 +103,16 @@ input:focus, select:focus, textarea:focus{
 	clear: both;
 	height: 0;
 }	
+/**irene' elements **/
+.block-link{
+    display: block;
+    margin: 10px 0px;
+}
+.pic-cover{
+    background-repeat: no-repeat;
+    background-position: 50% 0px;
+    background-size: cover;
+}
 .fit-me-full{
 	position: absolute;
 	top:0px;

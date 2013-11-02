@@ -9,31 +9,10 @@
 class ExampleController extends CTController {
 
     public function actionIndex($param = 0) {
-        $model = new Product();
-        echo $model->hasCol('name') ? 'exited' : 'not exited<br/>';
-        $arr = array(
-            'something' => 'smt',
-            'someEmpty' => "ks;g,mniei<eslk b/sklsi dcon gà trống nó đi ăn đêmownde //n",
-            'array' => array(
-              'araaaaay' => '', 
-            ),
-            'bool' => true,
-            'aFloat' => 9.3,
-            'aint' => 1,
-            'and null' => null,
-        );
-        if(isset($arr['notexisted'])){
-            echo 'seted <br/>';
-        }else{
-            echo 'is not set <br/>';
-        }
-        foreach (array_keys($arr) as $val){
-            echo gettype($arr[$val]).' | ';
-            echo $val."<br/>";
-        }
-        
-        echo ('INTEGER' == 'integer') ? 'yes' : 'no';
-        
+        $model = new Attribute();
+        $model->setVal('product_id', '1');
+        $model->setVal('size_id','6');
+        $models = $model->select();
     }
 
     public function actionView($param) {

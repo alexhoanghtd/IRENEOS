@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/jquery2.js"></script>
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/responsive.js"></script>
 	<script type="text/javascript" src="<?php echo ct::baseURL()?>/js/elements.js"></script>
-	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>	
+	<!--<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>	-->
 	<script type="text/javascript">
 		$(document).ready(function(){
 			mainLayoutControl();

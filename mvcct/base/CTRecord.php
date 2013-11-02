@@ -23,7 +23,7 @@ class CTModel extends CTSQLite implements IDBRecord {
     /**
      * Hold the result of the data
      */
-    private $row = array();
+    private $row;
 
     /**
      * Hold the structure of the table;
@@ -169,6 +169,7 @@ class CTModel extends CTSQLite implements IDBRecord {
             }
             return ($this->row);
         } else {
+            echo "product with id = " . $id . "doesn't exist";
             return false;
         }
     }
@@ -405,12 +406,12 @@ class CTModel extends CTSQLite implements IDBRecord {
         }
         return false;
     }
-    
     /**
-     * get a list of self models which matched condition
+     * 
      */
     public function getWhere($condition){
         $query = 'SELECT id FROM '.$this->tableName." WHERE ".$condition;
+        echo $query;
         $className = get_class($this);
         $result = $this->db->query($query);
         if($result){
@@ -424,54 +425,4 @@ class CTModel extends CTSQLite implements IDBRecord {
             return false;
         }
     }
-    /**
-     * Check if the information as stored in $row already existed in 
-     * the database
-     */
-    public function checkExists(){
-         $models = $this->select();
-         return (count($models)== 0)? false : true;
-   }
-   /**
-    * With the condition value set inside the model $row value, execute the 
-    * select query with that condition and return an array of self models
-    * @return boolean|array False if failed to execute the query, 
-    * else array of models
-    */
-   public function select(){
-       $query = $this->prepareSelect();
-       $stmt = $this->prepareStmt($query);
-       $results = $stmt->execute();
-       if(!$results){
-           return false;
-       }else{
-           $modelName = get_class($this);
-           $models = array();
-           while($row = $results->fetchArray()){
-               $model = new $modelName();
-               $model->setData($row);
-               array_push($models, $model);
-           }
-           return $models;
-       }
-   }
-   /**
-    * prepare the select statement with conditions corresponding
-    * @return string the query for select
-    */
-   private function prepareSelect(){
-       $query = "SELECT * FROM ".$this->tableName." WHERE ";
-       if(!empty($this->row)){
-           $keys = array_keys($this->row);
-           foreach($keys as $key){
-               $query .= $key."=:".$key." AND ";
-           }
-           $query = substr_replace($query, "", -4);
-       }else{
-           return "current table is empty";
-       }
-       //echo $query;
-       return $query;
-       
-   }
 }

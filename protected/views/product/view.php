@@ -1,5 +1,8 @@
 <!-- layout $content will be shown here -->
-<?php $product = $data['model'];?>
+<?php $product = $data['model'];
+      $attrs = $data['attrs'];
+      //echo (empty($attr))? "empty" : "not empty";
+      //print_r($attrs);?>
 <div id="" class="l-2cols content-inner clearfix">
     <!--2 colums layout left col -->
     <div class="col-left clearfix">
@@ -57,24 +60,40 @@
                             echo '$'.$product['price'];
                         }
                 ?></span>
-            <form id="order-form">
-                <ul id="order-items">
-                    <li class="clearfix"><label>Quantity</label>
-                        <input type="text" value="1">
+            <form id="order-form" method="POST" action="/bag/Add">
+                <input type="hidden" value ="<?= $product['id']?>" name="id">
+                <h2>Available Product Attribute</h2>
+                <ul class="product-attributes ">
+                    <li>
+                        <ul class="tbl-3cols clearfix header-row">
+                            <li>Size</li>
+                            <li>Color</li>
+                            <li>Quanity</li>
+                        </ul>
                     </li>
-                    <li class="clearfix"><label>Color</label>
-                        <select>
-                            <option>Green</option>
-                            <option>Red</option>
-                            <option>Blue</option>
-                        </select>
-                    </li >
-                    <li class="clearfix"><label>Size</label>
-                        <select>
-                            <option>XL</option>
-                            <option>L</option>
-                            <option>S</option>
-                        </select>
+                    <li>
+                        <?php 
+                        foreach($attrs as $att){
+                            ?>
+                        <ul class="tbl-3cols clearfix">
+                            <input type="hidden" value="<?=$att['id']?>" name="attribute[<?=$att['id']?>]">
+                            <li><?=$att['size']?></li>
+                            <li><?=$att['color']?></li>
+                            <li>
+                                <select name="attribute[<?=$att['id']?>][quantity]">
+                                    <option selected value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </li>
+
+                        </ul>
+                            <?php
+                        }
+                        ?>
+
                     </li>
                 </ul>
                 <hr/>   
@@ -83,7 +102,7 @@
                     <span class="sub">$250</span>
                 </div>
                 <div class="button-group">
-                    <a href="" class="add-to-bag dark-bt">Add to bag</a>
+                    <input type="submit" class="add-to-bag dark-bt" value="Add To Bag">
                     <a href="" class="check-out dark-bt">Check out</a>
                 </div>                                   
             </form> 

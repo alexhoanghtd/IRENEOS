@@ -1,0 +1,78 @@
+.patt-cover{
+    padding-bottom: 120%;
+    margin-left: 20px;
+    background-image: url('../images/2.jpg');
+}
+.product-basic a{
+    font-size: 14px;
+    font-style: italic;
+    color: #333;
+    width: 250px;
+    height: 30px;
+    background-color: #ccc;
+    line-height: 30px;
+    padding-left: 10px;
+    transition: color .3s,background-color .3s;
+}
+.product-basic h2{
+    font-size:24px;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+.product-basic blockquote{
+    display: block;
+    height: 60px;
+    overflow-y: scroll;
+}
+.product-basic a:hover{
+    color: #fff;
+    background-color: #333;
+}
+a.pdelete {
+    color: #FF8383;
+}
+ul.tbl-4cols {
+    margin-bottom: 10px;
+}
+ul.tbl-4cols > li{
+    float: left;
+    display: block;
+    width: 20%;
+}
+ul.tbl-4cols > li:last-child{
+    width: 40%;
+}
+ul.tbl-4cols > li >input{
+    width: 70%;
+}
+ul.tbl-4cols > li:last-child >input{
+    width: 45%;
+}
+.pattr-header > ul > li {
+    color: #999;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+form.update-pattr a{
+    display: inline-block;
+    text-align:center;
+    float:right;
+    width: 50%;
+    margin: 2px 0px;
+    padding:0px;
+    height: 23px;
+    line-height: 23px;
+    color: #fff;
+}
+input[type="submit"] {
+    cursor: pointer;
+    border: 1px solid transparent;
+    background-color: #555;
+    color: #fff;
+    transition: color .3s, background-color .3s, border .3s;
+}
+input[type="submit"]:hover{
+    border: 1px solid #333;
+    background-color: #fff;
+    color: #333;
+}

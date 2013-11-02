@@ -29,9 +29,11 @@ class ProductController extends CTController {
             $model->get($id);
             $picture = new Pictures();
             $pictureUrls = Pictures::getProductPictures($id);
+            $attrs = $model->getProductAttributes();
             $this->render('view', array(
                 'model' => $model->getData(),
                 'pictureUlrs' => $pictureUrls,
+                'attrs' => $attrs,
             ));
         } else {
             header("Location: http://irene.local/Category/");

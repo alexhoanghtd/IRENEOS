@@ -120,12 +120,48 @@ class Product extends CTModel {
                     $marsk[$i]->setVal('product_id', $this->getVal('id'));
                     if ($marsk[$i]->create()) {
                         echo 'inserted new picture to db <br/>';
-                    }else{
+                    } else {
                         echo 'cant insert new picutre <br/>';
                     }
                 }
             }
         }
     }
+    /**
+     * get attribute value coressponding to itself
+     * @return boolean|array
+     */
+    public function getProductAttributes() {
+        $attributeModel = new Attribute();
+        $attributes = $attributeModel->getWhere("product_id=" . $this->getVal('id'));
+        if ($attributes) {
+            $attributeData = array();
+            foreach ($attributes as $att) {
+                $color = new Color($att->getVal('color_id'));
+                $size = new Size($att->getVal('size_id'));
 
+                $quantity = $att->getVal('quantity');
+                array_push($attributeData, array(
+                    "id" => $att->getVal('id'),
+                    "color" => $color->getVal('name'),
+                    "size" => $size->getVal('name'),
+                    "quantity" => $att->getVal('quantity'),
+                ));
+            }
+            return $attributeData;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * get available attribute group
+     * @param type $id
+     */
+    public function getProductSize($id = 0){
+        if($id != 0){
+            $model = new Product($id);
+        }else{
+            $model = new Product($this->getVal('id'));
+        }
+    }
 }

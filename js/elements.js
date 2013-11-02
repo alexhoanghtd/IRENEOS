@@ -20,6 +20,6 @@ function preview(input) {
 }
 
 function viewOver(input){
-    var url = input.getAttribute("style");
+    var url = input.getAttribute;
     alert(url);
 }
