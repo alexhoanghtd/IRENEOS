@@ -21,6 +21,7 @@ class Bag {
 
     public function add(BagItem $bagItem) {
         if($item = $this->isItemExisted($bagItem)){
+            // if the item aready existed, update attribute for that item
             
         }else{
             array_push($items, $bagItem);
@@ -50,7 +51,6 @@ class Bag {
             foreach($this->items as $item){
                 if($item->productID() ==  $bagItem->productID()){
                     return $item;
-                    return true;
                 }
             }
             return false;

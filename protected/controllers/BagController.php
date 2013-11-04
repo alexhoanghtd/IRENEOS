@@ -16,24 +16,25 @@ class BagController extends CTController {
     //put your code here
     public function actionAdd() {
         if (isset($_POST) && !empty($_POST)) {
-            $productID = $_POST['id'];
-            $attributes = $_POST['attribute'];
-            $attIDs = array_keys($attributes);
-            foreach ($attIDs as $attID) {
-                $attQuantity = (int)$attributes[$attID]['quantity'];
-                if ( $attQuantity > 0){
-                    $bagItem = array(
-                        "productID" => $productID,
-                        "attribute" => array(
-                            "id" => $attID,
-                            "size" => $_POST[$attID]['size'],
-                            "color" => $_POST[$attID]['color'],
-                        ), 
-                        "quantity" => $attQuantity,
-                    );
-                    CT::user()->addToBag($bagItem);
-                }
-            }
+              print_r($_POST);
+//            $productID = $_POST['id'];
+//            $attributes = $_POST['attribute'];
+//            $attIDs = array_keys($attributes);
+//            foreach ($attIDs as $attID) {
+//                $attQuantity = (int)$attributes[$attID]['quantity'];
+//                if ( $attQuantity > 0){
+//                    $bagItem = array(
+//                        "productID" => $productID,
+//                        "attribute" => array(
+//                            "id" => $attID,
+//                            "size" => $_POST[$attID]['size'],
+//                            "color" => $_POST[$attID]['color'],
+//                        ), 
+//                        "quantity" => $attQuantity,
+//                    );
+//                    CT::user()->addToBag($bagItem);
+//                }
+//            }
         }
         CT::user()->bag()->listAll();
     }
