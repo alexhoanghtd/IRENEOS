@@ -18,7 +18,29 @@ class Shopper extends CTUser implements IUserIdentity{
     
     public function addToBag($bagItem){
         $this->bag->add($bagItem);
-        $_SESSION['user'] = serialize($this);
+
+        $this->save();
+    }
+    
+    public function bagAddUp($attID){
+        $this->bag->bagAddUp($attID);
+        //$this->bag->listAll();        
+        $this->save();
+    }
+    
+    public function bagSubDown($attID){
+        echo 'about to sub down';
+        $this->bag->bagSubDown($attID);
+        //$this->bag->listAll();        
+        $this->save();
+    }
+    public function remove($productID){
+        $this->bag->removeItem($productID);
+        $this->save();
+    }
+    public function removeAtt($attID){
+        $this->bag->removeAtt($attID);
+        $this->save();
     }
     public function bag(){
         //$this->showUserData();

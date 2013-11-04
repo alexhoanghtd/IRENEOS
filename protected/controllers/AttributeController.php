@@ -27,7 +27,7 @@ class AttributeController extends CTController {
     }
     
     public function actionView($productID) {
-        //CT::user()->setRole(CT_ADMIN);
+        CT::user()->setRole(CT_ADMIN);
         //get the product atrributes list
         //get the product info
         $product = new Product($productID);

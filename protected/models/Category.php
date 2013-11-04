@@ -58,7 +58,7 @@ class Category extends CTModel {
         $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
         $result = $stmt->execute();
         if (!$result) {
-            return false;
+            return $row_results;
         } else {
             $row_results = array();
             $count = 0;

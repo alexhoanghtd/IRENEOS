@@ -100,6 +100,7 @@ class ProductController extends CTController {
     public function actionUpdate($id) {
         if (isset($_POST['product'])) {
             $product = new Product();
+            print_r($_POST['product']);
             $product->setData($_POST['product']);
             if ($product->changesThanOrigin()) {
                 $oldProductInfo = new Product($_POST['product']['id']);
