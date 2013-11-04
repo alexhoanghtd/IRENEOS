@@ -28,7 +28,7 @@ div#content-wrapper{
 	font-size: 40px;
 	font-style: italic;
 }
-.col-right hr{
+hr{
 	border: none;
 	border-top: 1px solid #ccc;
 	background-color: transparent;
@@ -92,4 +92,30 @@ li > .grid-item-wrapper{
 .gl-1col >ul.grid-items> li > .grid-item-wrapper{
 	left: 20px;
 	right: 20px;
+}
+
+/** table layout **/
+ul.tbl-4cols {
+}
+ul.tbl-4cols > li{
+    float: left;
+    display: block;
+    width: 20%;
+    text-align: center;
+}
+ul.tbl-4cols.col-header{
+	font-size: 12px;
+	letter-spacing: 1px; 
+	font-family: helvetica,sans-serif;
+	line-height: 25px;
+	background-color: #ccc;
+}
+ul.tbl-4cols > li:last-child{
+    width: 40%;
+}
+ul.tbl-4cols > li >input{
+    width: 70%;
+}	
+ul.tbl-4cols > li:last-child >input{
+    width: 45%;
 }

@@ -22,7 +22,7 @@ class CTUser extends CTComponent implements IUserIdentity {
         private $lastName;
     
     public function __construct() {
-        $this->setRole(CT_VISITOR);
+        $this->role = CT_VISITOR;
     }
     
     public function setRole($role) {

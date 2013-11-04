@@ -112,7 +112,7 @@ input:focus, select:focus, textarea:focus{
 .pic-cover{
     background-repeat: no-repeat;
     background-position: 50% 0px;
-    background-size: 100%;
+    background-size: cover;
 }
 .fit-me-full{
 	position: absolute;

@@ -26,8 +26,8 @@ class BagController extends CTController {
                         "productID" => $productID,
                         "attribute" => array(
                             "id" => $attID,
-                            "size" => $attributes[$attID]['size'],
-                            "color" => $attributes[$attID]['color'],
+                            "size" => $_POST[$attID]['size'],
+                            "color" => $_POST[$attID]['color'],
                         ), 
                         "quantity" => $attQuantity,
                     );

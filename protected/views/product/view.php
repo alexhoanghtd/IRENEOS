@@ -78,9 +78,9 @@
                         <ul class="tbl-3cols clearfix">
                             <input type="hidden" value="<?=$att['id']?>" name="attribute[<?=$att['id']?>]">
                             <li><?=$att['size']?></li>
-                            <input type="hidden" value="<?=$att['size']?>" name="attribute[<?=$att['id']?>][size]">
+                            <input type="hidden" value="<?=$att['size']?>" name="<?=$att['id']?>[size]">
                             <li><?=$att['color']?></li>
-                            <input type="hidden" value="<?=$att['color']?>" name="attribute[<?=$att['id']?>]c[olor]">
+                            <input type="hidden" value="<?=$att['color']?>" name="<?=$att['id']?>[color]">
                             <li>
                                 <select name="attribute[<?=$att['id']?>][quantity]">
                                     <option selected value="0">0</option>

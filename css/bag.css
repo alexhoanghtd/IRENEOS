@@ -8,34 +8,131 @@
 
 .bag-header h1{
     font-size: 30px;
+    margin-bottom: 10px;
 }
 
-
-ul.bag-items li > div{
+ul.bag-items > li{
+	overflow: hidden;
+	position: relative;
+		min-height: 200px;
+		margin-bottom: 20px;
+}
+.remove{
+	color:#fff;
+	position: absolute;
 	display: block;
-	float: left;
+	right: 0px;
+	top: 0px;
+	height: 90px;
+	width: 90px;
+	overflow: hidden;
+	background-color: #333;
+	transform: rotate(45deg);
+	-ms-transform: rotate(45deg); /* IE 9 */
+	-webkit-transform: rotate(45deg); /* Safari and Chrome */	
+	top: -50px;
+	right: -50px;
+	background-image: url('../images/icons/remove-bt.png');
+	background-repeat: no-repeat;
+	background-position: 50% 95%;
+	opacity: .7;
+	transition: opacity .2s;
+	z-index:  999;
 }
-
 .item-preview{
-	height: 200px;
+	position: absolute;
+	min-height: 200px;
 	width: 200px;
 	background-image: url('../images/1.jpg');
 	border-right: 1px solid #999;
+	border-bottom: 1px solid #999;
 	margin-right: 10px;
 	transition: background-size .2s;
+	background-size: 100%;
 }
 .item-preview:hover{
 	background-size: 150%;
 }
 .item-preview > a{
+	position: absolute;
 	display: block;
-	height: 100%;
+	height: 200px;
+	width: 200px;
+}
+.item-wrapper{
+	float: right;
 	width: 100%;
+
 }
 .item-detail{
+	right: 56px;
+	left: 210px;
+	padding-left: 210px;	
+	padding-right: 10px;
+}
+.product-header{
+	margin-bottom: 10px;
+}
 
+.remove:hover{
+	opacity: 1;
 }
 .product-name{
 	font-size: 30px;
 }
+.product-price{
+	font-size: 18px;
+}
+.price-label{
+	font-style: italic;
+	color: #999;
+}
+ul.attributes{
+	display: block;
+}
+ul.tbl-4cols{
+	margin-bottom: 5px;
+}
+ul.tbl-4cols > li:last-child > a{
+	color: #fff;
+	display: inline-block;
+	height: 25px;
+	min-width: 15px;
+	padding: 0px 5px;
+	background-color: #999;
+	line-height: 25px;
+	transition: background-color .2s;
+}
+ul.tbl-4cols > li:last-child > a:hover{
+	background-color: #333;
+}
+.sub-total > span{
+	font-size: 18px;
+}
+
+/**Bag bottom line**/
+.bag-total{
+	float: left;
+	font-size: 25px;
+}
+.bag-total-label{
+	color: #999;	
+}
+.check-out-bt{
+	color: #fff;
+	font-size: 25px;	
+	float: right;
+	display: block;
+	height: 40px;
+	padding: 0px 10px;
+	line-height: 40px;
+	background-color: #333;
+	letter-spacing: 2px;
+	border: 1px solid transparent;
+	transition: border .2s, background-color .2s, color .2s;
+}
+.check-out-bt:hover{
+	border: 1px solid #333;
+	background-color: #fff;
+	color: #333;
 }

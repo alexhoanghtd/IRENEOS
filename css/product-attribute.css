@@ -31,23 +31,6 @@
 a.pdelete {
     color: #FF8383;
 }
-ul.tbl-4cols {
-    margin-bottom: 10px;
-}
-ul.tbl-4cols > li{
-    float: left;
-    display: block;
-    width: 20%;
-}
-ul.tbl-4cols > li:last-child{
-    width: 40%;
-}
-ul.tbl-4cols > li >input{
-    width: 70%;
-}
-ul.tbl-4cols > li:last-child >input{
-    width: 45%;
-}
 .pattr-header > ul > li {
     color: #999;
     font-size: 14px;
