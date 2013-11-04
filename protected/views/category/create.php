@@ -1,3 +1,5 @@
+
+
 <!-- layout $content will be shown here -->
 <form id="create-product" class="l-2cols clearfix content-inner" 
       method="POST" 
