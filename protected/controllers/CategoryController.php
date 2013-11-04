@@ -55,21 +55,53 @@ class CategoryController extends CTController {
         if (isset($_POST['category'])) {
             $category = $_POST['category'];
             $model = new Category();
-            if ($model->createCategory($category)) {
-                echo 'Category created succesfuly! :)<br/>';
+            $model->setData($category);
+            
+            if ($model->create()) {
+                $categoryName = $model->getVal('name');
+                echo 'Category ' . $categoryName . ' created succesfuly! :)<br/>';
+                $categoryID = $model->getCategoryIdByName($categoryName);
+                $folderName = $model->generateFolderName();
+                //create a folder acording to the product name
+                if (Pictures::createPictureFoler($folderName)) {
+                    //if create folder sucessfully
+                    foreach (array_keys($_FILES) as $key) {
+                        if ($_FILES[$key]['error'] == 0) {
+                            //create a new picture model 
+                            $pic = new Pictures();
+                            //set product_id for the pic
+                            $pic->setVal('category_id', $categoryID);
+                            //set the product name associated with the picture
+                            $pic->setVal('name', $categoryName);
+                            if ($url = Pictures::uploadPicture($_FILES[$key], $folderName)) {
+                                $pic->setVal('type', 1);
+                                $pic->setVal('url', $url);
+                                if ($pic->create()) {
+                                    //echo 'save picture sucessfully <br/>';
+                                } else {
+                                    //echo 'save picture failed <br/>';
+                                }
+                            } else {
+                                //echo 'failed to upload the picture';
+                            }
+                        } else {
+                            //echo 'picture has error';
+                        }
+                    }
+                }
             }
         }
         $this->layout = 'main';
-        $this->render('create', 'example');
+        $this->render('create','example');
     }
-    
-     public function actionUpdate() {
+
+    public function actionUpdate() {
         if (isset($_POST['category'])) {
             $category = $_POST['category'];
             $model = new Category();
             if ($model->updateCategory($category)) {
                 echo 'Category updated succesfuly! :)<br/>';
-            }else{
+            } else {
                 echo "Failed!!!";
             }
         }
