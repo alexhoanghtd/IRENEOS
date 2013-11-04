@@ -17,24 +17,28 @@ class CategoryController extends CTController {
      */
     public function actionIndex() {
         /* Redirect browser */
-        header("Location: http://irene.local/");
+        $model = new Category();
+        $data = $model->getCategoryList();
+        //print_r($data);
+        $this->render('index', $data);
+        //header("Location: http://irene.local/");
         /* Make sure that code below does not get executed when we redirect. */
         exit;
     }
 
     /**
      * show the product with id = $id
-     * @param int $id of the product
+     * @param int $id of the category
      */
     function actionView($id) {
         //load data for category which will be shown
         if (!empty($id)) {
             $model = new Category();
-            $data = $model->getCategory($id);
+            $data = $model->getCategoryProducts($id);
             CT::widgets('MainMenu')->setActive('visit store');
             $this->render('view', $data);
         } else {
-            header("Location: http://irene.local/");
+            header("Location: http://irene.local/Category");
         }
     }
 
@@ -65,6 +69,8 @@ class CategoryController extends CTController {
             $model = new Category();
             if ($model->updateCategory($category)) {
                 echo 'Category updated succesfuly! :)<br/>';
+            }else{
+                echo "Failed!!!";
             }
         }
         $this->layout = 'main';
