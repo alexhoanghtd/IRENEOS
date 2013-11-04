@@ -1,18 +1,39 @@
 <!-- layout $content will be shown here -->
-<form id="create-category"  
+<form id="create-product" class="l-2cols clearfix content-inner" 
       method="POST" 
-      action="/category/Create/"
+      action="/Category/Create/"
       enctype="multipart/form-data">
-    <input type="text" name="category[id]" placeholder="Category id"/></br>
-    <input type="text" name="category[name]" placeholder="name"/></br>
-    <input type="text" name="category[description]" placeholder="description"/></br>
-    <input type="text" name="category[available]" placeholder="available"/></br>
-    <input type="text" name="category[start_date]" placeholder="start date"/></br>
-    <input type="text" name="category[is_new]" placeholder="is new"/></br>
-    <input type="text" name="category[is_collection]" placeholder="is collection"/></br>
-    <input type="text" name="category[vote]" placeholder="is new"/></br>
-    <input type="text" name="category[view]" placeholder="is new"/></br>
-    <input type="text" name="category[cover_id]" placeholder="cover id"/></br>
-    <input type="submit" value="Create Category"/>
+    <!--2 colums layout left col -->
+    <div class="col-left clearfix">
+        <div class="product-pics">
+            <div class="main-view shadow-box empty pic-input">
+                <img height="100%"/>
+                <input type="file" 
+                       multiple accept='image/*'
+                       name="cover" class="file"
+                       onchange="preview(this)">
+            </div>
+        </div>
+    </div>
+
+    <!-- 2 colums layout right col-->
+    <div class="col-right">
+        <div class="col-right-container pdetail-container">
+            <input  type="text" class="col-right-header" placeholder="Category name" name="category[name]" required>
+            <textarea  placeholder="Write the description here...." name="category[description]"></textarea>
+            <div>
+                <input type="checkbox" name="category[available]" value="1"><label>active</label>
+                <input type="checkbox" name="category[is_new]" value="1"><label>is new</label>
+                <input type="hidden" name="category[is_collection]" value="0">
+            </div>
+            <div class="button-group">
+                <input type="submit" class="add-to-bag dark-bt">
+                <input type="reset" href="" class="check-out dark-bt">
+            </div>                                   
+
+        </div>
+
+    </div>
+
 </form>
 <!--end of layout $content -->

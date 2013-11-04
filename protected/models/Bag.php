@@ -19,21 +19,12 @@ class Bag {
         return count($this->items);
     }
 
-    public function add($bagItem) {
-        $itemAttribute = $bagItem['attribute'];
-        $itemIDs = array_keys($this->items);
-        $itemExisted = false;
-        foreach($itemIDs as $itemID){
-            $itemOldAtt = $this->items[$itemID]['attribute'];
-            if($itemOldAtt['id'] ==  $itemAttribute['id']){
-                $itemExisted = true;
-                $currQuan = (int)$this->items[$itemID]['quantity'];
-                $currQuan += (int)$bagItem['quantity'];
-                $this->items[$itemID]['quantity'] = $currQuan;
-            }
-        }
-        if(!$itemExisted){
-            array_push($this->items,$bagItem);
+    public function add(BagItem $bagItem) {
+        if($item = $this->isItemExisted($bagItem)){
+            
+        }else{
+            array_push($items, $bagItem);
+            return true;
         }
     }
 
@@ -45,5 +36,24 @@ class Bag {
     }
     public function clearBag(){
         $this->items = null;
+    }
+    
+    /**
+     * Check if the item with a product ID already existed
+     * @param type $productID
+     * @return boolean
+     */
+    public function isItemExisted(BagItem $bagItem){
+        if(empty($this->items)){
+            return false;
+        }else{
+            foreach($this->items as $item){
+                if($item->productID() ==  $bagItem->productID()){
+                    return $item;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
