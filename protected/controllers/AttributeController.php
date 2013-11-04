@@ -20,7 +20,7 @@ class AttributeController extends CTController {
     public function rules(){
         return array(
             CT_ADMIN => "*",
-            CT_VISITOR => "View",
+            CT_VISITOR => "*",
             CT_USER => "View",
             "allow" => "*", //who can access the controller
         );
@@ -45,9 +45,11 @@ class AttributeController extends CTController {
         if (isset($_POST)) {
             $newAtt = $_POST;
             $model = new Attribute();
+            $model->setVal('product_id', $newAtt['product_id']);
             $model->setVal('size_id', $newAtt['size_id']);
             $model->setVal('color_id',$newAtt['color_id']);
             if (!$model->checkExists()) {
+                $model = new Attribute();
                 $model->setData($newAtt);
                 $model->create();
                 header('Location: ' . $_SERVER['HTTP_REFERER']);

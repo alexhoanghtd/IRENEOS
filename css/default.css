@@ -2,6 +2,7 @@ html,body{
 	height: 100%;
 }
 a{
+	color: #333;
     cursor: pointer;
 }
 /*@charset "utf-8";*/
@@ -111,7 +112,7 @@ input:focus, select:focus, textarea:focus{
 .pic-cover{
     background-repeat: no-repeat;
     background-position: 50% 0px;
-    background-size: cover;
+    background-size: 100%;
 }
 .fit-me-full{
 	position: absolute;

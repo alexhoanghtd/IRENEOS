@@ -18,11 +18,7 @@ class Bootstrap {
     );
 
     function __construct() {
-        //load include all the model classes
-        foreach (glob(BASE_PATH . "/protected/models/*php") as $filename) {
-            //echo $filename.'<br/>';
-            include_once $filename;
-        }
+
         //break the url into private urlArr attribute
         $this->analyzeURL();
 

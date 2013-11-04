@@ -8,9 +8,21 @@
  */
 
 class Shopper extends CTUser implements IUserIdentity{
+    
+    private $bag;
     public function __construct() {
         parent::__construct();
-        //echo 'shopper component loaded';
+        $this->bag = new Bag();
+        //$this->setRole(CT_VISITOR);
+    }
+    
+    public function addToBag($bagItem){
+        $this->bag->add($bagItem);
+        $_SESSION['user'] = serialize($this);
+    }
+    public function bag(){
+        //$this->showUserData();
+        return $this->bag;
     }
     
 

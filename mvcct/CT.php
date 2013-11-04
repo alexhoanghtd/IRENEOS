@@ -32,20 +32,26 @@ class CT {
     static $_CONFIG = array();
     static private $widgets = array();
     static private $components = array();
-    static private $_USER;
 
     /*
      * start the application load the config and start bootstrap
      */
+
     public function run($config) {
+        //load include all the model classes
+        foreach (glob(BASE_PATH . "/protected/models/*php") as $filename) {
+            //echo $filename.'<br/>';
+            include_once $filename;
+        }
+
         //get configuration
         self::$_CONFIG = self::setConfig($config);
-        //load user component
-        self::$_USER = self::loadUser();
         //load custom component
         self::loadComponents();
         //load widget
         self::loadWidgets();
+        //load user component
+        self::loadUser();
         //load controller according to developer rules used fo
         $bootstrap = new Bootstrap();
     }
@@ -69,19 +75,21 @@ class CT {
     }
 
     public static function user() {
-        return self::$_USER;
+        return unserialize($_SESSION['user']);
     }
 
     public static function widgets($widgetName) {
         return self::$widgets[$widgetName];
     }
+
     /**
      * load components 
      * return the array of component objects
      */
-    private static function loadComponents(){
+    private static function loadComponents() {
         return array();
     }
+
     /**
      * Load user component to CT application according to the config file
      */
@@ -89,11 +97,12 @@ class CT {
         if (isset(self::$_CONFIG['components']['User'])) {
             //if the custom user component is set
             //then set the user of CT as that user component
-            $user = self::$_CONFIG['components']['User'];
-            require BASE_PATH . '/protected/components/' . $user . '.php';
-            $shopper = new $user();
-            $shopper->setRole(CT_VISITOR);
-            return $shopper;
+            $userType = self::$_CONFIG['components']['User'];
+            require BASE_PATH . '/protected/components/' . $userType . '.php';
+            session_start();
+            if(!isset($_SESSION['user'])){
+                $_SESSION['user'] = serialize(new $userType());
+            }
         } else {
             //else use CT default User component
             return new CTUser();

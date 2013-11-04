@@ -15,29 +15,25 @@ define('CT_ADMIN', 3);
 define('CT_DEVELOPER', 4);
 
 class CTUser extends CTComponent implements IUserIdentity {
-
-    private $session; //all the data of one user will be stored here
-
+    
+        private $role;
+        private $username;
+        private $firstName;
+        private $lastName;
+    
     public function __construct() {
-        session_start();
-        $this->session = $_SESSION;
         $this->setRole(CT_VISITOR);
     }
-
+    
     public function setRole($role) {
-        $this->session['role'] = $role;
+       $this->role = $role;
+       $_SESSION['user'] = serialize($this);
     }
 
     //get the role of the current user
     public function getRole() {
-        return $this->session['role'];
+        return $this->role;
     }
-
-    //dev shit!
-    public function showUserData() {
-        print_r($this->session);
-    }
-
     /**
      * Check acess level of current user for a controller
      * @param type $controller
