@@ -21,7 +21,7 @@ class MainMenu {
                 'about us' => '/Site/About/',
                 'contact us' => '/Site/Contact',
                 'visit store' => '/Category/',
-                'bag' => '/bag/',),
+                'bag' => '/bag/View',),
             "2" => array(
                 'collection' => '',
                 'categories' => '',
