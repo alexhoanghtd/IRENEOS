@@ -94,5 +94,8 @@ class CTUser extends CTComponent implements IUserIdentity {
             }
         }
     }
-
+    
+    protected function save(){
+        $_SESSION['user'] = serialize($this);
+    }
 }

@@ -90,6 +90,7 @@ class ProductController extends CTController {
                 }
             }
         }
+        CT::widgets('MainMenu')->setActive(USER_MENU,'visit store');
         $this->layout = 'main';
         $this->render('create', 'example');
     }
@@ -100,6 +101,7 @@ class ProductController extends CTController {
     public function actionUpdate($id) {
         if (isset($_POST['product'])) {
             $product = new Product();
+            print_r($_POST['product']);
             $product->setData($_POST['product']);
             if ($product->changesThanOrigin()) {
                 $oldProductInfo = new Product($_POST['product']['id']);
@@ -122,6 +124,7 @@ class ProductController extends CTController {
             $model->get($id);
             $picture = new Pictures();
             $pictureUrls = Pictures::getProductPictures($id);
+            CT::widgets('MainMenu')->setActive(USER_MENU,'visit store');
             $this->render('update', array(
                 'model' => $model->getData(),
                 'pictureUlrs' => $pictureUrls,

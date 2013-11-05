@@ -7,8 +7,8 @@
  * @copyright &copy; 2013 Creative Team 
  */
 class BagItem {
-
-    private $product;
+ 
+   private $product;
     private $attributes = array();
 
     public function __construct($product,$attribute) {
