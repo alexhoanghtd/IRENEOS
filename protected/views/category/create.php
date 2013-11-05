@@ -29,8 +29,8 @@
                 <input type="hidden" name="category[is_collection]" value="0">
             </div>
             <div class="button-group">
-                <input type="submit" class="add-to-bag dark-bt">
-                <input type="reset" href="" class="check-out dark-bt">
+                <input type="submit" class="add-to-bag dark-bt" value="Create">
+                <input type="reset" href="" class="check-out dark-bt" value="Reset">
             </div>                                   
 
         </div>
