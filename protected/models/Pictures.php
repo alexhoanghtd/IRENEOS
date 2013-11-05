@@ -59,8 +59,38 @@ class Pictures extends CTModel {
             return false;
         }
     }
+    
+    public static function getCategoryPictureModels($categoryID){
+        $conn = CTSQLite::connect();
+        $query = 'SELECT id FROM ic_pictures WHERE category_id ='.$categoryID;
+        $result = $conn->query($query);
+        if($result){
+            $pictures = array();
+            while($picID = $result->fetchArray()){
+                $picture = new Pictures($picID['id']);
+                array_push($pictures,$picture);
+            }
+            return $pictures;
+        }else{
+            return false;
+        }
+    }
 
     public function getCategoryPictures($categoryID) {
+        $conn = CTSQLite::connect();
+        $query = 'SELECT url FROM ic_pictures WHERE category_id ='.$categoryID;
+        $result = $conn->query($query);
+        if($result){
+//            $urls = array();
+//            while($url = $result->fetchArray()){
+//                array_push($urls, $url['url']);
+//            }    
+            $urls = $result->fetchArray();
+            return $urls;
+        }else{
+            echo 'cant get category pictures <br/>';
+            return FALSE;
+        }
     }
 
     public static function uploadPicture($file,$folderName) {

@@ -41,7 +41,6 @@ class BagController extends CTController {
     }
 
     public function actionView() {
-        CT::widgets("MainMenu")->setActive('bag');
         $bagItems = CT::user()->bag()->getItems();
         $productIDs = array();
         $itemGroups = array();    
@@ -66,6 +65,7 @@ class BagController extends CTController {
                 );
             }
         }
+        CT::widgets('MainMenu')->setActive(USER_MENU,'bags');
         $this->render('view', $itemGroups);
     }
     

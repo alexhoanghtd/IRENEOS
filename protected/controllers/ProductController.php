@@ -90,6 +90,7 @@ class ProductController extends CTController {
                 }
             }
         }
+        CT::widgets('MainMenu')->setActive(USER_MENU,'visit store');
         $this->layout = 'main';
         $this->render('create', 'example');
     }
@@ -123,6 +124,7 @@ class ProductController extends CTController {
             $model->get($id);
             $picture = new Pictures();
             $pictureUrls = Pictures::getProductPictures($id);
+            CT::widgets('MainMenu')->setActive(USER_MENU,'visit store');
             $this->render('update', array(
                 'model' => $model->getData(),
                 'pictureUlrs' => $pictureUrls,
