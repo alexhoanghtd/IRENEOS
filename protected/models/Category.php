@@ -162,19 +162,81 @@ class Category extends CTModel {
         }
     }
     
-    public function updateCategory($data) {
-        $model = new Category();
-        $model->setData($data);
-        $results = $model->update();
-        if ($results) {
-            return $results;
-            echo "Successfully!!!";
-            $db->close();
-            unset($db);
-        } else {
-            echo "Can't excute";
-            return false;
+    public function updatePicUrls() {
+        $categoryID = $this->getVal('id');
+        $newFolderName = $this->generateFolderName();
+        $pictures = Pictures::getCategoryPictureModels($categoryID);
+        foreach ($pictures as $pic) {
+            if ($pic->getVal('type') == 1) {
+                $path = $pic->getVal('url');
+            }
+        }
+        $folders = explode('/', $path);
+        $oldDir = BASE_PATH;
+        for ($i = 0; $i < 4; $i++) {
+            $oldDir .= $folders[$i] . '/';
+        }
+        $newDir = BASE_PATH . '/images/' . $newFolderName . '/';
+        if (rename($oldDir, $newDir)) {
+            foreach ($pictures as $pic) {
+                $newUrl = str_replace($folders[2] . '/' . $folders[3], $newFolderName, $pic->getVal('url'));
+                $pic->setVal('url', $newUrl);
+                $pic->setVal('name', $this->getVal('name'));
+                $pic->update();
+            }
         }
     }
+    
+       public function updatePictures($files) {
+        $marsk = array();
+        $uploadMarsk = array();
+        $folderName = $this->generateFolderName();
+        $pictures = Pictures::getCategoryPictureModels($this->getVal('id'));
+        foreach ($pictures as $picture) {
+            array_push($marsk, $picture);
+        }
+        foreach ($files as $file) {
+            array_push($uploadMarsk, $file);
+        }
+        for ($i = 0; $i < 4; $i++) {
+            if (!empty($uploadMarsk[$i]['name'])) {
+                $uploadedTo = Pictures::uploadPicture($uploadMarsk[$i], $folderName);
+                if (isset($marsk[$i])) {
+                    $marsk[$i]->setVal('url', $uploadedTo);
+                    if ($marsk[$i]->update()) {
+                        echo 'updated picture to db <br/>';
+                    } else {
+                        echo 'failed to update picuture <br/>';
+                    }
+                } else {
+                    $marsk[$i] = new Pictures();
+                    $marsk[$i]->setVal('url', $uploadedTo);
+                    $marsk[$i]->setVal('name', $this->getVal('name'));
+                    $marsk[$i]->setVal('type', 1);
+                    $marsk[$i]->setVal('category_id', $this->getVal('id'));
+                    if ($marsk[$i]->create()) {
+                        echo 'inserted new picture to db <br/>';
+                    } else {
+                        echo 'cant insert new picutre <br/>';
+                    }
+                }
+            }
+        }
+    }
+    
+//    public function updateCategory($data) {
+//        $model = new Category();
+//        $model->setData($data);
+//        $results = $model->update();
+//        if ($results) {
+//            return $results;
+//            echo "Successfully!!!";
+//            $db->close();
+//            unset($db);
+//        } else {
+//            echo "Can't excute";
+//            return false;
+//        }
+//    }
 
 }

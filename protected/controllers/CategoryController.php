@@ -99,18 +99,62 @@ class CategoryController extends CTController {
         $this->render('create', 'example');
     }
 
-    public function actionUpdate() {
+    public function actionUpdate($id) {
         if (isset($_POST['category'])) {
-            $category = $_POST['category'];
-            $model = new Category();
-            if ($model->updateCategory($category)) {
-                echo 'Category updated succesfuly! :)<br/>';
-            } else {
-                echo "Failed!!!";
+            $category = new Category();  
+            $category->setData($_POST['category']);
+            if ($category->changesThanOrigin()) {
+                $oldCategoryInfo = new Category($_POST['category']['id']);
+                if ($category->update()) {
+                    if ($oldCategoryInfo->getVal('name') != $category->getVal('name')) {
+                        //if the category name is updated
+                        $category->updatePicUrls();
+                    }
+                    echo 'update category basic info sucessfully <br/>';
+                } else {
+                    echo 'update category failed';
+                }
+            }else{
+                echo 'not changes than origin';
+            }
+            if ($this->hasChanges($_FILES)) {
+                $category->updatePictures($_FILES);
             }
         }
-        $this->layout = 'main';
-        $this->render('update', 'example');
+        if (!empty($id)) {
+            $model = new Category();
+            $model->get($id);
+            $picture = new Pictures();
+            $pictureUrls = Pictures::getCategoryPictures($id);
+            CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'categories');
+            $this->layout = 'main';
+            $this->render('update', array(
+                'model' => $model->getData(),
+                'pictureUrls' => $pictureUrls,
+            ));
+        } else {
+            header("Location: http://irene.local/Category/");
+        }
     }
 
+    private function hasChanges($files) {
+        foreach ($files as $file) {
+            if (!empty($file['name'])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+//    public function actionUpdate() {
+//        if (isset($_POST['category'])) {
+//            $model = new Category();
+//            $category = $_POST['category'];
+//            //$model->setData($category);
+//            $model->updateCategory($category);
+//        }
+//        CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'categories');
+//        $this->layout = 'admin';
+//        $this->render('update', 'example');
+//    }
 }
