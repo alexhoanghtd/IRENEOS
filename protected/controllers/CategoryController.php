@@ -44,13 +44,15 @@ class CategoryController extends CTController {
     }
 
     // Delete Category
-    public function actionDelete() {
-        if (isset($_POST['category'])) {
-            $model = new Category();
-            $model->deleteCategory($_POST['category']['id']);
-        }
+    public function actionDelete($id) {
+        $category = new Category();
+        $category->deleteCategory($id);
+
+        $pic = new Pictures();
+        $pic->deletePicture($id);
+        
         $this->layout = 'admin';
-        $this->render('delete', 'example');
+        $this->render('delete', $id);
     }
 
     // Create Category
@@ -101,7 +103,7 @@ class CategoryController extends CTController {
 
     public function actionUpdate($id) {
         if (isset($_POST['category'])) {
-            $category = new Category();  
+            $category = new Category();
             $category->setData($_POST['category']);
             if ($category->changesThanOrigin()) {
                 $oldCategoryInfo = new Category($_POST['category']['id']);
@@ -114,7 +116,7 @@ class CategoryController extends CTController {
                 } else {
                     echo 'update category failed';
                 }
-            }else{
+            } else {
                 echo 'not changes than origin';
             }
             if ($this->hasChanges($_FILES)) {

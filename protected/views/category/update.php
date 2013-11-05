@@ -14,7 +14,7 @@
     <div class="col-left clearfix">
         <div class="product-pics">
             <div class="main-view shadow-box empty pic-input">
-                <img height="100%" src="<?= $pic['url']?>"/>
+                <img height="100%" src="<?=isset($pic['url']) ? $pic['url'] : "" ?>"/>
                 <input type="file"                        
                        multiple accept='image/*'
                        name="cover" class="file"

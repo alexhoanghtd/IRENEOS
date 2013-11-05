@@ -13,13 +13,13 @@ class Pictures extends CTModel {
      * 
      * @param int $id id of the picture you want to get
      */
-    public function __construct($id=0) {
+    public function __construct($id = 0) {
         parent::__construct();
-        if($id != 0){
+        if ($id != 0) {
             $this->get($id);
-        
         }
     }
+
     /**
      * get product picture urls
      * @param type $productID
@@ -27,118 +27,134 @@ class Pictures extends CTModel {
      */
     public static function getProductPictures($productID) {
         $conn = CTSQLite::connect();
-        $query = 'SELECT url FROM ic_pictures WHERE product_id ='.$productID;
+        $query = 'SELECT url FROM ic_pictures WHERE product_id =' . $productID;
         $result = $conn->query($query);
-        if($result){
+        if ($result) {
             $urls = array();
-            while($url = $result->fetchArray()){
+            while ($url = $result->fetchArray()) {
                 array_push($urls, $url['url']);
-            }    
+            }
             return $urls;
-        }else{
+        } else {
             echo 'cant get product pictures <br/>';
             return FALSE;
         }
     }
+
     /**
      * Get an array of picture model belong to product with id = $productID
      * @param int $productID
      */
-    public static function getProductPictureModels($productID){
+    public static function getProductPictureModels($productID) {
         $conn = CTSQLite::connect();
-        $query = 'SELECT id FROM ic_pictures WHERE product_id ='.$productID;
+        $query = 'SELECT id FROM ic_pictures WHERE product_id =' . $productID;
         $result = $conn->query($query);
-        if($result){
+        if ($result) {
             $pictures = array();
-            while($picID = $result->fetchArray()){
+            while ($picID = $result->fetchArray()) {
                 $picture = new Pictures($picID['id']);
-                array_push($pictures,$picture);
+                array_push($pictures, $picture);
             }
             return $pictures;
-        }else{
+        } else {
             return false;
         }
     }
-    
-    public static function getCategoryPictureModels($categoryID){
+
+    public static function getCategoryPictureModels($categoryID) {
         $conn = CTSQLite::connect();
-        $query = 'SELECT id FROM ic_pictures WHERE category_id ='.$categoryID;
+        $query = 'SELECT id FROM ic_pictures WHERE category_id =' . $categoryID;
         $result = $conn->query($query);
-        if($result){
+        if ($result) {
             $pictures = array();
-            while($picID = $result->fetchArray()){
+            while ($picID = $result->fetchArray()) {
                 $picture = new Pictures($picID['id']);
-                array_push($pictures,$picture);
+                array_push($pictures, $picture);
             }
             return $pictures;
-        }else{
+        } else {
             return false;
         }
     }
 
     public function getCategoryPictures($categoryID) {
         $conn = CTSQLite::connect();
-        $query = 'SELECT url FROM ic_pictures WHERE category_id ='.$categoryID;
+        $query = 'SELECT url FROM ic_pictures WHERE category_id =' . $categoryID;
         $result = $conn->query($query);
-        if($result){
+        if ($result) {
 //            $urls = array();
 //            while($url = $result->fetchArray()){
 //                array_push($urls, $url['url']);
 //            }    
             $urls = $result->fetchArray();
             return $urls;
-        }else{
+        } else {
             echo 'cant get category pictures <br/>';
             return FALSE;
         }
     }
 
-    public static function uploadPicture($file,$folderName) {
-        if( self::checkFileSize($file, 400) && self::checkFileType($file)){
-            if(self::checkFileExisted($file,$folderName)){
+    public static function uploadPicture($file, $folderName) {
+        if (self::checkFileSize($file, 400) && self::checkFileType($file)) {
+            if (self::checkFileExisted($file, $folderName)) {
                 
-            } 
-             move_uploaded_file($file["tmp_name"], BASE_PATH."/images/" .$folderName.'/'. $file["name"]);
-             return "/images/".$folderName.'/'. $file["name"];
-        }else{
+            }
+            move_uploaded_file($file["tmp_name"], BASE_PATH . "/images/" . $folderName . '/' . $file["name"]);
+            return "/images/" . $folderName . '/' . $file["name"];
+        } else {
             return false;
         }
     }
+
     /**
      * Check if the File type is allowed
      * @param type $file
      * @return type
      */
-    public static function checkFileType($file){
+    public static function checkFileType($file) {
         $allowedExts = array("gif", "jpeg", "jpg", "png");
         $temp = explode(".", $file["name"]);
         $extension = end($temp);
         return (
                 (//check file type
-                   ($file["type"] == "image/gif") 
-                || ($file["type"] == "image/jpeg") 
-                || ($file["type"] == "image/jpg") 
-                || ($file["type"] == "image/pjpeg") 
-                || ($file["type"] == "image/x-png") 
-                || ($file["type"] == "image/png")
-                ) 
-                && 
+                ($file["type"] == "image/gif") || ($file["type"] == "image/jpeg") || ($file["type"] == "image/jpg") || ($file["type"] == "image/pjpeg") || ($file["type"] == "image/x-png") || ($file["type"] == "image/png")
+                ) &&
                 in_array($extension, $allowedExts)
-                ); 
+                );
     }
-    /**check for the valid size of picture**/
-    public static function checkFileSize($file,$Kb){
-        return ($file["size"] <= $Kb * 1024) ;
+
+    /*     * check for the valid size of picture* */
+
+    public static function checkFileSize($file, $Kb) {
+        return ($file["size"] <= $Kb * 1024);
     }
+
     /**
      * check if fileName existed 
      */
-    public static function checkFileExisted($file,$folderName){
-        return file_exists(BASE_PATH."/images/" .$folderName.'/'. $file["name"]);
+    public static function checkFileExisted($file, $folderName) {
+        return file_exists(BASE_PATH . "/images/" . $folderName . '/' . $file["name"]);
     }
-    
-    public static function createPictureFoler($folderName){
-        $dir = BASE_PATH.'/images/'.$folderName.'/';
+
+    public static function createPictureFoler($folderName) {
+        $dir = BASE_PATH . '/images/' . $folderName . '/';
         return mkdir($dir);
     }
+
+    public static function deletePicture($id) {
+        $db = CTSQLite::connect();
+        $delPicQuery = 'DELETE FROM ic_pictures WHERE category_id=' . $id;
+        $results = $db->query($delPicQuery);
+
+        if ($results) {
+            return $results;
+            echo "Delete picture Successfully!!!";
+        } else {
+            echo "Delete pictures fail";
+            return false;
+        }
+        $db->close();
+        unset($db);
+    }
+
 }

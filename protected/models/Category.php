@@ -22,11 +22,11 @@ class Category extends CTModel {
             $row['coverURL'] = $coverURL;
 
             return $row;
-            $db->close();
-            unset($db);
         } else {
             return false;
         }
+        $db->close();
+        unset($db);
     }
 
     // Show all categories
@@ -98,35 +98,20 @@ class Category extends CTModel {
     }
 
     public function deleteCategory($id) {
-        $model = new Category();
-        $model->get($id);
-        $results = $model->delete();
+        $category = new Category();
+        $category->get($id);
+        $results = $category->delete();
+
         if ($results) {
             return $results;
-            echo "Successfully!!!";
-            $db->close();
-            unset($db);
+            echo "Delete category Success!!!";
         } else {
-            echo "Can't excute";
+            echo "Delete category fail";
             return false;
         }
+        $db->close();
+        unset($db);
     }
-
-//    public function createCategory($data) {
-//        $model = new Category();
-//        $model->setData($data);
-//        $results = $model->create();
-//        
-//        if ($results) {           
-//            return $results;
-//            echo "Successfully!!!";
-//            $db->close();
-//            unset($db);
-//        } else {
-//            echo "Can't excute";
-//            return false;
-//        }
-//    }
 
     public function generateFolderName() {
         $name = $this->getVal('name');
@@ -161,7 +146,7 @@ class Category extends CTModel {
             return $id['id'];
         }
     }
-    
+
     public function updatePicUrls() {
         $categoryID = $this->getVal('id');
         $newFolderName = $this->generateFolderName();
@@ -186,8 +171,8 @@ class Category extends CTModel {
             }
         }
     }
-    
-       public function updatePictures($files) {
+
+    public function updatePictures($files) {
         $marsk = array();
         $uploadMarsk = array();
         $folderName = $this->generateFolderName();
@@ -223,20 +208,5 @@ class Category extends CTModel {
             }
         }
     }
-    
-//    public function updateCategory($data) {
-//        $model = new Category();
-//        $model->setData($data);
-//        $results = $model->update();
-//        if ($results) {
-//            return $results;
-//            echo "Successfully!!!";
-//            $db->close();
-//            unset($db);
-//        } else {
-//            echo "Can't excute";
-//            return false;
-//        }
-//    }
 
 }
