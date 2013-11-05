@@ -20,6 +20,7 @@ class CategoryController extends CTController {
         $model = new Category();
         $data = $model->getCategoryList();
         //print_r($data);
+        CT::widgets('MainMenu')->setActive(USER_MENU, 'visit store');
         $this->render('index', $data);
         //header("Location: http://irene.local/");
         /* Make sure that code below does not get executed when we redirect. */
@@ -35,13 +36,14 @@ class CategoryController extends CTController {
         if (!empty($id)) {
             $model = new Category();
             $data = $model->getCategoryProducts($id);
-            CT::widgets('MainMenu')->setActive('visit store');
+            CT::widgets('MainMenu')->setActive(USER_MENU, 'visit store');
             $this->render('view', $data);
         } else {
             header("Location: http://irene.local/Category");
         }
     }
 
+    // Delete Category
     public function actionDelete() {
         if (isset($_POST['category'])) {
             $model = new Category();
@@ -51,12 +53,13 @@ class CategoryController extends CTController {
         $this->render('delete', 'example');
     }
 
+    // Create Category
     public function actionCreate() {
         if (isset($_POST['category'])) {
             $category = $_POST['category'];
             $model = new Category();
             $model->setData($category);
-            
+
             if ($model->create()) {
                 $categoryName = $model->getVal('name');
                 echo 'Category ' . $categoryName . ' created succesfuly! :)<br/>';
@@ -91,8 +94,9 @@ class CategoryController extends CTController {
                 }
             }
         }
+        CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'categories');
         $this->layout = 'main';
-        $this->render('create','example');
+        $this->render('create', 'example');
     }
 
     public function actionUpdate() {
