@@ -77,7 +77,7 @@ class Product extends CTModel {
     public function updatePicUrls() {
         $productID = $this->getVal('id');
         $newFolderName = $this->generateFolderName();
-        $pictures = Pictures::getProductPictureModels($productID);
+        $pictures = Pictures::getCategoryPictureModels($productID);
         foreach ($pictures as $pic) {
             if ($pic->getVal('type') == 1) {
                 $path = $pic->getVal('url');
