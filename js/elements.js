@@ -6,6 +6,9 @@ function searchStyle() {
         $("div#search-box").removeClass("input-focused");
     });
 }
+function search(input){
+    $("#content-wrapper").load("http://irene.local/product/ViewAjax/"+input.value);
+}
 function preview(input) {
     parent = input.parentNode
     var img = parent.firstElementChild;

@@ -70,7 +70,8 @@ class CTModel extends CTSQLite implements IDBRecord {
                 'colName' => $col['name'], // Name of colum in the database
                 'name' => null, // name definition
                 'type' => $col['type'], // data type of the colum
-                'length' => null, // the length of the col in the table
+                'maxLength' => null, // the length of the col in the table
+                'minLength' => null,
                 'required' => $col['notnull'], // is the colum value
                 'unique' => false, // default is unique = none
                 'pk' => $col['pk'], // is pk

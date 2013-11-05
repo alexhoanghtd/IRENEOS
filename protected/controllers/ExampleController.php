@@ -11,8 +11,8 @@ class ExampleController extends CTController {
     public function rules() {
         return array(
             CT_ADMIN => "*",//Which action Admin can acess
-            CT_VISITOR => "View,Index,Destroy,Switch",//Which action visitor can access
-            CT_USER => "View,Index", //Which action authorized user can acess
+            CT_VISITOR => "*",//Which action visitor can access
+            CT_USER => "*", //Which action authorized user can acess
             "allow" => array(CT_ADMIN,CT_USER,CT_VISITOR) //who can access the controller
         );
     }
@@ -24,17 +24,14 @@ class ExampleController extends CTController {
     }
 
     public function actionView($param) {
-        //$user = new CTUserIdentity();
-        echo '<br/> you are in Example controller View action ';
-        $data = array(
-            "id" => $param,
-            "name" => "Nina Black",
-            "description" => "Lorem ispilitum salenacopet topcare monitor lief",
-        );
-        //$this->render($data, 'view');
-        //echo 'aready render the data';
+        $this->render('ajaxTest', 'abc');
     }
-    
+    public function actionAjaxTest($pID){
+        //echo $pID;
+        $product = new Product($pID);
+        print_r($product->getData());
+        $this->render('ajaxTest', '');
+    }
     public function actionSwitch(){
         echo 'your current role is '.CT::user()->getRole();
         CT::user()->setRole(CT_ADMIN);

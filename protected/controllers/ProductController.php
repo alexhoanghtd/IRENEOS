@@ -39,7 +39,22 @@ class ProductController extends CTController {
             header("Location: http://irene.local/Category/");
         }
     }
-
+    public function actionViewAjax($id) {
+        if (!empty($id)) {
+            $model = new Product();
+            $model->get($id);
+            $picture = new Pictures();
+            $pictureUrls = Pictures::getProductPictures($id);
+            $attrs = $model->getProductAttributes();
+            $this->renderAjax('view', array(
+                'model' => $model->getData(),
+                'pictureUlrs' => $pictureUrls,
+                'attrs' => $attrs,
+            ));
+        } else {
+            echo 'noproduct available';
+        }
+    }
     /**
      * Action to create a new product
      */

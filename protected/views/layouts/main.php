@@ -32,7 +32,8 @@
 				<div id="search-box">
 					<img src="<?php echo ct::baseURL()?>/images/icons/searbt.png" style="float:left;padding-right: 10px;">
 					<form id="search-form">
-						<input tpye="text" name="search-input" id="search-input" placeholder="search...">
+						<input tpye="text" name="search-input" id="search-input" placeholder="search..."
+                                                       onkeyup="search(this)">
 						<div id="search-border"></div>
 					</form>
 				</div>

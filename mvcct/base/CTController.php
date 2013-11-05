@@ -73,4 +73,11 @@ class CTController extends CTComponent{
         /**SHOW THE RESULT**/
         $view->show();
     }
+    function renderAjax($viewName,$data){
+        $view = new CTView();
+        $view->viewBluePrint = $viewName;
+        $view->controllerName =str_replace("Controller", "", get_class($this));
+        $view->data =$data;
+        echo $view->renderContent();
+    }
 }

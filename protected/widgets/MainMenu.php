@@ -37,6 +37,7 @@ class MainMenu {
     public function __construct() {
         $this->items = CT::$_CONFIG['widgets']['MainMenu'];
         $this->viewBluePrint = 'mainMenu';
+        $this->items = $this->menuList(1);
         $this->active = 'new arrivals';
     }
 
