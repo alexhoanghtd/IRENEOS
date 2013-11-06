@@ -218,3 +218,23 @@ ul#order-items > li > select{
 	border: 1px solid #333;
 	background-color: #fff;
 }
+/**colection edit stlye**/
+div.collection-wrapper > div{
+    float: left;    
+}
+.collection-preview{
+    height: 200px;
+    width: 200px;
+}
+.collection-detail{
+    padding-left: 20px;
+    right: 20px;
+}
+.collection-detail > h1 {
+    font-size: 30px;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+.collection-detail > textarea{
+    display: block;
+}

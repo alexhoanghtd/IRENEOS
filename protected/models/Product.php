@@ -15,18 +15,21 @@ class Product extends CTModel {
                 "minLength" => 1,
                 "name" => "identitier",
                 "unique" => true,
+                "required" => true,
             ),
             "product_name" => array(
                 "maxLength" => 200,
                 "minLength" => 5,
                 "name" => "Product name",
                 "unique" => true,
+                "required" => true,
             ),
             "product_description" => array(
                 "maxLength" => 1000,
                 "minLength" => 5,
                 "name" => "Product description",
                 "unique" => false,
+                "required" => true,
             ),
         );
     }

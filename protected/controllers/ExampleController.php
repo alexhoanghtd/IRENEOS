@@ -26,7 +26,8 @@ class ExampleController extends CTController {
     public function actionView($param) {
         $product = new Product();
         //print_r($product->fieldRules());
-        //print_r($product->getTableStruct());
+        print_r($product->getTableStruct());
+        //$product->validate();
     }
     public function actionAjaxTest($pID){
         //echo $pID;
