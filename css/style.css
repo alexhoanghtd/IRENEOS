@@ -1,5 +1,6 @@
 /*IRENE FASHION SITE*/
-/*Design And Implimentation By ALEX HOANG*/
+/*Design by ALEX HOANG
+Implimentation By Creative Team*/
 
 /****LAYOUT****/
 div#container{
@@ -47,7 +48,6 @@ div#panel-setting{
 	height: 30px;
 	margin: 20px auto;
 }
-/*search box when focused*/
 div#search-box.input-focused form#search-form{
 	width: 220px;
 }
@@ -91,6 +91,43 @@ div#search-border{
 	height: 5px;
 	border: 1px solid #333;
 	border-top: none;
+}
+/** Search result **/
+#user-search-output {
+	position: absolute;
+	left: -20px;
+	right: -20px;
+	top: 0px;
+	z-index: 999;
+}
+#user-search-output > ul > li {
+	display: block;
+	height: 80px;
+	background-color: #fff;
+	border-bottom: 1px solid #999;
+        transition: background-image 0.4s;
+}
+#user-search-output > ul > li:hover{
+    background-image: url('../images/strip.png');
+}
+#user-search-output > ul > li > a{
+	height: 100%;
+	width: 100%;
+	display: block;
+}
+#user-search-output > ul > li > a> div{
+	float: left;
+}
+.result-thumb{
+	height: 100%;
+	width: 80px;
+	background-color: #ccc;
+}
+.result-detail{
+	padding: 5px;
+}
+.result-detail > h3{
+	font-size: 18px;
 }
 div#panel-setting > div{
 	opacity: 0.3;
