@@ -11,20 +11,20 @@ class Product extends CTModel {
     public function fieldRules() {
         return array(
             "id" => array(
-                "max-length" => 20,
-                "min-length" => 1,
+                "maxLength" => 20,
+                "minLength" => 1,
                 "name" => "identitier",
                 "unique" => true,
             ),
             "product_name" => array(
-                "max-length" => 200,
-                "min-length" => 5,
+                "maxLength" => 200,
+                "minLength" => 5,
                 "name" => "Product name",
                 "unique" => true,
             ),
             "product_description" => array(
-                "max-length" => 1000,
-                "min-length" => 5,
+                "maxLength" => 1000,
+                "minLength" => 5,
                 "name" => "Product description",
                 "unique" => false,
             ),

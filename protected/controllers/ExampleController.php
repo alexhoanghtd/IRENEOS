@@ -24,7 +24,9 @@ class ExampleController extends CTController {
     }
 
     public function actionView($param) {
-        Vproduct::deleteByID(2);
+        $product = new Product();
+        //print_r($product->fieldRules());
+        //print_r($product->getTableStruct());
     }
     public function actionAjaxTest($pID){
         //echo $pID;

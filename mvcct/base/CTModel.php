@@ -49,6 +49,9 @@ class CTModel extends CTSQLite implements IDBRecord {
         //$this->generateInsertQuery();
     }
 
+    public function fieldRules(){
+        return array();
+    }
     /**
      * get all the basic structure of the table according to model name
      * set to $this->table
@@ -60,7 +63,7 @@ class CTModel extends CTSQLite implements IDBRecord {
         }else{
             $tableName = $this->tableName;
         }
-
+        //$fieldRules = $this->fieldRules();
         //querry table structure
         $table = $this->db->query("pragma table_info(" . $tableName . ")");
         //building the structure
@@ -68,19 +71,28 @@ class CTModel extends CTSQLite implements IDBRecord {
             //print_r($col);
             $this->table[$col['name']] = array(
                 'colName' => $col['name'], // Name of colum in the database
-                'name' => null, // name definition
+                'name' => $this->getFieldRule($col['name'], 'name'), // name definition
                 'type' => $col['type'], // data type of the colum
-                'maxLength' => null, // the length of the col in the table
-                'minLength' => null,
+                'maxLength' => $this->getFieldRule($col['name'], 'maxLength'), // the length of the col in the table
+                'minLength' => $this->getFieldRule($col['name'], 'minLength'),
                 'required' => $col['notnull'], // is the colum value
-                'unique' => false, // default is unique = none
+                'unique' => $this->getFieldRule($col['name'], 'unique'), // default is unique = none
                 'pk' => $col['pk'], // is pk
             );
             //echo $col['name'].'|'.$col['type'].'<br />';
         }
         //print_r($this->table);
     }
-
+    private function getFieldRule($colname,$rulename){
+        $fieldRules = $this->fieldRules();
+        //print_r($fieldRules);
+        if(isset($fieldRules[$colname][$rulename])){
+            //echo $fieldRules[$colname][$rulename];
+            return $fieldRules[$colname][$rulename];
+        }else{
+            return "";
+        }
+    }
     /**
      * get value of a cell with it's name
      * return value of the cell if it exist
@@ -473,6 +485,26 @@ class CTModel extends CTSQLite implements IDBRecord {
        }
        //echo $query;
        return $query;
+       
+   }
+   
+   public function validate(){
+       $error = aray();
+       $fieldRules = $this->fieldRules();
+       foreach($this->table as $col){
+       }
+   }
+   
+   private function checkRequired($fieldName,$fieldRules,$fieldValue){
+       if($this->table[$fieldName]['required']){
+           if(!isset($this->row[$fieldName])){
+               return $this->table[$fieldName]['name']." is required";
+           }else{
+               if(empty($this->row[$fieldName])){
+                   return $this->table[$fieldName]['name']." can't be blank";
+               }
+           }
+       }
        
    }
 }
