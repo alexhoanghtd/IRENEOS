@@ -124,4 +124,16 @@ class CT {
         }
     }
 
+    /**
+     * redirect to da lokation
+     * @author duyht <duyht@smartosc.com>
+     * @created 6 Nov 2013
+     * @copyright &copy; 2013 Creative Team 
+     */
+    public static function redirect_to( $location = NULL ) {
+        if ($location != NULL) {
+            header("Location: {$location}");
+            exit;
+        }
+    }
 }

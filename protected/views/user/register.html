@@ -1,27 +1,30 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>	
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>И | NEW ARRIVALS</title>
+	<title>И | COLLECTIONS</title>
 	<link rel="stylesheet" type="text/css" href="css/default.css">
+	<link rel="stylesheet" type="text/css" href="css/registration.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<link rel="stylesheet" type="text/css" href="css/collection-view.css">
+	<link rel="stylesheet" type="text/css" href="css/grid-group-view.css">
+	<link rel="stylesheet" type="text/css" href="css/breadcrumbs">
 	<script type="text/javascript" src="js/jquery2.js"></script>
 	<script type="text/javascript" src="js/responsive.js"></script>
 	<script type="text/javascript" src="js/elements.js"></script>
-	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>	
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			mainLayoutControl();
 			searchStyle();
-			//gridController();
+			gridController();
 		})
 	</script>
 </head>
 <body class="clearfix">
 	<div id="container" class="desktop-view">
-		<!--START HEADER MENU-->	
+
+		<!--THE MAIN MENU SECTION -->
 		<div id="header-menu" class="clearfix">
 			<div id="panel-setting">
 				<div id="search-box">
@@ -45,8 +48,8 @@
 				<div id="main-menu">
 					<nav>
 						<ul id="main-menu-items">
-							<li><a href="#" class="active">New Arrivals</a></li>
-							<li><a href="#">Collections</a></li>
+							<li><a href="#">New Arrivals</a></li>
+							<li><a href="#" class="active">Collections</a></li>
 							<li><a href="#">About Us</a></li>
 							<li><a href="#">Contact Us</a></li>
 							<li><a href="#">Visit store</a></li>
@@ -60,56 +63,70 @@
 				<span id="phone-number">+84 168 340 8828</span>
 			</div>
 		</div>
-		<div id="content-container">
-		<div id="product-full-view">
-			<ul id="product-list">
-				<li>
-					<div class="product-slider clearfix">
-						<div class="product-detail">
-							<h1>Disa Navy</h1>
-							<p>Disa Navy islum pasta lorem ca <br />brighto nona khava itinial maniac</p>
-							<a href="#" class="buy-item">Buy Disa Navy</a>
+
+		<!--THE MAIN CONTENT SECTION -->
+		<div id="content-container" class="clearfix">
+			<div id="create-header">
+				<div class="accountsection-header-title">
+					<h2>Create An Account</h2>
+				</div>
+			</div>
+			<div class="section-content">
+				<div class="form-wrap">
+					<form id="sign-up-form" name="sign-up-form" method="post">
+						<h3 class="sign-up-title">Your Account Info</h3>
+						<div id="sign-up-main-contents">
+							<div id="info-fields">
+								<ul id="input-lists">
+									<li class="username">
+										<label>User Name</label>
+										<input name="username" type="text" maxlength="50" value>
+									</li>	
+									<li class="password">
+										<label>Password</label>
+										<input name="password" type="password" maxlength="50" value>
+									</li>
+									<li class="cpassword">
+										<label>Confirm Password</label>
+										<input name="cpassword" type="password" maxlength="50" value>
+									</li>	
+									<li class="firstname">
+										<label>First Name</label>
+										<input name="firstName" type="text" maxlength="50" value>
+									</li>
+									<li class="lastname">
+										<label>Last Name</label>
+										<input name="lastName" type="text" maxlength="50" value>
+									</li>
+									<li class="mobile">
+										<label>Mobile</label>
+										<input name="mobile" type="text" maxlength="50" value>
+									</li>
+									<li class="email">
+										<label>Email Address</label>
+										<input name="address" type="text" maxlength="50" value>
+									</li>
+									<li class="address">
+										<label>Address</label>
+										​<textarea id="txtArea" rows="10" cols="70"></textarea>
+									</li>
+								</ul>
+
+								<div class="actions">
+									<ul>
+										<li class="submit-button">
+											<i><input type="submit" value="Create Account"></i>
+										</li>
+										<li class="reset-button">
+											<i><input type="reset" value="Reset Fields"></i>
+										</li>
+									</ul>
+								</div>
+							</div>
 						</div>
-					</div>	
-				</li>
-				<li>
-					<div class="product-slider clearfix">
-						<div class="product-detail">
-							<h1>Disa Navy</h1>
-							<p>Disa Navy islum pasta lorem ca <br />brighto nona khava itinial maniac</p>
-							<a href="#" class="buy-item">Buy Disa Navy</a>
-						</div>
-					</div>	
-				</li>
-				<li>
-					<div class="product-slider clearfix">
-						<div class="product-detail">
-							<h1>Disa Navy</h1>
-							<p>Disa Navy islum pasta lorem ca <br />brighto nona khava itinial maniac</p>
-							<a href="#" class="buy-item">Buy Disa Navy</a>
-						</div>
-					</div>	
-				</li>
-				<li>
-					<div class="product-slider clearfix">
-						<div class="product-detail">
-							<h1>Disa Navy</h1>
-							<p>Disa Navy islum pasta lorem ca <br />brighto nona khava itinial maniac</p>
-							<a href="#" class="buy-item">Buy Disa Navy</a>
-						</div>
-					</div>	
-				</li>
-				<li>
-					<div class="product-slider clearfix">
-						<div class="product-detail">
-							<h1>Disa Navy</h1>
-							<p>Disa Navy islum pasta lorem ca <br />brighto nona khava itinial maniac</p>
-							<a href="#" class="buy-item">Buy Disa Navy</a>
-						</div>
-					</div>	
-				</li>	
-			</ul>
-		</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>	
 </body>
