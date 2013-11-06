@@ -16,6 +16,7 @@ class MainMenu {
     private function menuList($menuType) {
         $menuList = array(
             "1" => array(
+                'login' => 'Site/Login/',
                 'new arrivals' => 'http://irene.local',
                 'collections' => '/Collection/',
                 'about us' => '/Site/About/',

@@ -7,17 +7,13 @@
  * @copyright &copy; 2013 Createve Team 
  */
 
-//fuck this shit! im so tired right now :P
-
-
 class UserController extends CTController{
-    public function actionTestGetUser($id) {
+    public function actionGetUser($id) {
         //$model = $this->loadModel('User');
         //$userData = $model->getUser($id);
         //this->render
-        $id=1;
         if (!empty($id)) {
-            $model = $this->loadModel('User');
+            $model = new User();
             $row = $model->getUser($id);
             if (empty($row)) {
                 Bootstrap::error('404');
@@ -30,19 +26,32 @@ class UserController extends CTController{
         }
     }
 
-    public function actionTestGetUserRole($id) {
-        //$model = $this->loadModel('User');
-        //$userData = $model->getUser($id);
-        //this->render
-        $id=1;
+    public function actionGetUserRole($id) {
+        
         if (!empty($id)) {
-            $model = $this->loadModel('User');
+            $model = new User();
             $row = $model->getUserRole($id);
             if (empty($row)) {
                 Bootstrap::error('404');
             } else {
                 $userRole = $row;
                 echo "Get User's role successful! Role is " .$userRole;
+            }
+        }else{
+            header("Location: http://irene.local/");
+        }
+    }
+
+    public function actionBlockUser($id) {
+        
+        if (!empty($id)) {
+            $model = new User();
+            $row = $model->blockUser($id);
+            if (empty($row)) {
+                Bootstrap::error('404');
+            } else {
+                $userName = $row;
+                echo "Block user successful! User name is " .$userName;
             }
         }else{
             header("Location: http://irene.local/");
