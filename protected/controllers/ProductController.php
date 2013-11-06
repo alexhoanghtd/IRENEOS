@@ -39,6 +39,9 @@ class ProductController extends CTController {
             header("Location: http://irene.local/Category/");
         }
     }
+
+    /* test */
+
     public function actionViewAjax($id) {
         if (!empty($id)) {
             $model = new Product();
@@ -55,6 +58,7 @@ class ProductController extends CTController {
             echo 'noproduct available';
         }
     }
+
     /**
      * Action to create a new product
      */
@@ -105,7 +109,7 @@ class ProductController extends CTController {
                 }
             }
         }
-        CT::widgets('MainMenu')->setActive(USER_MENU,'visit store');
+        CT::widgets('MainMenu')->setActive(USER_MENU, 'visit store');
         $this->layout = 'main';
         $this->render('create', 'example');
     }
@@ -124,6 +128,7 @@ class ProductController extends CTController {
                     if ($oldProductInfo->getVal('product_name') != $product->getVal('product_name')) {
                         //if the folder name is updated
                         $product->updatePicUrls();
+                        
                     }
                     echo 'update product basic info sucessfully <br/>';
                 } else {
@@ -139,7 +144,7 @@ class ProductController extends CTController {
             $model->get($id);
             $picture = new Pictures();
             $pictureUrls = Pictures::getProductPictures($id);
-            CT::widgets('MainMenu')->setActive(USER_MENU,'visit store');
+            CT::widgets('MainMenu')->setActive(USER_MENU, 'visit store');
             $this->render('update', array(
                 'model' => $model->getData(),
                 'pictureUlrs' => $pictureUrls,
@@ -148,8 +153,9 @@ class ProductController extends CTController {
             header("Location: http://irene.local/Category/");
         }
     }
-    
-    /**just for testing **/
+
+    /*     * just for testing * */
+
     public function actionTest() {
         $product = new Product();
         $product->setVal('product_name', 'kamasutra $*#* rada zenga');
@@ -164,4 +170,13 @@ class ProductController extends CTController {
         }
         return false;
     }
+
+    public function actionAjaxSearch() {
+        //print_r($_POST);
+        if (isset($_POST['name'])) {
+            $products = Vproduct::search($_POST['name']);
+            $this->renderAjax('_userSearch', $products);
+        }
+    }
+
 }

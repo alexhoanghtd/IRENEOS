@@ -33,15 +33,19 @@
 					<img src="<?php echo ct::baseURL()?>/images/icons/searbt.png" style="float:left;padding-right: 10px;">
 					<form id="search-form">
 						<input tpye="text" name="search-input" id="search-input" placeholder="search..."
-                                                       onkeyup="search(this)">
+                                                       onkeyup="ajaxSearch(this)">
 						<div id="search-border"></div>
 					</form>
+
 				</div>
 				<div id="ajust-view-bt"style="float:right;">
 					<img src="<?php echo ct::baseURL()?>/images/icons/close-bt.png">
 				</div>
 			</div>
 			<div id="menu-wrapper">
+				<div id="user-search-output">
+
+				</div>
 				<div id="main-logo-wrapper">
 					<a href="#" id="main-logo">И</a>
 				</div>

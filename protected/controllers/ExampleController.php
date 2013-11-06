@@ -24,7 +24,7 @@ class ExampleController extends CTController {
     }
 
     public function actionView($param) {
-        $this->render('ajaxTest', 'abc');
+        Vproduct::deleteByID(2);
     }
     public function actionAjaxTest($pID){
         //echo $pID;

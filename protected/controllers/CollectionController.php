@@ -11,7 +11,7 @@ class CollectionController extends CTController {
     public function actionIndex() {
         $model = new Collection();
         $data = $model->getCollectionList();
-        CT::widgets('MainMenu')->setActive('collections');
+        CT::widgets('MainMenu')->setActive(USER_MENU,'collections');
         $this->render('index', $data);
         exit;
     }
