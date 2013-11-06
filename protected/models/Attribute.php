@@ -13,4 +13,15 @@
  */
 class Attribute extends CTModel {
 
+    public function fieldRules() {
+        return array(
+            "id" => array(
+                "max-length" => 20,
+                "min-length" => 1,
+                "name" => "identitier",
+                "unique" => true,
+            ),
+        );
+    }
+
 }

@@ -8,14 +8,26 @@
 
 class Product extends CTModel {
 
-    public function tableRule() {
+    public function fieldRules() {
         return array(
-            'id' => array(
-                'length' => 10,
-                'label' => 'Id',
+            "id" => array(
+                "max-length" => 20,
+                "min-length" => 1,
+                "name" => "identitier",
+                "unique" => true,
             ),
-            'product_name' => array(
-            )
+            "product_name" => array(
+                "max-length" => 200,
+                "min-length" => 5,
+                "name" => "Product name",
+                "unique" => true,
+            ),
+            "product_description" => array(
+                "max-length" => 1000,
+                "min-length" => 5,
+                "name" => "Product description",
+                "unique" => false,
+            ),
         );
     }
 
@@ -65,7 +77,7 @@ class Product extends CTModel {
     public function updatePicUrls() {
         $productID = $this->getVal('id');
         $newFolderName = $this->generateFolderName();
-        $pictures = Pictures::getProductPictureModels($productID);
+        $pictures = Pictures::getCategoryPictureModels($productID);
         foreach ($pictures as $pic) {
             if ($pic->getVal('type') == 1) {
                 $path = $pic->getVal('url');
@@ -127,6 +139,7 @@ class Product extends CTModel {
             }
         }
     }
+
     /**
      * get attribute value coressponding to itself
      * @return boolean|array
@@ -153,15 +166,17 @@ class Product extends CTModel {
             return false;
         }
     }
+
     /**
      * get available attribute group
      * @param type $id
      */
-    public function getProductSize($id = 0){
-        if($id != 0){
+    public function getProductSize($id = 0) {
+        if ($id != 0) {
             $model = new Product($id);
-        }else{
+        } else {
             $model = new Product($this->getVal('id'));
         }
     }
+
 }

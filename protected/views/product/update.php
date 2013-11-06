@@ -1,5 +1,8 @@
 <!-- layout $content will be shown here -->
-<?php $product = $data['model'];?>
+<?php 
+$product = $data['model'];
+print_r($data);
+?>
 <form id="update-product" class="l-2cols clearfix content-inner" 
       method="POST" 
       action="/product/Update/<?=$product['id']?>"

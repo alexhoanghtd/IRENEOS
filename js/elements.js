@@ -4,7 +4,11 @@ function searchStyle() {
     });
     $("input#search-input").blur(function() {
         $("div#search-box").removeClass("input-focused");
+        document.getElementById("user-search-output").innerHTML = "";
     });
+}
+function ajaxSearch(input){
+    $("#user-search-output").load("http://irene.local/product/AjaxSearch/",{"name": input.value});
 }
 function preview(input) {
     parent = input.parentNode

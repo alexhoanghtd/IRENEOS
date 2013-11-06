@@ -20,11 +20,11 @@ class SiteController extends CTController{
     }
     
     function actionAbout(){
-        CT::widgets('MainMenu')->setActive('about us');
+        CT::widgets('MainMenu')->setActive(USER_MENU,'about us');
         $this->render('about','xampledata');
     }
         function actionContact(){
-        CT::widgets('MainMenu')->setActive('contact us');
+        CT::widgets('MainMenu')->setActive(USER_MENU,'contact us');
         $this->render('about','xampledata');
     }
 

@@ -27,11 +27,12 @@ class CTView{
      * @param string $view name of the view blue print that use $data as the 
      * information needed to display
      */
-    private function renderContent($data,$view){
+    public function renderContent(){
         //execute the php content and return it as string, then you can echo it later
         ob_start();
+        $data = $this->data;
         //get the php view file path
-        $viewPath = BASE_PATH.'/protected/views/'.$this->controllerName.'/'.$view.'.php';
+        $viewPath = BASE_PATH.'/protected/views/'.$this->controllerName.'/'.$this->viewBluePrint.'.php';
         include($viewPath);
         $returned = ob_get_contents();
         ob_end_clean();
@@ -49,7 +50,7 @@ class CTView{
      */
     public function show(){
         //render the content part
-        $content = $this->renderContent($this->data, $this->viewBluePrint);
+        $content = $this->renderContent(    );
         $this->buildView($content);
     }
 
