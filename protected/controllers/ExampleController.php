@@ -18,9 +18,7 @@ class ExampleController extends CTController {
     }
 
     public function actionIndex($param = 0) {
-        echo 'you are in index action of Example controller<br>';
-        echo 'your role is'.CT::user()->getRole();
-        print_r($_SESSION);
+        $this->render('index', '');
     }
 
     public function actionView($param) {

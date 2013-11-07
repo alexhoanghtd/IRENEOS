@@ -50,7 +50,7 @@ class CTView{
      */
     public function show(){
         //render the content part
-        $content = $this->renderContent(    );
+        $content = $this->renderContent();
         $this->buildView($content);
     }
 

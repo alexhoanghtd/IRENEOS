@@ -1,0 +1,17 @@
+.ct-list-tbl tr{
+	line-height: 30px;
+}
+.ct-list-tbl tr td{
+	padding: 0px 10px;
+}
+.ct-list-tbl tr:first-child{
+	font-size: 12px;
+	font-weight: bold;
+	font-family: helvetica, sans-serif;
+	color: #999;
+	line-height: 40px;
+	letter-spacing: 1px;
+}
+.ct-list-tbl tr:nth-child(odd){
+	background-color: #ddd;
+}
