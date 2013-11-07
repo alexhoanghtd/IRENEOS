@@ -67,6 +67,7 @@ class ProductController extends CTController {
             $product = $_POST['product'];
             $model = new Product();
             $model->setData($product);
+            print_r($_POST['product']);
             //create product with the val get from form
             if ($model->create()) {
                 $productName = $model->getVal('product_name');

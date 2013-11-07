@@ -149,33 +149,48 @@ class Category extends CTModel {
 
     public function updatePicUrls() {
         $categoryID = $this->getVal('id');
-        $newFolderName = $this->generateFolderName();
+        $newFolderName = "categories";
         $pictures = Pictures::getCategoryPictureModels($categoryID);
+
         foreach ($pictures as $pic) {
+
             if ($pic->getVal('type') == 1) {
                 $path = $pic->getVal('url');
             }
         }
-        $folders = explode('/', $path);
-        $oldDir = BASE_PATH;
-        for ($i = 0; $i < 4; $i++) {
-            $oldDir .= $folders[$i] . '/';
+        $fileName = explode('/', $path);
+        print_r($fileName);
+        $extension = explode('.', $fileName[3]);
+        print_r($extension);
+        $oldDir = BASE_PATH . $path;
+        $newDir = BASE_PATH . "/images/" . $newFolderName . "/" . $_POST['category']['name'] . "." . $extension[1];
+        print_r($newDir);
+        rename($oldDir, $newDir);
+
+        foreach ($pictures as $pic) {
+            $newUrl = "/images/" . $newFolderName . "/" . $_POST['category']['name'] . "." . $extension[1];
+            $pic->setVal('url', $newUrl);
+            $pic->setVal('name', $_POST['category']['name']);
+            $pic->update();
         }
-        $newDir = BASE_PATH . '/images/' . $newFolderName . '/';
-        if (rename($oldDir, $newDir)) {
-            foreach ($pictures as $pic) {
-                $newUrl = str_replace($folders[2] . '/' . $folders[3], $newFolderName, $pic->getVal('url'));
-                $pic->setVal('url', $newUrl);
-                $pic->setVal('name', $this->getVal('name'));
-                $pic->update();
-            }
+    }
+
+    public function deleteFile($id) {
+        $db = CTSQLite::connect();
+        $getUrlQuery = 'SELECT * FROM ic_pictures WHERE category_id=' . $id;
+        $results = $db->query($getUrlQuery);
+        if ($row = $results->fetchArray()) {
+            print_r($row);
+            unlink(BASE_PATH . $row['url']);
         }
+        $db->close();
+        unset($db);
     }
 
     public function updatePictures($files) {
         $marsk = array();
         $uploadMarsk = array();
-        $folderName = $this->generateFolderName();
+        $folderName = "categories";
         $pictures = Pictures::getCategoryPictureModels($this->getVal('id'));
         foreach ($pictures as $picture) {
             array_push($marsk, $picture);
@@ -186,8 +201,17 @@ class Category extends CTModel {
         for ($i = 0; $i < 4; $i++) {
             if (!empty($uploadMarsk[$i]['name'])) {
                 $uploadedTo = Pictures::uploadPicture($uploadMarsk[$i], $folderName);
+                // Get extension of file upload       
+                print_r($uploadMarsk[$i]['name']);
+                $info = new SplFileInfo($uploadMarsk[$i]['name']);
+                $extension = $info->getExtension();
+                // Rename File upload followed by CategoryName
+                $oriName = BASE_PATH . "/images/" . $folderName . "/" . $uploadMarsk[$i]['name'];
+                $newName = BASE_PATH . "/images/" . $folderName . "/" . $_POST['category']['name'] . "." . $extension;
+                rename($oriName, $newName);
+                $url = "/images/" . $folderName . "/" . $_POST['category']['name'] . "." . $extension;
                 if (isset($marsk[$i])) {
-                    $marsk[$i]->setVal('url', $uploadedTo);
+                    $marsk[$i]->setVal('url', $url);
                     if ($marsk[$i]->update()) {
                         echo 'updated picture to db <br/>';
                     } else {
@@ -195,7 +219,7 @@ class Category extends CTModel {
                     }
                 } else {
                     $marsk[$i] = new Pictures();
-                    $marsk[$i]->setVal('url', $uploadedTo);
+                    $marsk[$i]->setVal('url', $url);
                     $marsk[$i]->setVal('name', $this->getVal('name'));
                     $marsk[$i]->setVal('type', 1);
                     $marsk[$i]->setVal('category_id', $this->getVal('id'));
