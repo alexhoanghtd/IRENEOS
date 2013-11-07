@@ -9,13 +9,16 @@
  */
 class Category extends CTModel {
 
+        /**
+     * get id,name of category followed by is_collection=0
+     */
     static function getCategory() {
         $db = CTSQLite::connect();
         $getCategoryQuery = 'SELECT id, name FROM ic_category WHERE is_collection=0';
         $results = $db->query($getCategoryQuery);
         $result_rows = array();
         while ($row = $results->fetchArray()) {
-            array_push($result_rows, $row);
+            $result_rows[$row['id']]= $row;
         }
         return $result_rows;
         $db->close();

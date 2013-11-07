@@ -161,5 +161,19 @@ class CategoryController extends CTController {
         }
         return false;
     }
+    
+    /**
+     * 
+     */
+    public function actionList(){
+        $model = new Category();
+        $data = $model->getCategoryList();
+        //print_r($data);
+        CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'visit store');
+        $this->render('list', $data);
+        //header("Location: http://irene.local/");
+        /* Make sure that code below does not get executed when we redirect. */
+        exit;     
+    }
 
 }
