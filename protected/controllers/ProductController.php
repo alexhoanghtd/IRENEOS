@@ -120,8 +120,10 @@ class ProductController extends CTController {
      */
     public function actionUpdate($id) {
         if (isset($_POST['product'])) {
+            print_r($_POST['product']);
             $product = new Product();
             $product->setData($_POST['product']);
+            //check if the new info is different than origin
             if ($product->changesThanOrigin()) {
                 $oldProductInfo = new Product($_POST['product']['id']);
                 if ($product->update()) {
@@ -133,6 +135,8 @@ class ProductController extends CTController {
                 } else {
                     echo 'update product failed';
                 }
+            }else{
+                echo "<br/>Basic info doesn't changes than origin";
             }
             if ($this->hasChanges($_FILES)) {
                 $product->updatePictures($_FILES);

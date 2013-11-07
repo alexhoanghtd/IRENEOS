@@ -3,7 +3,7 @@
 $product = $data['model'];
 $categoryID = $data['categoryID'];
 $categories = Category::getCategory();
-print_r($categories);
+//print_r($categories);
 ?>
 <form id="update-product" class="l-2cols clearfix content-inner" 
       method="POST" 
@@ -77,11 +77,14 @@ print_r($categories);
             <div>
                 <span>Product category:</span>
                 
-                <select>
+                <select name="product[categoryID]">
                     <option value="-1" selected>Chose Category..</option>
                     <?php if($categories){ 
                         foreach($categories as $category) {?>
-                        <option><?=$category['name']?></option>
+                        <option value="<?=$category['id']?>"
+                                <?=($category['id']==$categoryID)? " selected": ""?> >
+                            <?=$category['name']?>
+                        </option>
                     <?php }}?>
                 </select>
             </div>

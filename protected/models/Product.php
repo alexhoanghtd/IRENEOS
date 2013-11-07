@@ -181,5 +181,16 @@ class Product extends CTModel {
             $model = new Product($this->getVal('id'));
         }
     }
-
+    /**
+     * Update the category that the product belong to
+     * @param type $categoryID
+     */
+    public function updateCategory($categoryID){
+        $categories = Category::getCategory();
+        if($categoryID > 0){
+            CategoryProduct::updateCategory($this->getVal('id'), $categoryID);
+        }else{
+            echo 'the category you add is not valid';
+        }
+    }
 }
