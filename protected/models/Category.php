@@ -11,7 +11,7 @@ class Category extends CTModel {
 
     static function getCategory() {
         $db = CTSQLite::connect();
-        $getCategoryQuery = 'SELECT id, name FROM ic_category WHERE is_collection=1';
+        $getCategoryQuery = 'SELECT id, name FROM ic_category WHERE is_collection=0';
         $results = $db->query($getCategoryQuery);
         
         while ($row = $results->fetchArray()) {
