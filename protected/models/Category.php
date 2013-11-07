@@ -9,22 +9,15 @@
  */
 class Category extends CTModel {
 
-    public function getCategory($id) {
+    static function getCategory() {
         $db = CTSQLite::connect();
-        $getCategoryQuery = 'SELECT * FROM ic_category WHERE id=' . $id;
+        $getCategoryQuery = 'SELECT id, name FROM ic_category WHERE is_collection=1';
         $results = $db->query($getCategoryQuery);
-        if ($row = $results->fetchArray()) {
-            // get URL from table ic_pictures
-            $getPicQuery = 'SELECT * FROM ic_pictures WHERE type=1 AND category_id=' . $id;
-            $covers = $db->query($getPicQuery);
-            $cover = $covers->fetchArray();
-            $coverURL = $cover['url'];
-            $row['coverURL'] = $coverURL;
-
+        
+        while ($row = $results->fetchArray()) {
             return $row;
-        } else {
-            return false;
         }
+        
         $db->close();
         unset($db);
     }
