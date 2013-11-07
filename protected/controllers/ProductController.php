@@ -121,7 +121,6 @@ class ProductController extends CTController {
     public function actionUpdate($id) {
         if (isset($_POST['product'])) {
             $product = new Product();
-            print_r($_POST['product']);
             $product->setData($_POST['product']);
             if ($product->changesThanOrigin()) {
                 $oldProductInfo = new Product($_POST['product']['id']);
@@ -129,7 +128,6 @@ class ProductController extends CTController {
                     if ($oldProductInfo->getVal('product_name') != $product->getVal('product_name')) {
                         //if the folder name is updated
                         $product->updatePicUrls();
-                        
                     }
                     echo 'update product basic info sucessfully <br/>';
                 } else {
@@ -141,6 +139,7 @@ class ProductController extends CTController {
             }
         }
         if (!empty($id)) {
+            $categoryID = CategoryProduct::getProductCategory($id);
             $model = new Product();
             $model->get($id);
             $picture = new Pictures();
@@ -149,6 +148,7 @@ class ProductController extends CTController {
             $this->render('update', array(
                 'model' => $model->getData(),
                 'pictureUlrs' => $pictureUrls,
+                'categoryID' => $categoryID,
             ));
         } else {
             header("Location: http://irene.local/Category/");

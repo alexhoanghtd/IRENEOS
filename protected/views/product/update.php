@@ -1,7 +1,7 @@
 <!-- layout $content will be shown here -->
 <?php 
 $product = $data['model'];
-print_r($data);
+//print_r($data);
 ?>
 <form id="update-product" class="l-2cols clearfix content-inner" 
       method="POST" 
@@ -72,6 +72,15 @@ print_r($data);
                        name="product[sale]"
                        value="<?= $product['sale']; ?>"> %
             </span>
+            <div>
+                <span>Product category:</span>
+                <select>
+                    <option>Top</option>
+                    <option>Trouser</option>
+                    <option>Hat</option>
+                    <option>Dresses</option>
+                </select>
+            </div>
             <div>
                 <input type="checkbox" 
                        <?= $product['available']? "checked" : ""?>
