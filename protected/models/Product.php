@@ -186,9 +186,17 @@ class Product extends CTModel {
      * @param type $categoryID
      */
     public function updateCategory($categoryID){
+        //echo 'about to update productid = '.$this->getVal('id').' with categoryid='.$categoryID;
         $categories = Category::getCategory();
-        if($categoryID > 0){
-            CategoryProduct::updateCategory($this->getVal('id'), $categoryID);
+        $categoryIDs = array_keys($categories);
+        if($categoryID > 0 && in_array($categoryID, $categoryIDs)){
+            if(!CategoryProduct::getProductCategory($this->getVal('id'))){
+                //if the product is not set to any categor
+                CategoryProduct::addProductToCategory($this->getVal('id'), $categoryID);
+            }else{
+                //if the product already set to a category
+                CategoryProduct::updateCategory($this->getVal('id'), $categoryID);
+            }
         }else{
             echo 'the category you add is not valid';
         }
