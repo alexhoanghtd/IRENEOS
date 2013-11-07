@@ -9,7 +9,7 @@
  */
 class Category extends CTModel {
 
-        /**
+    /**
      * get id,name of category followed by is_collection=0
      */
     static function getCategory() {
@@ -18,7 +18,7 @@ class Category extends CTModel {
         $results = $db->query($getCategoryQuery);
         $result_rows = array();
         while ($row = $results->fetchArray()) {
-            $result_rows[$row['id']]= $row;
+            $result_rows[$row['id']] = $row;
         }
         return $result_rows;
         $db->close();
@@ -41,13 +41,22 @@ class Category extends CTModel {
             if (empty($row_results[$i]['id'])) {
                 return $row_results;
             } else {
+                // Get Pictures URL
                 $getPicQuery = 'SELECT * FROM ic_pictures WHERE type = 1 AND category_id=' . $row_results[$i]['id'];
                 $covers = $db->query($getPicQuery);
                 $cover = $covers->fetchArray();
                 $coverURL = $cover['url'];
                 $row_results[$i]['coverURL'] = $coverURL;
+
+                // Count number products of 1 category
+                $countProductID = 'SELECT COUNT(product_id) FROM ic_category_product WHERE category_id=' . $row_results[$i]['id'];
+                $num = $db->query($countProductID);
+                $nums = $num->fetchArray();
+                $countProduct = $nums['COUNT(product_id)'];
+                $row_results[$i]['num'] = $countProduct;
             }
         }
+
         return $row_results;
         $db->close();
         unset($db);
@@ -66,8 +75,10 @@ class Category extends CTModel {
         } else {
             $row_results = array();
             $count = 0;
+
             // get all information of products
             while ($product_id = $result->fetchArray()) {
+
                 $getProductQuery = 'SELECT * FROM ic_product WHERE id=' . $product_id['product_id'];
                 $ProductId = $db->query($getProductQuery);
                 while ($row = $ProductId->fetchArray()) {
@@ -75,18 +86,16 @@ class Category extends CTModel {
                     array_push($row_results, $row);
                     $count++;
                 }
-            }
+            }     
+            // get picture URL of product
             for ($i = 0; $i <= $count - 1; $i++) {
-                if (empty($row_results[$i]['cover_id'])) {
-                    return $row_results;
-                } else {
-                    $getPicQuery = 'SELECT * FROM ic_pictures WHERE type=1 AND id=' . $row_results[$i]['cover_id'];
-                    $covers = $db->query($getPicQuery);
-                    $cover = $covers->fetchArray();
-                    $coverURL = $cover['url'];
-                    $row_results[$i]['coverURL'] = $coverURL;
-                }
+                $getPicQuery = 'SELECT * FROM ic_pictures WHERE type=1 AND product_id=' . $row_results[$i]['id'];
+                $covers = $db->query($getPicQuery);
+                $cover = $covers->fetchArray();
+                $coverURL = $cover['url'];
+                $row_results[$i]['coverURL'] = $coverURL;
             }
+
             return $row_results;
             $db->close();
             unset($db);
