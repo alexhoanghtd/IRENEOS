@@ -29,8 +29,8 @@
             <input value="<?= $category['name']?>"  type="text" class="col-right-header" placeholder="Category name" name="category[name]" required>
             <textarea  placeholder="Write the description here...." name="category[description]"><?php echo $category['description']?></textarea>
             <div>
-                <input type="checkbox" name="category[available]" value="1"><label>active</label>
-                <input type="checkbox" name="category[is_new]" value="1"><label>is new</label>
+                <input type="checkbox" name="category[available]" <?php if($category['available']==1){ ?>checked="checked"<?php } ?> /><label>active</label>
+                <input type="checkbox" name="category[is_new]" <?php if($category['is_new']==1){ ?>checked="checked"<?php } ?>><label>is new</label>
                 <input type="hidden" name="category[is_collection]" value="0">
             </div>
             <div class="button-group">

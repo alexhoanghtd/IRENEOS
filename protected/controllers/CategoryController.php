@@ -47,10 +47,11 @@ class CategoryController extends CTController {
     public function actionDelete($id) {
         $category = new Category();
         $category->deleteCategory($id);
+        $category->deleteFile($id);
 
         $pic = new Pictures();
         $pic->deletePicture($id);
-        
+
         $this->layout = 'admin';
         $this->render('delete', $id);
     }
@@ -66,32 +67,39 @@ class CategoryController extends CTController {
                 $categoryName = $model->getVal('name');
                 echo 'Category ' . $categoryName . ' created succesfuly! :)<br/>';
                 $categoryID = $model->getCategoryIdByName($categoryName);
-                $folderName = $model->generateFolderName();
-                //create a folder acording to the product name
-                if (Pictures::createPictureFoler($folderName)) {
-                    //if create folder sucessfully
-                    foreach (array_keys($_FILES) as $key) {
-                        if ($_FILES[$key]['error'] == 0) {
-                            //create a new picture model 
-                            $pic = new Pictures();
-                            //set product_id for the pic
-                            $pic->setVal('category_id', $categoryID);
-                            //set the product name associated with the picture
-                            $pic->setVal('name', $categoryName);
-                            if ($url = Pictures::uploadPicture($_FILES[$key], $folderName)) {
-                                $pic->setVal('type', 1);
-                                $pic->setVal('url', $url);
-                                if ($pic->create()) {
-                                    //echo 'save picture sucessfully <br/>';
-                                } else {
-                                    //echo 'save picture failed <br/>';
-                                }
+                //$folderName = $model->generateFolderName();
+                $folderName = "categories";
+                foreach (array_keys($_FILES) as $key) {
+                    if ($_FILES[$key]['error'] == 0) {
+                        //create a new picture model 
+                        $pic = new Pictures();
+                        //set product_id for the pic
+                        $pic->setVal('category_id', $categoryID);
+                        //set the product name associated with the picture
+                        $pic->setVal('name', $categoryName);
+                        if (Pictures::uploadPicture($_FILES[$key], $folderName)) {
+                            // Get extension of file upload
+                            $info = new SplFileInfo($_FILES[$key]['name']);
+                            $extension = $info->getExtension();
+                            // Rename File upload followed by CategoryName
+                            $oriName = BASE_PATH . "/images/" . $folderName . "/" . $_FILES[$key]['name'];
+                            $newName = BASE_PATH . "/images/" . $folderName . "/" . $categoryName . "." . $extension;
+                            rename($oriName, $newName);
+                            // Set type for the pic
+                            $pic->setVal('type', 1);
+                            // Set url for the pic
+                            $url = "/images/" . $folderName . "/" . $categoryName . "." . $extension;
+                            $pic->setVal('url', $url);
+                            if ($pic->create()) {
+                                //echo 'save picture sucessfully <br/>';
                             } else {
-                                //echo 'failed to upload the picture';
+                                //echo 'save picture failed <br/>';
                             }
                         } else {
-                            //echo 'picture has error';
+                            //echo 'failed to upload the picture';
                         }
+                    } else {
+                        //echo 'picture has error';
                     }
                 }
             }
@@ -104,13 +112,19 @@ class CategoryController extends CTController {
     public function actionUpdate($id) {
         if (isset($_POST['category'])) {
             $category = new Category();
+            //print_r($_POST['category']);
             $category->setData($_POST['category']);
             if ($category->changesThanOrigin()) {
                 $oldCategoryInfo = new Category($_POST['category']['id']);
                 if ($category->update()) {
                     if ($oldCategoryInfo->getVal('name') != $category->getVal('name')) {
                         //if the category name is updated
-                        $category->updatePicUrls();
+                        
+                        $folderName = "categories";
+                        foreach (array_keys($_FILES) as $key) {
+                            Pictures::uploadPicture($_FILES[$key], $folderName);
+                            $category->updatePicUrls();
+                        }
                     }
                     echo 'update category basic info sucessfully <br/>';
                 } else {
@@ -148,15 +162,4 @@ class CategoryController extends CTController {
         return false;
     }
 
-//    public function actionUpdate() {
-//        if (isset($_POST['category'])) {
-//            $model = new Category();
-//            $category = $_POST['category'];
-//            //$model->setData($category);
-//            $model->updateCategory($category);
-//        }
-//        CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'categories');
-//        $this->layout = 'admin';
-//        $this->render('update', 'example');
-//    }
 }
