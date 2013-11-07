@@ -164,6 +164,10 @@ class ProductController extends CTController {
         }
     }
 
+    public function actionDelete($id){
+        $product = new Product($id);
+        $product->delete();
+    }
     /*     * just for testing * */
 
     public function actionTest() {

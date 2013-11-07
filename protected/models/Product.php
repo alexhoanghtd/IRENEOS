@@ -13,7 +13,7 @@ class Product extends CTModel {
             "id" => array(
                 "maxLength" => 20,
                 "minLength" => 1,
-                "name" => "identitier",
+                "name" => "Identitier",
                 "unique" => true,
                 "required" => true,
             ),
@@ -30,7 +30,7 @@ class Product extends CTModel {
                 "name" => "Product description",
                 "unique" => false,
                 "required" => true,
-            ),
+            ),  
             "price" => array(
                 "maxLength" => 1000,
                 "minLength" => 5,
@@ -47,19 +47,26 @@ class Product extends CTModel {
     }
 
     public static function createProduct($productData, $files) {
-        echo 'product data: ---------------------<br>';
         //INSERT PRODUCT DATA STUFFS
         $newProduct = new Product();
         $newProduct->setData($productData);
-        $error = $newProduct->validateCreate();
-        //print_r($newProduct->getTableStruct());
-        if(!$error){
+        if($error = $newProduct->validateCreate()){
             if($newProduct->create()){
-                
+                echo 'created product successfully :)';
+            }else{
+                echo 'failed to create product :(';
             }
         }else{
-            //show error
+            echo 'recheck your data, your data is invalid :(';
         }
+        //print_r($newProduct->getTableStruct());
+//        if(!$error){
+//            if($newProduct->create()){
+//                
+//            }
+//        }else{
+//            //show error
+//        }
         //echo 'product Pictures: ---------------------<br>';
         //print_r($files);
     }

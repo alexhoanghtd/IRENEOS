@@ -502,32 +502,168 @@ class CTModel extends CTSQLite implements IDBRecord {
      * @return FALSE if no error occurs
      */
     public function validateCreate() {
-        $hasErrs = false;
-        foreach ($this->row as $key => $value) {
-            $this->validateRequired($key, $value);
+        $hasErrs = array();
+        foreach ($this->table as $cell) {
+            if ($cell['colName'] != 'id') {
+                $hasErrs[$cell['colName']] = !$this->validateCell($cell);
+            }
         }
-        return $hasErrs;
+        //print_r($hasErrs);
+        foreach($hasErrs as $hasErr){
+            if($hasErr){
+                return false;
+            }
+        }
+        return true;
     }
 
-    private function validateRequired($fieldName, $fieldValue) {
+    public function validateCell($cell) {
+        $fieldName = $cell['colName'];
+        //echo 'checking '.$fieldName.'<br>';
+        if ($this->validateRequired($fieldName)) {
+            $fieldValue = isset($this->row[$fieldName]) ?
+                    $this->row[$fieldName] : "";
+            if (!empty($fieldValue)) {
+                if ($this->validateType($fieldName, $fieldValue)) {
+                    if ($this->validateRegEx($fieldName, $fieldValue)) {
+                        if ($this->validateUnique($fieldName, $fieldValue)) {
+                            $hasErr = false;
+                        } else {
+                            $hasErr = true;
+                        }
+                    } else {
+                        $hasErr = true;
+                    }
+                } else {
+                    $hasErr = true;
+                }
+            }else{
+                $hasErr = false;
+            }
+        } else {
+            $hasErr = true;
+        }
+        return !$hasErr;
+    }
+
+    public function validateRequired($fieldName) {
         $fieldRules = $this->table[$fieldName];
         if ($fieldRules['required']) {
-            if (isset($fieldValue)) {
+            if (isset($this->row[$fieldName])) {
+                $fieldValue = $this->row[$fieldName];
                 if (!empty($fieldValue)) {
-                    
+                    return true;
                 } else {
                     echo $this->getLabel($fieldName) . ' can not be empty </br>';
+                    return false;
                 }
             } else {
                 echo $this->getLabel($fieldName) . 'need to be set </br>';
+                return false;
             }
         } else {
-            return false;
+            return true;
         }
     }
-    
-    private function getLabel($fieldName){
-        $fieldRules =$this->table[$fieldName];
-        return ( empty($fieldRules['name']))?$fieldRules['colName'] : $fieldRules['name'];
+
+    public function validateUnique($fieldName, $fieldValue) {
+        $fieldRules = $this->table[$fieldName];
+        if ($fieldRules['unique']) {
+            $modelClass = get_class($this);
+            $model = new $modelClass();
+            $model->setVal($fieldName, $fieldValue);
+            if ($model->checkExists()) {
+                echo $this->getLabel($fieldName) . " already existed<br>";
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
     }
+
+    public function validateType($fieldName, $fieldValue) {
+        $fieldRules = $this->table[$fieldName];
+        switch ($fieldRules['type']) {
+            case 'FLOAT'://validate if type = float
+                if (filter_var($fieldValue, FILTER_VALIDATE_FLOAT)) {
+                    $valid = true;
+                    if (!empty($fieldRules['maxLength'])) {
+                        if ((float) $fieldValue > (float) $fieldRules['maxLength']) {
+                            echo $this->getLabel($fieldName) . " has to be smaller than or equal to " . $fieldRules['maxLength'];
+                            $valid = false;
+                        }
+                    }
+                    if (!empty($fieldRules['minLength'])) {
+                        //echo 'minLength ='.$fieldRules['minLength'];
+                        if ((float) $fieldValue < (float) $fieldRules['minLength']) {
+                            echo $this->getLabel($fieldName) . " has to be bigger than or equal to " . $fieldRules['minLength'];
+                            $valid = false;
+                        }
+                    }
+                    return $valid;
+                } else {
+                    echo $this->getLabel($fieldName) . ' has to be a float</br>';
+                    return false;
+                }
+                break;
+            case 'INTEGER': // validate if type = INTEGER;
+                if (filter_var($fieldValue, FILTER_VALIDATE_INT)) {
+                    $valid = true;
+                    if (!empty($fieldRules['maxLength'])) {
+                        if ((int) $fieldValue > (int) $fieldRules['maxLength']) {
+                            echo $this->getLabel($fieldName) . " has to be smaller than or equal to " . $fieldRules['maxLength'];
+                            $valid = false;
+                        }
+                    }
+                    if (!empty($fieldRules['minLength'])) {
+                        //echo 'minLength ='.$fieldRules['minLength'];
+                        if ((int) $fieldValue < (int) $fieldRules['minLength']) {
+                            echo $this->getLabel($fieldName) . " has to be bigger than or equal to " . $fieldRules['minLength'];
+                            $valid = false;
+                        }
+                    }
+                    return $valid;
+                } else {
+                    return false;
+                    echo $this->getLabel($fieldName) . ' has to be a integer number';
+                }
+                break;
+            case 'BOOL':
+                if (filter_var($fieldValue, FILTER_VALIDATE_BOOLEAN)) {
+                    return true;
+                } else {
+                    return false;
+                    echo $this->getLabel($fieldName) . ' has to be a Boolean</br>';
+                }
+                break;
+            default :
+                $length = strlen($fieldValue);
+                $valid = true;
+                if (!empty($fieldRules['maxLength'])) {
+                    if ($length > (int) $fieldRules['maxLength']) {
+                        echo $this->getLabel($fieldName) . " has to have maximum " . $fieldRules['maxLength'] . ' characters.';
+                        $valid = false;
+                    }
+                }
+                if (!empty($fieldRules['minLength'])) {
+                    if ($length < (int) $fieldRules['minLength']) {
+                        echo $this->getLabel($fieldName) . " has to have minimum " . $fieldRules['minLength'] . ' characters.';
+                        $valid = false;
+                    }
+                }
+                return $valid;
+        }
+    }
+
+    public function validateRegEx($fieldName, $fieldValue) {
+        return true;
+    }
+
+    public function getLabel($fieldName) {
+        $fieldRules = $this->table[$fieldName];
+        return ( empty($fieldRules['name'])) ? $fieldRules['colName'] : $fieldRules['name'];
+    }
+
 }

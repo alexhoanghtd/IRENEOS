@@ -42,10 +42,10 @@
     <!-- 2 colums layout right col-->
     <div class="col-right">
         <div class="col-right-container pdetail-container">
-            <input value="Irene's" type="text" class="col-right-header" placeholder="Product name" name="product[product_name]" required>
+            <input value="Irene's" type="text" class="col-right-header" placeholder="Product name" name="product[product_name]" >
             <textarea  placeholder="Write the description here...." name="product[product_description]">Irene's colo loran isup erine sora piewso nott. Dusch.</textarea>
             <span class="product-price">
-                <input value ="220" type="text" placeholder="Price" name="product[price]" required> $ <br/>
+                <input value ="220" type="text" placeholder="Price" name="product[price]" > $ <br/>
                 <input type="text" placeholder="Sale" name="product[sale]"> %
             </span>
             <div>
