@@ -78,6 +78,7 @@ class CTModel extends CTSQLite implements IDBRecord {
                 'minLength' => $this->getFieldRule($col['name'], 'minLength'),
                 'required' => $this->getFieldRule($col['name'], 'required'), // is the colum value
                 'unique' => $this->getFieldRule($col['name'], 'unique'), // default is unique = none
+                'regEx' => $this->getFieldRule($col['name'], 'regEx'), //regular expression
                 'pk' => $col['pk'], // is pk
             );
             //echo $col['name'].'|'.$col['type'].'<br />';
@@ -491,5 +492,42 @@ class CTModel extends CTSQLite implements IDBRecord {
         }
         //echo $query;
         return $query;
+    }
+
+    /**
+     * Validate the information stored in model data before insert into database
+     * using those information
+     * 
+     * @return array of error message if there is something wrong
+     * @return FALSE if no error occurs
+     */
+    public function validateCreate() {
+        $hasErrs = false;
+        foreach ($this->row as $key => $value) {
+            $this->validateRequired($key, $value);
+        }
+        return $hasErrs;
+    }
+
+    private function validateRequired($fieldName, $fieldValue) {
+        $fieldRules = $this->table[$fieldName];
+        if ($fieldRules['required']) {
+            if (isset($fieldValue)) {
+                if (!empty($fieldValue)) {
+                    
+                } else {
+                    echo $this->getLabel($fieldName) . ' can not be empty </br>';
+                }
+            } else {
+                echo $this->getLabel($fieldName) . 'need to be set </br>';
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    private function getLabel($fieldName){
+        $fieldRules =$this->table[$fieldName];
+        return ( empty($fieldRules['name']))?$fieldRules['colName'] : $fieldRules['name'];
     }
 }

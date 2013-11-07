@@ -65,50 +65,52 @@ class ProductController extends CTController {
     public function actionCreate() {
         if (isset($_POST['product'])) {
             $product = $_POST['product'];
-            $model = new Product();
-            $model->setData($product);
-            print_r($_POST['product']);
+            Product::createProduct($_POST['product'],$_FILES);
+//            $model = new Product();
+//            $model->setData($product);
+//            print_r($_POST['product']);
             //create product with the val get from form
-            if ($model->create()) {
-                $productName = $model->getVal('product_name');
-                echo 'product' . $productName . ' created succesfuly! :)<br/>';
-                $productID = $model->getProductIdByName($productName);
-                $folderName = $model->generateFolderName();
-                //echo 'folder: ' . $folderName . '<br/>';
-                //create a folder acording to the product name
-                if (Pictures::createPictureFoler($folderName)) {
-                    //if create folder sucessfully
-                    foreach (array_keys($_FILES) as $key) {
-                        if ($_FILES[$key]['error'] == 0) {
-                            //create a new picture model 
-                            $pic = new Pictures();
-                            //set product_id for the pic
-                            $pic->setVal('product_id', $productID);
-                            //set the product name associated with the picture
-                            $pic->setVal('name', $productName);
-                            if ($url = Pictures::uploadPicture($_FILES[$key], $folderName)) {
-                                if ($key == 'cover') {
-                                    $pic->setVal('type', 1);
-                                } else {
-                                    $pic->setVal('type', 2);
-                                }
-                                $pic->setVal('url', $url);
-                                //echo $url;
-                                //print_r($pic->getData());
-                                if ($pic->create()) {
-                                    //echo 'save picture sucessfully <br/>';
-                                } else {
-                                    //echo 'save picture failed <br/>';
-                                }
-                            } else {
-                                //echo 'failed to upload the picture';
-                            }
-                        } else {
-                            //echo 'picture has error';
-                        }
-                    }
-                }
-            }
+//            if ($model->create()) {
+//                $productName = $model->getVal('product_name');
+//                echo 'product' . $productName . ' created succesfuly! :)<br/>';
+//                $productID = $model->getProductIdByName($productName);
+//                $folderName = $model->generateFolderName();
+//                //echo 'folder: ' . $folderName . '<br/>';
+//                //create a folder acording to the product name
+//                if (Pictures::createPictureFoler($folderName)) {
+//                    //if create folder sucessfully
+//                    foreach (array_keys($_FILES) as $key) {
+//                        if ($_FILES[$key]['error'] == 0) {
+//                            //create a new picture model 
+//                            $pic = new Pictures();
+//                            //set product_id for the pic
+//                            $pic->setVal('product_id', $productID);
+//                            //set the product name associated with the picture
+//                            $pic->setVal('name', $productName);
+//                            if ($url = Pictures::uploadPicture($_FILES[$key], $folderName)) {
+//                                if ($key == 'cover') {
+//                                    $pic->setVal('type', 1);
+//                                } else {
+//                                    $pic->setVal('type', 2);
+//                                }
+//                                $pic->setVal('url', $url);
+//                                //echo $url;
+//                                //print_r($pic->getData());
+//                                if ($pic->create()) {
+//                                    //echo 'save picture sucessfully <br/>';
+//                                } else {
+//                                    //echo 'save picture failed <br/>';
+//                                }
+//                            } else {
+//                                //echo 'failed to upload the picture';
+//                            }
+//                        } else {
+//                            //echo 'picture has error';
+//                        }
+//                    }
+//                }
+//                CT::redirect_to(CT::baseURL().'/product/Update/'.$productID);
+//            }
         }
         CT::widgets('MainMenu')->setActive(USER_MENU, 'visit store');
         $this->layout = 'main';

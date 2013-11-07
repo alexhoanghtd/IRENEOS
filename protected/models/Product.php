@@ -31,11 +31,37 @@ class Product extends CTModel {
                 "unique" => false,
                 "required" => true,
             ),
+            "price" => array(
+                "maxLength" => 1000,
+                "minLength" => 5,
+                "name" => "Product price",
+                "required" => true,
+            ),
+            "sale" => array(
+                "maxLength" => 100,
+                "minLength" => 0,
+                "name" => "Product sale",
+                "required" => false,
+            ),
         );
     }
 
-    public function getProduct($id) {
-        
+    public static function createProduct($productData, $files) {
+        echo 'product data: ---------------------<br>';
+        //INSERT PRODUCT DATA STUFFS
+        $newProduct = new Product();
+        $newProduct->setData($productData);
+        $error = $newProduct->validateCreate();
+        //print_r($newProduct->getTableStruct());
+        if(!$error){
+            if($newProduct->create()){
+                
+            }
+        }else{
+            //show error
+        }
+        //echo 'product Pictures: ---------------------<br>';
+        //print_r($files);
     }
 
     public function getProductIdByName($name) {
@@ -181,24 +207,26 @@ class Product extends CTModel {
             $model = new Product($this->getVal('id'));
         }
     }
+
     /**
      * Update the category that the product belong to
      * @param type $categoryID
      */
-    public function updateCategory($categoryID){
+    public function updateCategory($categoryID) {
         //echo 'about to update productid = '.$this->getVal('id').' with categoryid='.$categoryID;
         $categories = Category::getCategory();
         $categoryIDs = array_keys($categories);
-        if($categoryID > 0 && in_array($categoryID, $categoryIDs)){
-            if(!CategoryProduct::getProductCategory($this->getVal('id'))){
+        if ($categoryID > 0 && in_array($categoryID, $categoryIDs)) {
+            if (!CategoryProduct::getProductCategory($this->getVal('id'))) {
                 //if the product is not set to any categor
                 CategoryProduct::addProductToCategory($this->getVal('id'), $categoryID);
-            }else{
+            } else {
                 //if the product already set to a category
                 CategoryProduct::updateCategory($this->getVal('id'), $categoryID);
             }
-        }else{
+        } else {
             echo 'the category you add is not valid';
         }
     }
+
 }
