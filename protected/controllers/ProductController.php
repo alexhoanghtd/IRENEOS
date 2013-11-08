@@ -118,6 +118,9 @@ class ProductController extends CTController {
                 'model' => $model->getData(),
                 'pictureUlrs' => $pictureUrls,
                 'categoryID' => $categoryID,
+                'attributes' => $model->getProductAttributes(),
+                'colors' => Color::getAll(),
+                'sizes' => Size::getAll(),
             ));
         } else {
             header("Location: http://irene.local/Category/");

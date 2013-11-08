@@ -4,7 +4,6 @@ Implimentation By Creative Team*/
 
 /****LAYOUT****/
 div#container{
-	height: 100%;
 }
 /*desktop main layout*/
 div#container.desktop-view div#header-menu{

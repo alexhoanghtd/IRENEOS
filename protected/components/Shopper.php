@@ -13,12 +13,11 @@ class Shopper extends CTUser implements IUserIdentity{
     public function __construct() {
         parent::__construct();
         $this->bag = new Bag();
-        //$this->setRole(CT_VISITOR);
+        $this->setRole(CT_ADMIN);
     }
     
     public function addToBag($bagItem){
         $this->bag->add($bagItem);
-
         $this->save();
     }
     
