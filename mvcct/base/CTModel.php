@@ -302,7 +302,8 @@ class CTModel extends CTSQLite implements IDBRecord {
         $query = $this->generateInsertQuery();
         $stmt = $this->prepareStmt($query);
         //print_r($stmt);
-        return $stmt->execute();
+        $stmt->execute();
+        return $this->db->lastInsertRowID();
     }
 
     /**
