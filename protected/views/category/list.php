@@ -11,7 +11,7 @@
             <table class="ct-list-tbl">
                 <tr>
                     <td></td>
-                    <td>Product</td>  		 		
+                    <td>Category</td>  		 		
                     <td>Number products of category</td>  		
                     <td>Status</td>  		
                     <td>Action</td> 
@@ -21,7 +21,7 @@
                 $status = null;
                 foreach ($data as $items) {
                     if ($items['available'] == 1) {
-                        $status = 'is active';
+                        $status = 'active';
                     } else {
                         $status = 'not active';
                     }   

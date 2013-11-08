@@ -167,7 +167,6 @@ class CategoryController extends CTController {
      */
     public function actionList() {
         $category = new Category();
-        $data = $category->getCategoryList();
         $pic = new Pictures();
         
         // Delete category selected in checkbox
@@ -179,8 +178,9 @@ class CategoryController extends CTController {
             }
         }
         
-        //print_r($data);
-        CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'visit store');
+        $data = $category->getCategoryList();
+        
+        CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'categories');
         $this->render('list', $data);
         //header("Location: http://irene.local/");
         /* Make sure that code below does not get executed when we redirect. */

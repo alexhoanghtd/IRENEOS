@@ -185,7 +185,6 @@ class Category extends CTModel {
         $getUrlQuery = 'SELECT * FROM ic_pictures WHERE category_id=' . $id;
         $results = $db->query($getUrlQuery);
         if ($row = $results->fetchArray()) {
-            print_r($row);
             unlink(BASE_PATH . $row['url']);
         }
         $db->close();
