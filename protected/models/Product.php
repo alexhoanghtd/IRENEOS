@@ -30,7 +30,7 @@ class Product extends CTModel {
                 "name" => "Product description",
                 "unique" => false,
                 "required" => true,
-            ),  
+            ),
             "price" => array(
                 "maxLength" => 1000,
                 "minLength" => 5,
@@ -50,25 +50,39 @@ class Product extends CTModel {
         //INSERT PRODUCT DATA STUFFS
         $newProduct = new Product();
         $newProduct->setData($productData);
-        if($error = $newProduct->validateCreate()){
-            if($newProduct->create()){
-                echo 'created product successfully :)';
-            }else{
+        if ($error = $newProduct->validateCreate()) {
+            if ($id = $newProduct->create()) {
+                $newProduct = new Product($id);
+                $folderName = $newProduct->generateFolderName();
+                echo 'created product info successfully :)';
+                foreach ($_FILES as $type => $data) {
+                    if ($data['error'] == 0) {
+                        $picture = new Pictures();
+                        $picture->setVal('product_id', $id);
+                        $picture->setVal('name', $newProduct->getVal('product_name'));
+                        if ($url = Pictures::uploadPicture($_FILES[$type], $folderName)) {
+                            $picture->setVal('url', $url);
+                            if ($type == 'cover') {
+                                $picture->setVal('type', 1);
+                            } else {
+                                $picture->setVal('type', 2);
+                            }
+                            $picture->create();
+                        } else {
+                            echo 'failed to upload picture';
+                        }
+                    }
+                }
+                //print_r($_FILES);
+                return $id;
+            } else {
                 echo 'failed to create product :(';
+                return false;
             }
-        }else{
+        } else {
             echo 'recheck your data, your data is invalid :(';
+            return false;
         }
-        //print_r($newProduct->getTableStruct());
-//        if(!$error){
-//            if($newProduct->create()){
-//                
-//            }
-//        }else{
-//            //show error
-//        }
-        //echo 'product Pictures: ---------------------<br>';
-        //print_r($files);
     }
 
     public function getProductIdByName($name) {
@@ -113,24 +127,27 @@ class Product extends CTModel {
     public function updatePicUrls() {
         $productID = $this->getVal('id');
         $newFolderName = $this->generateFolderName();
-        $pictures = Pictures::getCategoryPictureModels($productID);
-        foreach ($pictures as $pic) {
-            if ($pic->getVal('type') == 1) {
-                $path = $pic->getVal('url');
-            }
-        }
-        $folders = explode('/', $path);
-        $oldDir = BASE_PATH;
-        for ($i = 0; $i < 4; $i++) {
-            $oldDir .= $folders[$i] . '/';
-        }
-        $newDir = BASE_PATH . '/images/' . $newFolderName . '/';
-        if (rename($oldDir, $newDir)) {
+        $pictures = Pictures::getProductPictureModels($productID);
+        if (count($pictures) > 0) {
             foreach ($pictures as $pic) {
-                $newUrl = str_replace($folders[2] . '/' . $folders[3], $newFolderName, $pic->getVal('url'));
-                $pic->setVal('url', $newUrl);
-                $pic->setVal('name', $this->getVal('product_name'));
-                $pic->update();
+                if ($pic->getVal('type') == 1) {
+                    $path = $pic->getVal('url');
+                }
+            }
+            //get old picture directory
+            $folders = explode('/', $path);
+            $oldDir = BASE_PATH;
+            for ($i = 0; $i < 4; $i++) {
+                $oldDir .= $folders[$i] . '/';
+            }
+            $newDir = BASE_PATH . '/images/' . $newFolderName . '/';
+            if (rename($oldDir, $newDir)) { //remame to new picture directory
+                foreach ($pictures as $pic) {//update database
+                    $newUrl = str_replace($folders[2] . '/' . $folders[3], $newFolderName, $pic->getVal('url'));
+                    $pic->setVal('url', $newUrl);
+                    $pic->setVal('name', $this->getVal('product_name'));
+                    $pic->update();
+                }
             }
         }
     }
@@ -164,7 +181,11 @@ class Product extends CTModel {
                     $marsk[$i] = new Pictures();
                     $marsk[$i]->setVal('url', $uploadedTo);
                     $marsk[$i]->setVal('name', $this->getVal('product_name'));
-                    $marsk[$i]->setVal('type', 2);
+                    if ($i == 0) {
+                        $marsk[$i]->setVal('type', 1);
+                    } else {
+                        $marsk[$i]->setVal('type', 2);
+                    }
                     $marsk[$i]->setVal('product_id', $this->getVal('id'));
                     if ($marsk[$i]->create()) {
                         echo 'inserted new picture to db <br/>';
