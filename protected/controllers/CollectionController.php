@@ -20,7 +20,7 @@ class CollectionController extends CTController {
         if (!empty($id)) {
             $model = new Collection();
             $data = $model->getCollectionProducts($id);
-            CT::widgets('MainMenu')->setActive('collections');
+            CT::widgets('MainMenu')->setActive(USER_MENU,'collections');
             $this->render('view', $data);
         } else {
             header("Location: http://irene.local/Collection");
@@ -33,7 +33,7 @@ class CollectionController extends CTController {
             $model->deleteCollection($_POST['collection']['id']);
         }
         $this->layout = 'main';
-        CT::widgets('MainMenu')->setActive('collections');
+        CT::widgets('MainMenu')->setActive(USER_MENU,'collections');
         $this->render('delete', 'data');
     }
 
@@ -48,7 +48,7 @@ class CollectionController extends CTController {
             }
         }
         $this->layout = 'main';
-        CT::widgets('MainMenu')->setActive('collections');
+        CT::widgets('MainMenu')->setActive(ADMIN_MENU,'collections');
         $this->render('update', 'data');
     }
 

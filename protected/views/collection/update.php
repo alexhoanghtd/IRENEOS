@@ -1,19 +1,48 @@
 <!-- layout $content will be shown here -->
-<form id="update-collection"
+<form id="update-collection" class="l-2cols clearfix content-inner"
       method="POST"
       action="/collection/Update/"
       enctype="multipart/form-data">
-    <input type="text" name="collection[id]" placeholder="collection id"/><br>
-    <input type="text" name="collection[name]" placeholder="name"/><br>
-    <input type="text" name="collection[description]" placeholder="description"/><br>
-    <!--<textarea name="collection[description]" placeholder="description"/></textarea><br>-->
-    <!--<input type="checkbox" name="collection[available]" value='1'/>Available<br>-->
-    <input type="text" name="collection[start_date]" placeholder="start date"/><br>
-<!--    <input type="checkbox" name="collection[is_new]" value='1'/>Is New<br>
-    <input type="checkbox" name="collection[is_collection]" value='1'/>Is Collection<br>-->
-    <input type="text" name="collection[vote]" placeholder="vote"/><br>
-    <input type="text" name="collection[view]" placeholder="view"/><br>
-    <input type="text" name="collection[cover_id]" placeholder="cover id"/><br>
-    <input type="submit" value="Update collection"/>
+    <div class="col-left clearfix">
+        <div class="product-pics">
+            <div class="main-view shadow-box empty pic-input">
+                <img height="100%" src='<?=isset($data['pictureUlrs'][0]) ? $data['pictureUlrs'][0] : "" ?>'/>
+                <input type="file"
+                       multiple accept='image/*'
+                       name="cover" class="file"
+                       onchange="preview(this)">
+            </div>
+        </div>
+    </div>
+         <div class="col-right">
+        <div class="col-right-container pdetail-container">
+            <input type="text" class="col-right-header" placeholder="Collection name" name="collection[name]" required>
+            <textarea  placeholder="Write the description here...."
+                       name="collection[description]"></textarea>
+            <span class="">
+                <input type="text"
+                       placeholder="Vote"
+                       name="collection[vote]"
+                       required>
+                <input type="text"
+                       placeholder="Date"
+                       name="collection[start_date]">
+            </span>
+            <div>
+                <input type="checkbox"
+                       name="collection[available]" value="1"><label>active</label>
+                <input type="checkbox"
+                       name="collection[is_new]"
+                       value="1"><label>is new</label>
+            </div>
+            <div class="button-group">
+                <input type="submit" class="add-to-bag dark-bt">
+                <input type="reset" href="" class="check-out dark-bt">
+            </div>
+
+        </div>
+
+    </div>
+
 </form>
 <!--end of layout $content -->
