@@ -101,7 +101,7 @@ class Pictures extends CTModel {
             }
             move_uploaded_file($file["tmp_name"], BASE_PATH . "/images/" . $folderName . '/' . $file["name"]);
             return "/images/" . $folderName . '/' . $file["name"];
-        } else {
+        } else {          
             return false;
         }
     }

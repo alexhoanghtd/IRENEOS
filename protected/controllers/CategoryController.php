@@ -91,15 +91,15 @@ class CategoryController extends CTController {
                             $url = "/images/" . $folderName . "/" . $categoryName . "." . $extension;
                             $pic->setVal('url', $url);
                             if ($pic->create()) {
-                                //echo 'save picture sucessfully <br/>';
+                                echo 'save picture sucessfully <br/>';
                             } else {
-                                //echo 'save picture failed <br/>';
+                                echo 'save picture failed <br/>';
                             }
                         } else {
-                            //echo 'failed to upload the picture';
+                            echo 'failed to upload the picture';
                         }
                     } else {
-                        //echo 'picture has error';
+                        echo 'picture has error';
                     }
                 }
             }
@@ -119,7 +119,7 @@ class CategoryController extends CTController {
                 if ($category->update()) {
                     if ($oldCategoryInfo->getVal('name') != $category->getVal('name')) {
                         //if the category name is updated
-                        
+
                         $folderName = "categories";
                         foreach (array_keys($_FILES) as $key) {
                             Pictures::uploadPicture($_FILES[$key], $folderName);
@@ -161,19 +161,30 @@ class CategoryController extends CTController {
         }
         return false;
     }
-    
+
     /**
      * 
      */
-    public function actionList(){
-        $model = new Category();
-        $data = $model->getCategoryList();
+    public function actionList() {
+        $category = new Category();
+        $data = $category->getCategoryList();
+        $pic = new Pictures();
+        
+        // Delete category selected in checkbox
+        if (isset($_POST['checkbox'])) {            
+            foreach ($_POST['checkbox'] as $id){
+                $category->deleteCategory($id);
+                $category->deleteFile($id);
+                $pic->deletePicture($id);
+            }
+        }
+        
         //print_r($data);
         CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'visit store');
         $this->render('list', $data);
         //header("Location: http://irene.local/");
         /* Make sure that code below does not get executed when we redirect. */
-        exit;     
+        exit;
     }
 
 }
