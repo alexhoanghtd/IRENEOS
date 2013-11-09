@@ -9,7 +9,10 @@
         <li><a 
                 href="<?php echo"$menu[$itemName]"?>"
                 <?php echo ($itemName == $active)? 'class="active"' : ""; ?>
-            ><?php echo $itemName ?></a></li>
+            ><?php echo $itemName; 
+            if($itemName == 'bag' && CT::user()->bag()->countItems() > 0){
+                echo '('.CT::user()->bag()->countItems().')';
+            }?></a></li>
         
         <?php
         } 
