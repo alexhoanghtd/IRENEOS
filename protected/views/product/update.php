@@ -100,10 +100,10 @@ $colors = $data['colors'];
                 </div>
                 <div>
                     <input type="checkbox" 
-                           <?= $product['available']? "checked" : ""?>
+                           <?= ( $product['available'] == '1' )? "checked" : ""?>
                            name="product[available]" value="1"><label>active</label>
                     <input type="checkbox" 
-                           <?= $product['is_new']? "checked" : ""?>
+                           <?= ( $product['is_new'] == '1' )? "checked" : ""?>
                            name="product[is_new]" 
                            value="1"><label>is new</label>
                 </div>

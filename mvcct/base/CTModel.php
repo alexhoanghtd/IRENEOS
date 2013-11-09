@@ -376,7 +376,12 @@ class CTModel extends CTSQLite implements IDBRecord {
                             $stmt->bindValue(':' . $cell['colName'], (float) $this->row[$cell['colName']], SQLITE3_FLOAT);
                             break;
                         }
+                    case 'BOOL': {
+                            $stmt->bindValue(':' . $cell['colName'], $this->row[$cell['colName']]);
+                            break;
+                        }
                     default:
+                        //echo 'binding '.$cell['colName'].' value: '.$this->row[$cell['colName']].'<br>';
                         $stmt->bindValue(':' . $cell['colName'], $this->row[$cell['colName']]);
                         break;
                 }
@@ -510,8 +515,8 @@ class CTModel extends CTSQLite implements IDBRecord {
             }
         }
         //print_r($hasErrs);
-        foreach($hasErrs as $hasErr){
-            if($hasErr){
+        foreach ($hasErrs as $hasErr) {
+            if ($hasErr) {
                 return false;
             }
         }
@@ -538,7 +543,7 @@ class CTModel extends CTSQLite implements IDBRecord {
                 } else {
                     $hasErr = true;
                 }
-            }else{
+            } else {
                 $hasErr = false;
             }
         } else {

@@ -81,8 +81,15 @@ class ProductController extends CTController {
      */
     public function actionUpdate($id) {
         if (isset($_POST['product'])) {
+            //print_r($_POST);
             $product = new Product();
             $product->setData($_POST['product']);
+            if (!isset($_POST['product']['available'])) {
+                $product->setVal('available', " ");
+            }
+            if (!isset($_POST['product']['is_new'])) {
+                $product->setVal('is_new', " ");
+            }
             if (isset($_POST['product']['categoryID'])) {
                 if ($_POST['product']['categoryID'] > 0) {
                     $product->updateCategory($_POST['product']['categoryID']);
