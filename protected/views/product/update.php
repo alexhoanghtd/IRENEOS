@@ -11,7 +11,7 @@ $colors = $data['colors'];
 <div class="l-2cols content-inner">
 
     <form class="col-left clearfix"
-          action="/Product/Update/<?=$product['id']?>" 
+          action="/Product/UpdatePictures/<?=$product['id']?>" 
                   method="POST"
                   enctype="multipart/form-data">
         

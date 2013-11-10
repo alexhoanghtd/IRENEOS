@@ -81,62 +81,41 @@ class ProductController extends CTController {
      */
     public function actionUpdate($id) {
         if (isset($_POST['product'])) {
-            //print_r($_POST);
-            $product = new Product();
-            $product->setData($_POST['product']);
-            if (!isset($_POST['product']['available'])) {
-                $product->setVal('available', " ");
-            }
-            if (!isset($_POST['product']['is_new'])) {
-                $product->setVal('is_new', " ");
-            }
-            if (isset($_POST['product']['categoryID'])) {
-                if ($_POST['product']['categoryID'] > 0) {
-                    $product->updateCategory($_POST['product']['categoryID']);
-                }
-            }
-            //check if the new info is different than origin
-            if ($product->changesThanOrigin()) {
-                $oldProductInfo = new Product($_POST['product']['id']);
-                if ($product->update()) {
-                    if ($oldProductInfo->getVal('product_name') != $product->getVal('product_name')) {
-                        //if the folder name is updated
-                        $product->updatePicUrls();
-                    }
-                    echo 'update product basic info sucessfully <br/>';
-                } else {
-                    echo 'update product failed';
-                }
-            } else {
-                echo "<br/>Basic info doesn't changes than origin";
-            }
-            if ($this->hasChanges($_FILES)) {
-                $product->updatePictures($_FILES);
-            }
+            Product::updateProduct($_POST['product']);
         }
         if (!empty($id)) {
-            $categoryID = CategoryProduct::getProductCategory($id);
-            $model = new Product();
-            $model->get($id);
-            $picture = new Pictures();
-            $pictureUrls = Pictures::getProductPictures($id);
-            CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'products');
-            $this->render('update', array(
-                'model' => $model->getData(),
-                'pictureUlrs' => $pictureUrls,
-                'categoryID' => $categoryID,
-                'attributes' => $model->getProductAttributes(),
-                'colors' => Color::getAll(),
-                'sizes' => Size::getAll(),
-            ));
+            $checkProduct = new Product();
+            $checkProduct->setVal('id', $id);
+            if ($checkProduct->checkExists()) {
+                $categoryID = CategoryProduct::getProductCategory($id);
+                $model = new Product($id);
+                $picture = new Pictures();
+                $pictureUrls = Pictures::getProductPictures($id);
+                CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'products');
+                $this->render('update', array(
+                    'model' => $model->getData(),
+                    'pictureUlrs' => $pictureUrls,
+                    'categoryID' => $categoryID,
+                    'attributes' => $model->getProductAttributes(),
+                    'colors' => Color::getAll(),
+                    'sizes' => Size::getAll(),
+                ));
+            } else {
+                echo "product doesn't exist";
+                //$this->renderError("product Id Doesn't exist'");
+            }
         } else {
             header("Location: http://irene.local/Category/");
         }
     }
 
+    public function actionUpdatePictures($productID){
+        $product = new Product($productID);
+        $product->updatePictures($_FILES);
+        CT::redirect_to(CT::baseURL() . '/product/Update/' . $productID);
+    }
     public function actionDelete($id) {
-        $product = new Product($id);
-        $product->delete();
+        Product::deleteProduct($id);
     }
 
     /*     * just for testing * */
@@ -147,14 +126,6 @@ class ProductController extends CTController {
         echo $product->generateFolderName();
     }
 
-    private function hasChanges($files) {
-        foreach ($files as $file) {
-            if (!empty($file['name'])) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public function actionAjaxSearch() {
         //print_r($_POST);
