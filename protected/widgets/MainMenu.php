@@ -19,9 +19,8 @@ class MainMenu {
             "1" => array(
                 'new arrivals' => 'http://irene.local',
                 'collections' => '/Collection/',
-                'about us' => '/Site/About/',
-                'contact us' => '/Site/Contact',
                 'visit store' => '/Category/',
+                'contact us' => '/Site/Contact',
                 'login' => '/Site/Login/',
                 'bag' => '/bag/View',),
             "2" => array(

@@ -7,25 +7,25 @@ div#container{
 }
 /*desktop main layout*/
 div#container.desktop-view div#header-menu{
-	position: fixed;
-	width: 430px;
-	height: 100%;
+    position: fixed;
+    width: 430px;
+    height: 100%;
 }
 div#container.desktop-view div#content-container{
-	padding-left: 429px;
-	position: relative;
+    padding-left: 429px;
+    position: relative;
 }
 
 /*mobile main layout*/
 div#container.mobile-view div#header-menu{
-	width: 100%;
-	height: 100%;
-	float: none;
-	position: relative;
+    width: 100%;
+    height: 100%;
+    float: none;
+    position: relative;
 }
 div#container.mobile-view div#content-container{
-	padding-left: 0;
-	position: relative;
+    padding-left: 0;
+    position: relative;
 }
 /*mobile main layout*/
 
@@ -34,200 +34,315 @@ div#container.mobile-view div#content-container{
 /***Main Menu Area***/
 
 div#header-menu{
-	text-align: center;
-	background-color: #ddd;
-	overflow-y: hidden; 
-	z-index: 999;
+    text-align: center;
+    background-color: #ddd;
+    overflow-y: hidden; 
+    z-index: 999;
 }
 
 /*SEARCHBOX AND MENU EXPANDING*/
 div#panel-setting{
-	position: relative;
-	width: 350px;
-	height: 30px;
-	margin: 20px auto;
+    position: relative;
+    width: 350px;
+    height: 30px;
+    margin: 20px auto;
 }
 div#search-box.input-focused form#search-form{
-	width: 220px;
+    width: 220px;
 }
 div#search-box.input-focused{
-	opacity: 1;
+    opacity: 1;
 }
 div#search-box{
-	position: relative;
-	width: 250px;
-	height: 30px;
-	float:left;
+    position: relative;
+    width: 250px;
+    height: 30px;
+    float:left;
 }
 form#search-form{
-	display: block;
-	float: left;
-	overflow: hidden;
-	width: 0px;
-	transition: width 0.3s;
+    display: block;
+    float: left;
+    overflow: hidden;
+    width: 0px;
+    transition: width 0.3s;
 }
 div#search-box:hover form#search-form{
-	width: 220px;
+    width: 220px;
 }
 input#search-input{
-	color: #333;
-	font-size: 12px;
-	letter-spacing: 1px;
-	width: 200px;
-	height: 25px;
-	padding: 0px 10px;
-	margin: 0;
-	border: 0;
-	background:transparent;
+    color: #333;
+    font-size: 12px;
+    letter-spacing: 1px;
+    width: 200px;
+    height: 25px;
+    padding: 0px 10px;
+    margin: 0;
+    border: 0;
+    background:transparent;
 }
 input#search-input:focus{
-	margin: 0;
-	border: 0;
-	box-shadow: none;
-	outline: none;
+    margin: 0;
+    border: 0;
+    box-shadow: none;
+    outline: none;
 }
 div#search-border{
-	height: 5px;
-	border: 1px solid #333;
-	border-top: none;
+    height: 5px;
+    border: 1px solid #333;
+    border-top: none;
 }
 /** Search result **/
 #user-search-output {
-	position: absolute;
-	left: -20px;
-	right: -20px;
-	top: 0px;
-	z-index: 999;
+    position: absolute;
+    left: -20px;
+    right: -20px;
+    top: 0px;
+    z-index: 999;
 }
 #user-search-output > ul > li {
-	display: block;
-	height: 80px;
-	background-color: #fff;
-	border-bottom: 1px solid #999;
-        transition: background-image 0.4s;
+    display: block;
+    height: 80px;
+    background-color: #fff;
+    border-bottom: 1px solid #999;
+    transition: background-image 0.4s;
 }
 #user-search-output > ul > li:hover{
     background-image: url('../images/strip.png');
 }
 #user-search-output > ul > li > a{
-	height: 100%;
-	width: 100%;
-	display: block;
+    height: 100%;
+    width: 100%;
+    display: block;
 }
 #user-search-output > ul > li > a> div{
-	float: left;
+    float: left;
 }
 .result-thumb{
-	height: 100%;
-	width: 80px;
-	background-color: #ccc;
+    height: 100%;
+    width: 80px;
+    background-color: #ccc;
 }
 .result-detail{
-	padding: 5px;
+    padding: 5px;
 }
 .result-detail > h3{
-	font-size: 18px;
+    font-size: 18px;
 }
 div#panel-setting > div{
-	opacity: 0.3;
-	transition: opacity 0.3s;
+    opacity: 0.3;
+    transition: opacity 0.3s;
 }
 div#panel-setting > div:hover{
-	opacity: 1;
+    opacity: 1;
 }
 div#menu-wrapper{
-	position: relative;
-	width: 350px;
-	margin: auto auto 20px auto;
-	background-color: #fff;
-	padding-top: 30px;
-	border-bottom: 4px solid #999;
+    position: relative;
+    width: 350px;
+    margin: auto auto 20px auto;
+    background-color: #fff;
+    padding-top: 30px;
+    border-bottom: 4px solid #999;
 }
 div#menu-wrapper *{
-	color: #333;
-	letter-spacing: 1px;
+    color: #333;
+    letter-spacing: 1px;
 }
 div#menu-wrapper > *{
-	margin-bottom: 20px;
-	padding: 0px 20px;
+    margin-bottom: 20px;
+    padding: 0px 20px;
 }
 a#main-logo{
-	font-size: 70px;
-	border-top: 1px solid #333;
-	border-bottom: 1px solid #333;
+    font-size: 70px;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
 
 }
 div#menu-wrapper blockquote{
-	font-size: 14px;
-	font-style: italic;
-	color: #333;
-	letter-spacing: 3px;
-	background-image: url('../images/strip.png');
-	padding: 10px 20px;
-	margin-bottom: 30px;
+    font-size: 14px;
+    font-style: italic;
+    color: #333;
+    letter-spacing: 3px;
+    background-image: url('../images/strip.png');
+    padding: 10px 20px;
+    margin-bottom: 30px;
 }
 div#main-menu{
-	margin-bottom: 40px;
+    margin-bottom: 40px;
 }
 ul#main-menu-items li{
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 ul#main-menu-items li a{
-	font-size: 14px;
-	text-transform: uppercase;
-	padding: 5px 5px;
-	border-bottom: 1px dashed transparent;
-	border-top: 1px dashed transparent;
-	transition: border 0.3s;
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: 5px 5px;
+    border-bottom: 1px dashed transparent;
+    border-top: 1px dashed transparent;
+    transition: border 0.3s;
 }
 ul#main-menu-items li a.active{
-	background-image: url("../images/strip.png");
-	border-bottom: 1px solid #999;
-	border-top: 1px solid #999;
+    background-image: url("../images/strip.png");
+    border-bottom: 1px solid #999;
+    border-top: 1px solid #999;
 }
 ul#main-menu-items li a:hover{
-	border-bottom: 1px dashed #999;
-	border-top: 1px dashed #999;
+    border-bottom: 1px dashed #999;
+    border-top: 1px dashed #999;
 }
 
 div#socials{
-	position: relative;
-	bottom: 0px;
-	padding-bottom: 20px;
+    position: relative;
+    bottom: 0px;
+    padding-bottom: 20px;
 }
 a#facebook-link{
-	display: inline-block;
-	height: 30px;
-	width: 30px;
-	border-radius: 20px;
-	background: #333;
-	color: #fff;
-	line-height: 30px;
-	font-size: 16px
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    background: #333;
+    color: #fff;
+    line-height: 30px;
+    font-size: 16px
 }
 span#phone-number{
-	margin-left: 10px;
-	padding-left: 10px;
-	border-left: 1px solid #999;
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid #999;
 }
 
 /*MAIN CONTENT*/
 div#content-container{
-	height: 100%;
-	position: relative;
-	/*background-image: url('../images/strip.png');*/
+    height: 100%;
+    position: relative;
+    /*background-image: url('../images/strip.png');*/
 }
 
 /* content header */
 div#content-header{
-	height: 70px;
+    height: 70px;
 }
 
 /*elements */
 .shadow-box{
-	border: 1px solid #999;
-	box-shadow:0px 0px 4px 1px #ddd;
+    border: 1px solid #999;
+    box-shadow:0px 0px 4px 1px #ddd;
 }
 textarea.description-area{
     background-image: url('../images/strip.png');
+}
+/**login form **/
+.login-background{
+}
+.login-container{
+    padding-top: 10%;
+}
+#login-form{
+    width: 252px;
+    margin:auto;
+    display: block;
+    padding: 20px 40px 20px 40px;
+    background-color: #fff;
+    box-shadow: 0px 0px 6px #000;
+} 
+#login-form > *{
+    display: block;
+    height: 30px;
+    margin: 0px 0px 10px 0px;
+}
+#login-form > span.logo{
+    text-align: center;
+    display: block;
+    width: 50px;
+    margin:auto;
+    height: 70px;
+    font-size: 60px;
+    line-height: 70px;
+    margin-bottom: 20px;
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
+    color: #999;
+}
+#login-form label{
+    color: #999;
+    font-size: 12px;
+    font-style: italic;
+}
+#login-form input[type="text"],#login-form input[type="password"]{
+    width: 230px;
+}
+#login-form input[type="submit"],#login-form input[type="reset"]{
+    display: block;
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.forget-link{
+    text-align: right;
+    font-size: 12px;
+    font-style: italic;
+    color: #999;
+    transition: color .2s, text-decoration .2s;
+}
+.forget-link:hover{
+    text-decoration: underline;
+    color: #999;
+}
+div.login-background{
+    position: absolute;
+    top: 0px;
+    opacity: .6;
+    height: 100%;
+    padding-bottom: 20%;
+    background-color: #333;
+    z-index: -1;
+}
+a.sign-up{
+    font-size:  12px;
+}
+/**register and user infomation form **/
+.user-infos{
+    
+}
+.user-infos > *{
+    display: block;
+}
+.user-infos input{
+    display: block;
+    width: 250px;
+    height: 30px;
+    margin-bottom: 10px;
+}
+.user-infos .info-group-header{
+    display: block;
+    font-size: 12px;
+    color:#999;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+.user-infos .basic-authen{
+    display: block;
+    float: left;
+    padding-left: 20px;
+    border-left:1px solid #ccc;
+    margin-bottom: 10px;
+}
+.user-infos .avatar-view{
+    display: block;
+    float:left;
+    height: 200px;
+    width: 200px;
+    margin-right: 20px;
+    background-color: #ddd;
+}
+.user-infos .avatar-view.empty:after{
+    content:"Add your profile picture!";
+    display: block;
+    position:absolute;
+    width: 100%;
+    line-height: 200px;
+    text-align: center;
+    font-style:italic;
+    color: #999;  
 }
