@@ -170,12 +170,24 @@ class CategoryController extends CTController {
         $pic = new Pictures();
         
         // Delete category selected in checkbox
-        if (isset($_POST['checkbox'])) {            
-            foreach ($_POST['checkbox'] as $id){
+        if (isset($_POST['cbDelete'])) {            
+            foreach ($_POST['cbDelete'] as $id){
                 $category->deleteCategory($id);
                 $category->deleteFile($id);
                 $pic->deletePicture($id);
             }
+        }
+        
+        // Quick active
+        if (isset($_POST['cbActive'])) {            
+            foreach ($_POST['cbActive'] as $id){
+                $c = new Category($id);
+                $c->setVal('available', '1');
+                $c->update();
+            }
+        }else{
+            $category->setVal('available', '0');
+            $category->update();
         }
         
         $data = $category->getCategoryList();

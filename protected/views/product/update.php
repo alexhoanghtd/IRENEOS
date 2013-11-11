@@ -98,8 +98,9 @@ $categories = Category::getCategory();
                        value="1"><label>is new</label>
             </div>
             <div class="button-group">
-                <input type="submit" class="add-to-bag dark-bt">
-                <input type="reset" href="" class="check-out dark-bt">
+                <input type="submit" class="add-to-bag dark-bt" value="Update">
+                <a href="../Delete/<?=$product['id']?>">Delete</a>
+                <input type="reset" href="" class="check-out dark-bt" value="Reset">
             </div>                                   
 
         </div>

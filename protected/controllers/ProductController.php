@@ -154,4 +154,25 @@ class ProductController extends CTController {
         }
     }
 
+    public function actionList($page) {
+        if (!empty($page)) {
+            $product = new Product();
+
+            // Delete category selected in checkbox
+            if (isset($_POST['checkbox'])) {
+                foreach ($_POST['checkbox'] as $id) {
+                    $p = new Product($id);
+                    $p->delete();
+                }
+            }
+
+            $data = $product->getProductList($page);
+
+            CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'categories');
+            $this->render('list', $data);
+        } else {
+            header("Location: http://irene.local/Product/List/1");
+        }
+    }
+
 }

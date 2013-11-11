@@ -257,4 +257,56 @@ class Product extends CTModel {
         }
     }
 
+    // get all product
+    public function getProductList($page) {
+        //$tempPos = 0;
+        $NumberProductOf1Page = 2;
+        $pos = ($page - 1) * $NumberProductOf1Page;
+        $db = CTSQLite::connect();
+
+        // Count total number Products
+        $SelectQuerry = 'SELECT * FROM ic_product';
+        $res = $db->query($SelectQuerry);
+        $totalRecord = 0;
+        while ($rows = $res->fetchArray()) {
+            $totalRecord++;
+        }
+        $totalPages = ceil($totalRecord / $NumberProductOf1Page);
+
+        $getProductQuery = 'SELECT * FROM ic_product limit ' . $pos . ',' . $NumberProductOf1Page;
+        $results = $db->query($getProductQuery);
+        $row_results = array();        
+        $count = 0;
+
+        while ($row = $results->fetchArray()) {
+            array_push($row_results, $row);
+            $count++;
+        }
+        for ($i = 0; $i <= $count - 1; $i++) {
+            $row_results[$i]['currentPage'] = $page;
+            if (empty($row_results[$i]['id'])) {
+                return $row_results;
+            } else {
+                // Get Pictures URL
+                $getPicQuery = 'SELECT * FROM ic_pictures WHERE type = 1 AND product_id=' . $row_results[$i]['id'];
+                $covers = $db->query($getPicQuery);
+                $cover = $covers->fetchArray();
+                $coverURL = $cover['url'];
+                $row_results[$i]['coverURL'] = $coverURL;
+
+                // Count total number Products
+                $SelectQuerry = 'SELECT * FROM ic_product';
+                $res = $db->query($SelectQuerry);
+                $counts = 0;
+                while ($rows = $res->fetchArray()) {
+                    $counts++;
+                }
+                $row_results[$i]['totalRecord'] = $counts;
+            }
+        }
+
+        return $row_results;
+    }
+
 }
+

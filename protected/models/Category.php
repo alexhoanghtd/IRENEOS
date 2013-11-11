@@ -9,6 +9,32 @@
  */
 class Category extends CTModel {
 
+    public function fieldRules() {
+        return array(
+            "id" => array(
+                "maxLength" => 20,
+                "minLength" => 1,
+                "name" => "Identitier",
+                "unique" => true,
+                "required" => true,
+            ),
+            "name" => array(
+                "maxLength" => 200,
+                "minLength" => 5,
+                "name" => "Product name",
+                "unique" => true,
+                "required" => true,
+            ),
+            "description" => array(
+                "maxLength" => 1000,
+                "minLength" => 5,
+                "name" => "Product description",
+                "unique" => false,
+                "required" => true,
+            ),        
+        );
+    }
+
     /**
      * get id,name of category followed by is_collection=0
      */
@@ -86,7 +112,7 @@ class Category extends CTModel {
                     array_push($row_results, $row);
                     $count++;
                 }
-            }     
+            }
             // get picture URL of product
             for ($i = 0; $i <= $count - 1; $i++) {
                 $getPicQuery = 'SELECT * FROM ic_pictures WHERE type=1 AND product_id=' . $row_results[$i]['id'];
@@ -235,6 +261,6 @@ class Category extends CTModel {
                 }
             }
         }
-    }
-
+    }   
+    
 }
