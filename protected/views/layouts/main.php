@@ -19,7 +19,7 @@
 			mainLayoutControl();
 			searchStyle();
 			gridController();
-                        
+            ajaxBootstrap();
 
 		});
 	</script>
@@ -47,7 +47,7 @@
 
 				</div>
 				<div id="main-logo-wrapper">
-					<a href="#" id="main-logo">И</a>
+                                    <a href="<?=CT::baseURL()?>" id="main-logo">И</a>
 				</div>
 				<blockquote>
 					Fashion is all about showing<br /> WHO YOU ARE.
@@ -67,6 +67,11 @@
 
 		<!--START CONTENT -->
 		<div id="content-container" class="clearfix">
+			<div class="dark-box fit-me-full">
+                <div class="dark-box-close" onclick="darkBoxClose()"></div>
+				<div class="dark-box-container"></div>
+				<div class="dark-box-bg fit-me-full"></div>
+			</div>
 			<!--Content header area-->
 			<div id="content-header">
 				<div id="categories-menu">

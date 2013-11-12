@@ -1,6 +1,5 @@
 /*all the content that might be put on the right side*/
 div#content-wrapper{
-	height: 100%;
 	text-align: left;	
 }
 .content-inner{

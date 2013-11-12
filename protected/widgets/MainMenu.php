@@ -21,8 +21,9 @@ class MainMenu {
                 'collections' => '/Collection/',
                 'visit store' => '/Category/',
                 'contact us' => '/Site/Contact',
+                'bag' => '/bag/View',
                 'login' => '/Site/Login/',
-                'bag' => '/bag/View',),
+            ),
             "2" => array(
                 'collection' => '',
                 'categories' => '',
