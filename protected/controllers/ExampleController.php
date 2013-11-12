@@ -18,7 +18,7 @@ class ExampleController extends CTController {
     }
 
     public function actionIndex($param = 0) {
-        $this->render('index', '');
+        echo CT::user()->bag()->countItems();
     }
 
     public function actionView($param) {

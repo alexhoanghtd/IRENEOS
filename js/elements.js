@@ -27,3 +27,21 @@ function viewOver(input){
     var url = input.getAttribute;
     alert(url);
 }
+
+function darkBoxClose(){
+    $(".dark-box").fadeOut(200);
+}
+function darkBoxOpen(){
+    $(".dark-box").fadeIn(200);
+}
+
+function ajaxBootstrap(){
+    //darkBox = $(".dark-box-ajax");
+    $(".dark-box-ajax").click(function(e){
+        e.preventDefault();
+        darkBoxOpen();
+        var url = $(e.target).attr('href');
+        //alert(url);
+        $(".dark-box-container").load('http://irene.local'+url);
+    });
+}

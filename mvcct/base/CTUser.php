@@ -20,11 +20,65 @@ class CTUser extends CTComponent implements IUserIdentity {
         private $username;
         private $firstName;
         private $lastName;
-    
+        private $data;
     public function __construct() {
         $this->role = CT_VISITOR;
     }
-    
+    /**
+     * Set custom user Data
+     * @param type $key
+     * @param type $value
+     */
+    public function setUserData($key,$value){
+        $this->data[$key]=$value;
+        $this->save();
+    }
+    /**
+     * get custom user data
+     * @param type $key
+     * @return type
+     */
+    public function getUserData($key){
+        return $this->data[$key];
+    }
+    /**
+     * dev's shit
+     * get all user custom data
+     */
+    public function getDatas(){
+        return $this->data;
+    }
+    public function setBasicInfo($username,$firstName,$lastName){
+        $this->username =$username;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->save();
+    }
+    /**
+     * get Username
+     * @return type
+     */
+    public function getUserName(){
+        return $this->username;
+    }
+    /**
+     * get first name
+     * @return type
+     */
+    public function getFirstName(){
+        return $this->firstName;
+    }
+    /**
+     * 
+     * @return typeget last name of the current user
+     */
+    public function getLastName(){
+        return $this->lastName;
+    }
+    /**
+     * set role for current user in the session
+     * @param type $role
+     */
     public function setRole($role) {
        $this->role = $role;
        $_SESSION['user'] = serialize($this);

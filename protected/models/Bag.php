@@ -123,7 +123,7 @@ class Bag {
 
     public function removeItem($productID) {
         if (empty($this->items)) {
-            echo '[SECURITY] I am tired of what you are trying to do';
+            echo '[SECURITY]  Your bag is already empty';
             return false;
         } else {
             $productIDExist = false;
@@ -136,7 +136,7 @@ class Bag {
             if ($productIDExist) {
                 return true;
             } else {
-                echo 'IAM TIRED!!!!';
+                echo "that product doesn't exist";
                 return false;
             }
         }
@@ -144,7 +144,7 @@ class Bag {
 
     public function removeAtt($attID) {
         if (empty($this->items)) {
-            echo '[SECURITY] I am tired of what you are trying to do';
+            echo '[SECURITY] Your bag is already empty';
             return false;
         } else {
             $attIDExist = false;
@@ -156,10 +156,46 @@ class Bag {
             if ($attIDExist) {
                 return true;
             } else {
-                echo 'IAM TIRED!!!!';
+                echo "Attribute group doesn't exist";
                 return false;
             }
         }
+    }
+    
+    public function getItemGroups(){
+        $bagItems = $this->items;
+        $productIDs = array();
+        $itemGroups = array();    
+        foreach ($bagItems as $bagItem) {
+            $productID = $bagItem['productID'];
+            if (!\in_array($productID, $productIDs)) {
+                array_push($productIDs, $productID);
+                $pAtt = $bagItem['attribute'];
+                $itemGroups[$productID] = array(
+                    $pAtt['id'] => array(
+                        "size" => $pAtt["size"],
+                        "color" => $pAtt["color"],
+                        "quantity" => $bagItem["quantity"],
+                    )
+                );
+            } else {
+                $pAtt = $bagItem['attribute'];
+                $itemGroups[$productID][$pAtt['id']] = array(
+                    "size" => $pAtt["size"],
+                    "color" => $pAtt["color"],
+                    "quantity" => $bagItem["quantity"],
+                );
+            }
+        }
+        return $itemGroups;
+    }
+    
+    public function countItems(){
+        $total = 0;
+        foreach($this->items as $item){
+            $total += $item['quantity'];
+        }
+        return $total;
     }
 
 }

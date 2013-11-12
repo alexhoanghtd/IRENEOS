@@ -267,10 +267,34 @@ class CTModel extends CTSQLite implements IDBRecord {
                 if (!$this->exists($this->row['id'])) {
                     return false;
                 } else {
-                    //if the the id exist in the database
-                    //echo 'preparing update';
                     return $this->prepareUpdate();
                 }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * detech change, return model objet with current ID and the field which 
+     * change stored in row data of this model 
+     */
+    public function changesFilter() {
+        if (isset($this->row['id'])) {
+            if (!empty($this->row['id'])) {
+                $modelName = get_class($this);
+                $model = new $modelName();
+                $model->setVal('id', $this->row['id']);
+                $origin = new $modelName();
+                $origin->get($this->row['id']);
+                foreach ($this->row as $colName => $val) {
+                    if ($origin->getVal($colName) != $val) {
+                        $model->setVal($colName, $val);
+                    }
+                }
+                return $model;
             } else {
                 return false;
             }
@@ -302,7 +326,8 @@ class CTModel extends CTSQLite implements IDBRecord {
         $query = $this->generateInsertQuery();
         $stmt = $this->prepareStmt($query);
         //print_r($stmt);
-        return $stmt->execute();
+        $stmt->execute();
+        return $this->db->lastInsertRowID();
     }
 
     /**
@@ -341,14 +366,16 @@ class CTModel extends CTSQLite implements IDBRecord {
         //generate the update querry
         $query = 'UPDATE ' . $this->tableName . ' SET ';
         foreach ($this->table as $cell) {
-            if ($cell['colName'] != 'id' && !empty($this->row[$cell['colName']])) {
-                $query .= $cell['colName'] . '=:' . $cell['colName'] . ', ';
+            if (isset($this->row[$cell['colName']])) {
+                $val = $this->row[$cell['colName']];
+                if ($cell['colName'] != 'id' && !empty($val) || $val == 0) {
+                    $query .= $cell['colName'] . '=:' . $cell['colName'] . ', ';
+                }
             }
         }
-        //$query = str_replace($cell['colName'] . ',', $cell['colName'], $query);
         $query = substr_replace($query, "", -2);
         $query .= " WHERE id=:id";
-        //echo $query.'</br>';
+        //echo $query . '</br>';
         return $query;
     }
 
@@ -360,23 +387,30 @@ class CTModel extends CTSQLite implements IDBRecord {
         $stmt = $this->db->prepare($query);
         //automatic bind value for param
         foreach ($this->table as $cell) {
+
             if (($cell['colName'] != 'id' || !empty($this->row['id'])) && isset($this->row[$cell['colName']])) {
                 //echo $cell['colName'].' | '.$cell['type'].' ABOUT TO BE binded with value '.(int)$this->row[$cell['colName']].'<br/>' ;
+                $val = $this->row[$cell['colName']];
                 switch ($cell['type']) {
                     case 'INTEGER': {
-                            $stmt->bindValue(':' . $cell['colName'], (int) $this->row[$cell['colName']], SQLITE3_INTEGER);
+                            $stmt->bindValue(':' . $cell['colName'], (int) $val, SQLITE3_INTEGER);
                             break;
                         }
                     case 'TEXT': {
-                            $stmt->bindValue(':' . $cell['colName'], $this->row[$cell['colName']], SQLITE3_TEXT);
+                            $stmt->bindValue(':' . $cell['colName'], $val, SQLITE3_TEXT);
                             break;
                         }
                     case 'FLOAT': {
-                            $stmt->bindValue(':' . $cell['colName'], (float) $this->row[$cell['colName']], SQLITE3_FLOAT);
+                            $stmt->bindValue(':' . $cell['colName'], (float) $val, SQLITE3_FLOAT);
+                            break;
+                        }
+                    case 'BOOL': {
+                            $stmt->bindValue(':' . $cell['colName'], (int) $val, SQLITE3_INTEGER);
                             break;
                         }
                     default:
-                        $stmt->bindValue(':' . $cell['colName'], $this->row[$cell['colName']]);
+                        //echo 'binding '.$cell['colName'].' value: '.$this->row[$cell['colName']].'<br>';
+                        $stmt->bindValue(':' . $cell['colName'], $val);
                         break;
                 }
             }
@@ -494,6 +528,21 @@ class CTModel extends CTSQLite implements IDBRecord {
         return $query;
     }
 
+    public function validateUpdate() {
+        $hasErrs = array();
+        foreach($this->row as $fieldName => $val){
+            if($fieldName != 'id'){
+                $hasErrs[$fieldName] = !$this->validateCell($this->table[$fieldName]);
+            }
+        }
+        foreach ($hasErrs as $hasErr) {
+            if ($hasErr) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Validate the information stored in model data before insert into database
      * using those information
@@ -509,8 +558,8 @@ class CTModel extends CTSQLite implements IDBRecord {
             }
         }
         //print_r($hasErrs);
-        foreach($hasErrs as $hasErr){
-            if($hasErr){
+        foreach ($hasErrs as $hasErr) {
+            if ($hasErr) {
                 return false;
             }
         }
@@ -537,7 +586,7 @@ class CTModel extends CTSQLite implements IDBRecord {
                 } else {
                     $hasErr = true;
                 }
-            }else{
+            } else {
                 $hasErr = false;
             }
         } else {
@@ -589,14 +638,14 @@ class CTModel extends CTSQLite implements IDBRecord {
             case 'FLOAT'://validate if type = float
                 if (filter_var($fieldValue, FILTER_VALIDATE_FLOAT)) {
                     $valid = true;
-                    if (!empty($fieldRules['maxLength'])) {
+                    if (!empty($fieldRules['maxLength']) || $fieldRules['maxLength'] == 0 ) {
                         if ((float) $fieldValue > (float) $fieldRules['maxLength']) {
                             echo $this->getLabel($fieldName) . " has to be smaller than or equal to " . $fieldRules['maxLength'];
                             $valid = false;
                         }
                     }
-                    if (!empty($fieldRules['minLength'])) {
-                        //echo 'minLength ='.$fieldRules['minLength'];
+                    if (!empty($fieldRules['minLength']) || $fieldRules['minLength'] == 0 ) {
+                        //echo 'min val ='.$fieldRules['minLength'].' | fieldVal = '.$fieldValue;
                         if ((float) $fieldValue < (float) $fieldRules['minLength']) {
                             echo $this->getLabel($fieldName) . " has to be bigger than or equal to " . $fieldRules['minLength'];
                             $valid = false;

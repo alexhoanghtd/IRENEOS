@@ -91,15 +91,15 @@ class CategoryController extends CTController {
                             $url = "/images/" . $folderName . "/" . $categoryName . "." . $extension;
                             $pic->setVal('url', $url);
                             if ($pic->create()) {
-                                //echo 'save picture sucessfully <br/>';
+                                echo 'save picture sucessfully <br/>';
                             } else {
-                                //echo 'save picture failed <br/>';
+                                echo 'save picture failed <br/>';
                             }
                         } else {
-                            //echo 'failed to upload the picture';
+                            echo 'failed to upload the picture';
                         }
                     } else {
-                        //echo 'picture has error';
+                        echo 'picture has error';
                     }
                 }
             }
@@ -112,14 +112,22 @@ class CategoryController extends CTController {
     public function actionUpdate($id) {
         if (isset($_POST['category'])) {
             $category = new Category();
-            //print_r($_POST['category']);
+            print_r($_POST['category']);
             $category->setData($_POST['category']);
+
+            if (!isset($_POST['category']['available'])) {
+                $category->setVal('available', '0');
+            }
+            if (!isset($_POST['category']['is_new'])) {
+                $category->setVal('is_new', '0');
+            }
+
             if ($category->changesThanOrigin()) {
                 $oldCategoryInfo = new Category($_POST['category']['id']);
                 if ($category->update()) {
                     if ($oldCategoryInfo->getVal('name') != $category->getVal('name')) {
                         //if the category name is updated
-                        
+
                         $folderName = "categories";
                         foreach (array_keys($_FILES) as $key) {
                             Pictures::uploadPicture($_FILES[$key], $folderName);
@@ -161,19 +169,44 @@ class CategoryController extends CTController {
         }
         return false;
     }
-    
+
     /**
      * 
      */
-    public function actionList(){
-        $model = new Category();
-        $data = $model->getCategoryList();
-        //print_r($data);
-        CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'visit store');
+    public function actionList() {
+        $category = new Category();
+        $pic = new Pictures();
+
+        // Delete category selected in checkbox
+        if (isset($_POST['cbDelete'])) {
+            foreach ($_POST['cbDelete'] as $id) {
+                $category->deleteCategory($id);
+                $category->deleteFile($id);
+                $pic->deletePicture($id);
+            }
+        }
+
+        // Quick active    
+        if (isset($_POST['category'])) {
+            foreach ($_POST['category'] as $id) {
+                if (!isset($_POST['cbActive'][$id])) {
+                    $c = new Category($id);
+                    $c->setVal('available', '0');
+                    $c->update();
+                } else {
+                    $c = new Category($id);
+                    $c->setVal('available', '1');
+                    $c->update();
+                }
+            }
+        }
+        $data = $category->getCategoryList();
+
+        CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'categories');
         $this->render('list', $data);
         //header("Location: http://irene.local/");
         /* Make sure that code below does not get executed when we redirect. */
-        exit;     
+        exit;
     }
 
 }

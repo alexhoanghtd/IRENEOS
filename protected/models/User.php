@@ -7,16 +7,12 @@
  * @copyright &copy; 2013 Createve Team 
  */
 
-//dont know if its right or not (lol)
-//our leader pls review 'em
-
 class User extends CTModel{
     //get all user's infos
     public function getUser($id){
         $this->connect();
         $results = $this->db->query('SELECT * FROM ic_user WHERE id='.$id);
         if($row = $results->fetchArray()){
-            
             return $row;
         }else{
             return false;

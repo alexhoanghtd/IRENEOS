@@ -93,15 +93,22 @@ class Pictures extends CTModel {
             return FALSE;
         }
     }
-
+    /**
+     * Upload the file to folder in images folder
+     * @param type $file
+     * @param type $folderName foldername to upload to in images folder
+     * @return boolean true if sucess, false if fail
+     */
     public static function uploadPicture($file, $folderName) {
         if (self::checkFileSize($file, 400) && self::checkFileType($file)) {
-            if (self::checkFileExisted($file, $folderName)) {
-                
+            $folerToUpload = BASE_PATH . "/images/" . $folderName . '/';
+            if(!file_exists($folerToUpload) && !is_dir($folerToUpload)){
+                //if the folser dosesn't exist, create the folder to upload :)
+                self::createPictureFoler($folderName);
             }
             move_uploaded_file($file["tmp_name"], BASE_PATH . "/images/" . $folderName . '/' . $file["name"]);
             return "/images/" . $folderName . '/' . $file["name"];
-        } else {
+        } else {          
             return false;
         }
     }

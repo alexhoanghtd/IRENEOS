@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of BagController
  *
@@ -41,30 +34,7 @@ class BagController extends CTController {
     }
 
     public function actionView() {
-        $bagItems = CT::user()->bag()->getItems();
-        $productIDs = array();
-        $itemGroups = array();    
-        foreach ($bagItems as $bagItem) {
-            $productID = $bagItem['productID'];
-            if (!\in_array($productID, $productIDs)) {
-                array_push($productIDs, $productID);
-                $pAtt = $bagItem['attribute'];
-                $itemGroups[$productID] = array(
-                    $pAtt['id'] => array(
-                        "size" => $pAtt["size"],
-                        "color" => $pAtt["color"],
-                        "quantity" => $bagItem["quantity"],
-                    )
-                );
-            } else {
-                $pAtt = $bagItem['attribute'];
-                $itemGroups[$productID][$pAtt['id']] = array(
-                    "size" => $pAtt["size"],
-                    "color" => $pAtt["color"],
-                    "quantity" => $bagItem["quantity"],
-                );
-            }
-        }
+        $itemGroups = CT::user()->bag()->getItemGroups();
         CT::widgets('MainMenu')->setActive(USER_MENU,'bags');
         $this->render('view', $itemGroups);
     }

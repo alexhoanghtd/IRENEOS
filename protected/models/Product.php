@@ -30,7 +30,7 @@ class Product extends CTModel {
                 "name" => "Product description",
                 "unique" => false,
                 "required" => true,
-            ),  
+            ),
             "price" => array(
                 "maxLength" => 1000,
                 "minLength" => 5,
@@ -46,29 +46,49 @@ class Product extends CTModel {
         );
     }
 
+    /**
+     * Create a product
+     * @param type $productData
+     * @param type $files
+     * @return boolean
+     */
     public static function createProduct($productData, $files) {
         //INSERT PRODUCT DATA STUFFS
         $newProduct = new Product();
         $newProduct->setData($productData);
-        if($error = $newProduct->validateCreate()){
-            if($newProduct->create()){
-                echo 'created product successfully :)';
-            }else{
+        if ($error = $newProduct->validateCreate()) {
+            if ($id = $newProduct->create()) {
+                $newProduct = new Product($id);
+                $folderName = $newProduct->generateFolderName();
+                echo 'created product info successfully :)';
+                foreach ($_FILES as $type => $data) {
+                    if ($data['error'] == 0) {
+                        $picture = new Pictures();
+                        $picture->setVal('product_id', $id);
+                        $picture->setVal('name', $newProduct->getVal('product_name'));
+                        if ($url = Pictures::uploadPicture($_FILES[$type], $folderName)) {
+                            $picture->setVal('url', $url);
+                            if ($type == 'cover') {
+                                $picture->setVal('type', 1);
+                            } else {
+                                $picture->setVal('type', 2);
+                            }
+                            $picture->create();
+                        } else {
+                            echo 'failed to upload picture';
+                        }
+                    }
+                }
+                //print_r($_FILES);
+                return $id;
+            } else {
                 echo 'failed to create product :(';
+                return false;
             }
-        }else{
+        } else {
             echo 'recheck your data, your data is invalid :(';
+            return false;
         }
-        //print_r($newProduct->getTableStruct());
-//        if(!$error){
-//            if($newProduct->create()){
-//                
-//            }
-//        }else{
-//            //show error
-//        }
-        //echo 'product Pictures: ---------------------<br>';
-        //print_r($files);
     }
 
     public function getProductIdByName($name) {
@@ -113,24 +133,27 @@ class Product extends CTModel {
     public function updatePicUrls() {
         $productID = $this->getVal('id');
         $newFolderName = $this->generateFolderName();
-        $pictures = Pictures::getCategoryPictureModels($productID);
-        foreach ($pictures as $pic) {
-            if ($pic->getVal('type') == 1) {
-                $path = $pic->getVal('url');
-            }
-        }
-        $folders = explode('/', $path);
-        $oldDir = BASE_PATH;
-        for ($i = 0; $i < 4; $i++) {
-            $oldDir .= $folders[$i] . '/';
-        }
-        $newDir = BASE_PATH . '/images/' . $newFolderName . '/';
-        if (rename($oldDir, $newDir)) {
+        $pictures = Pictures::getProductPictureModels($productID);
+        if (count($pictures) > 0) {
             foreach ($pictures as $pic) {
-                $newUrl = str_replace($folders[2] . '/' . $folders[3], $newFolderName, $pic->getVal('url'));
-                $pic->setVal('url', $newUrl);
-                $pic->setVal('name', $this->getVal('product_name'));
-                $pic->update();
+                if ($pic->getVal('type') == 1) {
+                    $path = $pic->getVal('url');
+                }
+            }
+            //get old picture directory
+            $folders = explode('/', $path);
+            $oldDir = BASE_PATH;
+            for ($i = 0; $i < 4; $i++) {
+                $oldDir .= $folders[$i] . '/';
+            }
+            $newDir = BASE_PATH . '/images/' . $newFolderName . '/';
+            if (rename($oldDir, $newDir)) { //remame to new picture directory
+                foreach ($pictures as $pic) {//update database
+                    $newUrl = str_replace($folders[2] . '/' . $folders[3], $newFolderName, $pic->getVal('url'));
+                    $pic->setVal('url', $newUrl);
+                    $pic->setVal('name', $this->getVal('product_name'));
+                    $pic->update();
+                }
             }
         }
     }
@@ -142,7 +165,9 @@ class Product extends CTModel {
     public function updatePictures($files) {
         $marsk = array();
         $uploadMarsk = array();
+        //echo 'About to change some pictures';
         $folderName = $this->generateFolderName();
+        echo $folderName;
         $pictures = Pictures::getProductPictureModels($this->getVal('id'));
         foreach ($pictures as $picture) {
             array_push($marsk, $picture);
@@ -164,7 +189,11 @@ class Product extends CTModel {
                     $marsk[$i] = new Pictures();
                     $marsk[$i]->setVal('url', $uploadedTo);
                     $marsk[$i]->setVal('name', $this->getVal('product_name'));
-                    $marsk[$i]->setVal('type', 2);
+                    if ($i == 0) {
+                        $marsk[$i]->setVal('type', 1);
+                    } else {
+                        $marsk[$i]->setVal('type', 2);
+                    }
                     $marsk[$i]->setVal('product_id', $this->getVal('id'));
                     if ($marsk[$i]->create()) {
                         echo 'inserted new picture to db <br/>';
@@ -236,4 +265,141 @@ class Product extends CTModel {
         }
     }
 
+    // get all product
+    public function getProductList($page) {
+        //$tempPos = 0;
+        $NumberProductOf1Page = 10;
+        $pos = ($page - 1) * $NumberProductOf1Page;
+        $db = CTSQLite::connect();
+
+        // Count total number Products
+        $SelectQuerry = 'SELECT * FROM ic_product';
+        $res = $db->query($SelectQuerry);
+        $totalRecord = 0;
+        while ($rows = $res->fetchArray()) {
+            $totalRecord++;
+        }
+        $totalPages = ceil($totalRecord / $NumberProductOf1Page);
+
+        $getProductQuery = 'SELECT * FROM ic_product limit ' . $pos . ',' . $NumberProductOf1Page;
+        $results = $db->query($getProductQuery);
+        $row_results = array();
+        $count = 0;
+
+        while ($row = $results->fetchArray()) {
+            array_push($row_results, $row);
+            $count++;
+        }
+        for ($i = 0; $i <= $count - 1; $i++) {
+            $row_results[$i]['currentPage'] = $page;
+            if (empty($row_results[$i]['id'])) {
+                return $row_results;
+            } else {
+                // Get Pictures URL
+                $getPicQuery = 'SELECT * FROM ic_pictures WHERE type = 1 AND product_id=' . $row_results[$i]['id'];
+                $covers = $db->query($getPicQuery);
+                $cover = $covers->fetchArray();
+                $coverURL = $cover['url'];
+                $row_results[$i]['coverURL'] = $coverURL;
+
+                // Count total number Products
+                $SelectQuerry = 'SELECT * FROM ic_product';
+                $res = $db->query($SelectQuerry);
+                $counts = 0;
+                while ($rows = $res->fetchArray()) {
+                    $counts++;
+                }
+                $row_results[$i]['totalRecord'] = $counts;
+            }
+        }
+
+        return $row_results;
+    }
+
+    /**
+     * update product
+     */
+    public static function updateProduct($productData) {
+        $product = new Product();
+        $product->setData($productData);
+        if (!isset($productData['available'])) {
+            $product->setVal('available', '0');
+        }
+        if (!isset($productData['is_new'])) {
+            $product->setVal('is_new', '0');
+        }
+        if (isset($productData['categoryID'])) {
+            if ($productData['categoryID'] > 0) {
+                $product->updateCategory($productData['categoryID']);
+            }
+        }
+        //check if the new info is different than origin
+        $update = $product->changesFilter();
+        if (count($update->getData()) > 1) {
+            if ($update->validateUpdate()) {
+                $oldProductInfo = new Product($productData['id']);
+                if ($update->update()) {
+                    if ($oldProductInfo->getVal('product_name') != $product->getVal('product_name')) {
+                        //if the folder name is updated
+                        $product->updatePicUrls();
+                    }
+                    echo 'update product basic info sucessfully <br/>';
+                } else {
+                    echo 'update product failed';
+                }
+            }
+        } else {
+            echo "<br/>Basic info doesn't changes than origin";
+        }
+    }
+
+    /*     * helper
+     * check if the file inputed has changes in the update page
+     */
+
+    private static function hasChanges($files) {
+        foreach ($files as $file) {
+            if (!empty($file['name'])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * delete product and assosiated pictures
+     * 
+     */
+    public static function deleteProduct($id) {
+        $product = new Product($id);
+        $pictures = Pictures::getProductPictureModels($id);
+        if (count($pictures) > 0) {
+            foreach ($pictures as $pic) {
+                if ($pic->getVal('type') == 1) {
+                    $path = $pic->getVal('url');
+                }
+            }
+            //get old picture directory
+            $folders = explode('/', $path);
+            $oldDir = BASE_PATH;
+            for ($i = 0; $i < 4; $i++) {
+                $oldDir .= $folders[$i] . '/';
+            }
+            if ($files = scandir($oldDir)) {
+                foreach ($files as $file) {
+                    if ($file != '.' && $file !== '..') {
+                        unlink($oldDir . $file);
+                    }
+                }
+            }
+            if (rmdir($oldDir)) {
+                $product->delete();
+                echo 'pictures are deleted';
+            } else {
+                echo 'pictures are not deleted';
+            }
+        }
+    }
+
 }
+
