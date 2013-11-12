@@ -4,15 +4,17 @@ Implimentation By Creative Team*/
 
 /****LAYOUT****/
 div#container{
+    height: 100%;
 }
 /*desktop main layout*/
 div#container.desktop-view div#header-menu{
     position: fixed;
     width: 430px;
     height: 100%;
+    z-index: 9999;
 }
 div#container.desktop-view div#content-container{
-    padding-left: 429px;
+    margin-left: 429px;
     position: relative;
 }
 
@@ -243,7 +245,7 @@ textarea.description-area{
     display: block;
     padding: 20px 40px 20px 40px;
     background-color: #fff;
-    box-shadow: 0px 0px 6px #000;
+    box-shadow: 0px 0px 30px #000;
 } 
 #login-form > *{
     display: block;
@@ -251,7 +253,6 @@ textarea.description-area{
     margin: 0px 0px 10px 0px;
 }
 #login-form > span.logo{
-    text-align: center;
     display: block;
     width: 50px;
     margin:auto;
@@ -277,6 +278,9 @@ textarea.description-area{
     height: 40px;
     cursor: pointer;
     margin-bottom: 10px;
+}
+.remember-me{
+    text-align: left;
 }
 .forget-link{
     text-align: right;
@@ -345,4 +349,32 @@ a.sign-up{
     text-align: center;
     font-style:italic;
     color: #999;  
+}
+/*Dark box*/
+.dark-box{
+    position: fixed;
+    z-index: 999;
+    left: 430px;
+    box-shadow: inset 0px 0px 100px #000;
+    display: none;
+}
+.dark-box-bg{
+    background-color: #000;
+    opacity: .5
+}
+.dark-box-container{
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+.dark-box-close{
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    right: 10px;
+    display: block;
+    height: 40px;
+    width: 40px;
+    background-image: url('../images/icons/darkbox-close.png');
+    cursor: pointer;
 }

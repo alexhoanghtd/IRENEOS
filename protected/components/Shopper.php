@@ -15,7 +15,6 @@ class Shopper extends CTUser implements IUserIdentity{
         $this->bag = new Bag();
         $this->setRole(CT_ADMIN);
     }
-    
     public function addToBag($bagItem){
         $this->bag->add($bagItem);
         $this->save();

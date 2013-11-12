@@ -18,14 +18,16 @@ class SiteController extends CTController {
         //$newArrival = $collection->getCollection(1);
         $this->render("index", $newArrival);
     }
-    /**about page
-    function actionAbout() {
-        CT::widgets('MainMenu')->setActive(USER_MENU, 'about us');
-        $this->render('about', 'xampledata');
-    }
-    /**
+
+    /*     * about page
+      function actionAbout() {
+      CT::widgets('MainMenu')->setActive(USER_MENU, 'about us');
+      $this->render('about', 'xampledata');
+      }
+      /**
      * contact page
      */
+
     function actionContact() {
         CT::widgets('MainMenu')->setActive(USER_MENU, 'contact us');
         $this->render('about', 'xampledata');
@@ -35,10 +37,35 @@ class SiteController extends CTController {
 
     function actionLogin() {
         CT::widgets('MainMenu')->setActive(USER_MENU, 'login');
-        $this->render('login', '');
+        if(isset($_POST['login'])){
+            $loginData = $_POST['login'];
+            $user = new User();
+            $user->setVal('username',$loginData['username']);
+            $user->setVal('password',$loginData['password']);
+            print_r($user->getData());
+            $currUser = $user->select();
+            if($currUser){
+                CT::user()->setRole($currUser[0]->getVal('role'));
+                if(CT::user()->getRole() == CT_ADMIN){
+                    CT::redirect_to("/Admin/");
+                }else{
+                    CT::redirect_to("/");
+                }
+            }else{
+                echo 'username or password is incorrect';
+            }
+        }  
+        if ($this->isAjax()) {
+            $this->renderAjax('login', '');
+        } else {
+            CT::widgets('MainMenu')->setActive(USER_MENU, 'login');
+            $this->render('login', '');
+        }
     }
-    function actionSignup(){
-        CT::widgets('MainMenu')->setActive(USER_MENU,'login');
-        $this->render('register','');
+
+    function actionSignup() {
+        CT::widgets('MainMenu')->setActive(USER_MENU, 'login');
+        $this->render('register', '');
     }
+
 }
