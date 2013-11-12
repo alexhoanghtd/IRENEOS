@@ -76,9 +76,10 @@ class CTModel extends CTSQLite implements IDBRecord {
                 'type' => $col['type'], // data type of the colum
                 'maxLength' => $this->getFieldRule($col['name'], 'maxLength'), // the length of the col in the table
                 'minLength' => $this->getFieldRule($col['name'], 'minLength'),
-                'required' => ($this->getFieldRule($col['name'], 'required'))? $this->getFieldRule($col['name'], 'required') : $col['notnull'], // is the colum value
+                'required' => ($this->getFieldRule($col['name'], 'required')) ? $this->getFieldRule($col['name'], 'required') : $col['notnull'], // is the colum value
                 'unique' => $this->getFieldRule($col['name'], 'unique'), // default is unique = none
                 'regEx' => $this->getFieldRule($col['name'], 'regEx'), //regular expression
+                'defaut' => $col['dflt_value'],
                 'pk' => $col['pk'], // is pk
             );
             //echo $col['name'].'|'.$col['type'].'<br />';
@@ -530,8 +531,8 @@ class CTModel extends CTSQLite implements IDBRecord {
 
     public function validateUpdate() {
         $hasErrs = array();
-        foreach($this->row as $fieldName => $val){
-            if($fieldName != 'id'){
+        foreach ($this->row as $fieldName => $val) {
+            if ($fieldName != 'id') {
                 $hasErrs[$fieldName] = !$this->validateCell($this->table[$fieldName]);
             }
         }
@@ -600,15 +601,19 @@ class CTModel extends CTSQLite implements IDBRecord {
         if ($fieldRules['required']) {
             if (isset($this->row[$fieldName])) {
                 $fieldValue = $this->row[$fieldName];
-                if (!empty($fieldValue)) {
+                if (!empty($fieldValue) || $fieldValue == 0) {
                     return true;
                 } else {
                     echo $this->getLabel($fieldName) . ' can not be empty </br>';
                     return false;
                 }
             } else {
-                echo $this->getLabel($fieldName) . 'need to be set </br>';
-                return false;
+                if (isset($this->table[$fieldName]['dflt_value'])) {
+                    return true;
+                } else {
+                    echo $this->getLabel($fieldName) . 'need to be set </br>';
+                    return false;
+                }
             }
         } else {
             return true;
@@ -638,13 +643,13 @@ class CTModel extends CTSQLite implements IDBRecord {
             case 'FLOAT'://validate if type = float
                 if (filter_var($fieldValue, FILTER_VALIDATE_FLOAT)) {
                     $valid = true;
-                    if (!empty($fieldRules['maxLength']) || $fieldRules['maxLength'] == 0 ) {
+                    if (!empty($fieldRules['maxLength']) || $fieldRules['maxLength'] == 0) {
                         if ((float) $fieldValue > (float) $fieldRules['maxLength']) {
                             echo $this->getLabel($fieldName) . " has to be smaller than or equal to " . $fieldRules['maxLength'];
                             $valid = false;
                         }
                     }
-                    if (!empty($fieldRules['minLength']) || $fieldRules['minLength'] == 0 ) {
+                    if (!empty($fieldRules['minLength']) || $fieldRules['minLength'] == 0) {
                         //echo 'min val ='.$fieldRules['minLength'].' | fieldVal = '.$fieldValue;
                         if ((float) $fieldValue < (float) $fieldRules['minLength']) {
                             echo $this->getLabel($fieldName) . " has to be bigger than or equal to " . $fieldRules['minLength'];
@@ -706,9 +711,24 @@ class CTModel extends CTSQLite implements IDBRecord {
         }
     }
 
+    /**
+     * Validate the RegEx pattern
+     * @param type $fieldName
+     * @param type $fieldValue
+     * @return boolean
+     */
     public function validateRegEx($fieldName, $fieldValue) {
-        return true;
+        $fieldRules = $this->table[$fieldName];
+        $regExPatt = $fieldRules['regEx'];
+        if (preg_match($regExPatt, $fieldValue)) {
+            return true;
+        } else {
+            echo 'Invalid '.$this->getLabel($fieldName);
+            return false;
+        }
     }
+
+    /*     * get label for a field* */
 
     public function getLabel($fieldName) {
         $fieldRules = $this->table[$fieldName];

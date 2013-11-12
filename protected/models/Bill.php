@@ -10,7 +10,7 @@
 class Bill extends CTModel{
     public function getBill($id){
     }
-
+    
     public function updateBill($id){
         
     }
