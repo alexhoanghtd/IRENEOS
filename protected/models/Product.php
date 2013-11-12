@@ -268,7 +268,7 @@ class Product extends CTModel {
     // get all product
     public function getProductList($page) {
         //$tempPos = 0;
-        $NumberProductOf1Page = 2;
+        $NumberProductOf1Page = 10;
         $pos = ($page - 1) * $NumberProductOf1Page;
         $db = CTSQLite::connect();
 

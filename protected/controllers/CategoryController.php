@@ -112,8 +112,16 @@ class CategoryController extends CTController {
     public function actionUpdate($id) {
         if (isset($_POST['category'])) {
             $category = new Category();
-            //print_r($_POST['category']);
+            print_r($_POST['category']);
             $category->setData($_POST['category']);
+
+            if (!isset($_POST['category']['available'])) {
+                $category->setVal('available', '0');
+            }
+            if (!isset($_POST['category']['is_new'])) {
+                $category->setVal('is_new', '0');
+            }
+
             if ($category->changesThanOrigin()) {
                 $oldCategoryInfo = new Category($_POST['category']['id']);
                 if ($category->update()) {
@@ -168,30 +176,32 @@ class CategoryController extends CTController {
     public function actionList() {
         $category = new Category();
         $pic = new Pictures();
-        
+
         // Delete category selected in checkbox
-        if (isset($_POST['cbDelete'])) {            
-            foreach ($_POST['cbDelete'] as $id){
+        if (isset($_POST['cbDelete'])) {
+            foreach ($_POST['cbDelete'] as $id) {
                 $category->deleteCategory($id);
                 $category->deleteFile($id);
                 $pic->deletePicture($id);
             }
         }
-        
-        // Quick active
-        if (isset($_POST['cbActive'])) {            
-            foreach ($_POST['cbActive'] as $id){
-                $c = new Category($id);
-                $c->setVal('available', '1');
-                $c->update();
+
+        // Quick active    
+        if (isset($_POST['category'])) {
+            foreach ($_POST['category'] as $id) {
+                if (!isset($_POST['cbActive'][$id])) {
+                    $c = new Category($id);
+                    $c->setVal('available', '0');
+                    $c->update();
+                } else {
+                    $c = new Category($id);
+                    $c->setVal('available', '1');
+                    $c->update();
+                }
             }
-        }else{
-            $category->setVal('available', '0');
-            $category->update();
         }
-        
         $data = $category->getCategoryList();
-        
+
         CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'categories');
         $this->render('list', $data);
         //header("Location: http://irene.local/");
