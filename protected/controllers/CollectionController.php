@@ -51,5 +51,8 @@ class CollectionController extends CTController {
         CT::widgets('MainMenu')->setActive(ADMIN_MENU,'collections');
         $this->render('update', 'data');
     }
-
+    
+    public function actionProduct(){
+        $this->render('products', '');
+    }
 }

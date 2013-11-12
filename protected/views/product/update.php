@@ -1,7 +1,9 @@
 <!-- layout $content will be shown here -->
 <?php 
 $product = $data['model'];
-print_r($data);
+$categoryID = $data['categoryID'];
+$categories = Category::getCategory();
+//print_r($categories);
 ?>
 <form id="update-product" class="l-2cols clearfix content-inner" 
       method="POST" 
@@ -72,6 +74,20 @@ print_r($data);
                        name="product[sale]"
                        value="<?= $product['sale']; ?>"> %
             </span>
+            <div>
+                <span>Product category:</span>
+                
+                <select name="product[categoryID]">
+                    <option value="-1" selected>Chose Category..</option>
+                    <?php if($categories){ 
+                        foreach($categories as $category) {?>
+                        <option value="<?=$category['id']?>"
+                                <?=($category['id']==$categoryID)? " selected": ""?> >
+                            <?=$category['name']?>
+                        </option>
+                    <?php }}?>
+                </select>
+            </div>
             <div>
                 <input type="checkbox" 
                        <?= $product['available']? "checked" : ""?>

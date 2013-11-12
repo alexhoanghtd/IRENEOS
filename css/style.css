@@ -229,3 +229,6 @@ div#content-header{
 	border: 1px solid #999;
 	box-shadow:0px 0px 4px 1px #ddd;
 }
+textarea.description-area{
+    background-image: url('../images/strip.png');
+}

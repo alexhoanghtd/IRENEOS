@@ -1,5 +1,9 @@
 
-
+<?php
+//    print_r($data['available']);
+//    echo "</br>";
+//    print_r($data['is_new']);
+?>
 <!-- layout $content will be shown here -->
 <form id="create-product" class="l-2cols clearfix content-inner" 
       method="POST" 
@@ -24,8 +28,8 @@
             <input  type="text" class="col-right-header" placeholder="Category name" name="category[name]" required>
             <textarea  placeholder="Write the description here...." name="category[description]"></textarea>
             <div>
-                <input type="checkbox" name="category[available]" value="1"><label>active</label>
-                <input type="checkbox" name="category[is_new]" value="1"><label>is new</label>
+                <input type="checkbox" name="category[available]" value="1" /><label>active</label>
+                <input type="checkbox" name="category[is_new]" value="1" /><label>is new</label>
                 <input type="hidden" name="category[is_collection]" value="0">
             </div>
             <div class="button-group">

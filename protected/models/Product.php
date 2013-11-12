@@ -11,28 +11,64 @@ class Product extends CTModel {
     public function fieldRules() {
         return array(
             "id" => array(
-                "max-length" => 20,
-                "min-length" => 1,
-                "name" => "identitier",
+                "maxLength" => 20,
+                "minLength" => 1,
+                "name" => "Identitier",
                 "unique" => true,
+                "required" => true,
             ),
             "product_name" => array(
-                "max-length" => 200,
-                "min-length" => 5,
+                "maxLength" => 200,
+                "minLength" => 5,
                 "name" => "Product name",
                 "unique" => true,
+                "required" => true,
             ),
             "product_description" => array(
-                "max-length" => 1000,
-                "min-length" => 5,
+                "maxLength" => 1000,
+                "minLength" => 5,
                 "name" => "Product description",
                 "unique" => false,
+                "required" => true,
+            ),  
+            "price" => array(
+                "maxLength" => 1000,
+                "minLength" => 5,
+                "name" => "Product price",
+                "required" => true,
+            ),
+            "sale" => array(
+                "maxLength" => 100,
+                "minLength" => 0,
+                "name" => "Product sale",
+                "required" => false,
             ),
         );
     }
 
-    public function getProduct($id) {
-        
+    public static function createProduct($productData, $files) {
+        //INSERT PRODUCT DATA STUFFS
+        $newProduct = new Product();
+        $newProduct->setData($productData);
+        if($error = $newProduct->validateCreate()){
+            if($newProduct->create()){
+                echo 'created product successfully :)';
+            }else{
+                echo 'failed to create product :(';
+            }
+        }else{
+            echo 'recheck your data, your data is invalid :(';
+        }
+        //print_r($newProduct->getTableStruct());
+//        if(!$error){
+//            if($newProduct->create()){
+//                
+//            }
+//        }else{
+//            //show error
+//        }
+        //echo 'product Pictures: ---------------------<br>';
+        //print_r($files);
     }
 
     public function getProductIdByName($name) {
@@ -176,6 +212,27 @@ class Product extends CTModel {
             $model = new Product($id);
         } else {
             $model = new Product($this->getVal('id'));
+        }
+    }
+
+    /**
+     * Update the category that the product belong to
+     * @param type $categoryID
+     */
+    public function updateCategory($categoryID) {
+        //echo 'about to update productid = '.$this->getVal('id').' with categoryid='.$categoryID;
+        $categories = Category::getCategory();
+        $categoryIDs = array_keys($categories);
+        if ($categoryID > 0 && in_array($categoryID, $categoryIDs)) {
+            if (!CategoryProduct::getProductCategory($this->getVal('id'))) {
+                //if the product is not set to any categor
+                CategoryProduct::addProductToCategory($this->getVal('id'), $categoryID);
+            } else {
+                //if the product already set to a category
+                CategoryProduct::updateCategory($this->getVal('id'), $categoryID);
+            }
+        } else {
+            echo 'the category you add is not valid';
         }
     }
 

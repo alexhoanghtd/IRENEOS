@@ -49,6 +49,10 @@ class CTModel extends CTSQLite implements IDBRecord {
         //$this->generateInsertQuery();
     }
 
+    public function fieldRules() {
+        return array();
+    }
+
     /**
      * get all the basic structure of the table according to model name
      * set to $this->table
@@ -57,10 +61,10 @@ class CTModel extends CTSQLite implements IDBRecord {
         //get the table name according to model name 
         if (empty($this->tableName)) {
             $tableName = $this->setTableName();
-        }else{
+        } else {
             $tableName = $this->tableName;
         }
-
+        //$fieldRules = $this->fieldRules();
         //querry table structure
         $table = $this->db->query("pragma table_info(" . $tableName . ")");
         //building the structure
@@ -68,17 +72,29 @@ class CTModel extends CTSQLite implements IDBRecord {
             //print_r($col);
             $this->table[$col['name']] = array(
                 'colName' => $col['name'], // Name of colum in the database
-                'name' => null, // name definition
+                'name' => $this->getFieldRule($col['name'], 'name'), // name definition
                 'type' => $col['type'], // data type of the colum
-                'maxLength' => null, // the length of the col in the table
-                'minLength' => null,
-                'required' => $col['notnull'], // is the colum value
-                'unique' => false, // default is unique = none
+                'maxLength' => $this->getFieldRule($col['name'], 'maxLength'), // the length of the col in the table
+                'minLength' => $this->getFieldRule($col['name'], 'minLength'),
+                'required' => $this->getFieldRule($col['name'], 'required'), // is the colum value
+                'unique' => $this->getFieldRule($col['name'], 'unique'), // default is unique = none
+                'regEx' => $this->getFieldRule($col['name'], 'regEx'), //regular expression
                 'pk' => $col['pk'], // is pk
             );
             //echo $col['name'].'|'.$col['type'].'<br />';
         }
         //print_r($this->table);
+    }
+
+    private function getFieldRule($colname, $rulename) {
+        $fieldRules = $this->fieldRules();
+        //print_r($fieldRules);
+        if (isset($fieldRules[$colname][$rulename])) {
+            //echo $fieldRules[$colname][$rulename];
+            return $fieldRules[$colname][$rulename];
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -406,73 +422,248 @@ class CTModel extends CTSQLite implements IDBRecord {
         }
         return false;
     }
-    
+
     /**
      * get a list of self models which matched condition
      */
-    public function getWhere($condition){
-        $query = 'SELECT id FROM '.$this->tableName." WHERE ".$condition;
+    public function getWhere($condition) {
+        $query = 'SELECT id FROM ' . $this->tableName . " WHERE " . $condition;
         $className = get_class($this);
         $result = $this->db->query($query);
-        if($result){
+        if ($result) {
             $models = array();
-            while($id = $result->fetchArray()){
+            while ($id = $result->fetchArray()) {
                 $model = new $className($id['id']);
                 array_push($models, $model);
             }
             return $models;
-        }else{
+        } else {
             return false;
         }
     }
+
     /**
      * Check if the information as stored in $row already existed in 
      * the database
      */
-    public function checkExists(){
-         $models = $this->select();
-         return (count($models)== 0)? false : true;
-   }
-   /**
-    * With the condition value set inside the model $row value, execute the 
-    * select query with that condition and return an array of self models
-    * @return boolean|array False if failed to execute the query, 
-    * else array of models
-    */
-   public function select(){
-       $query = $this->prepareSelect();
-       $stmt = $this->prepareStmt($query);
-       $results = $stmt->execute();
-       if(!$results){
-           return false;
-       }else{
-           $modelName = get_class($this);
-           $models = array();
-           while($row = $results->fetchArray()){
-               $model = new $modelName();
-               $model->setData($row);
-               array_push($models, $model);
-           }
-           return $models;
-       }
-   }
-   /**
-    * prepare the select statement with conditions corresponding
-    * @return string the query for select
-    */
-   private function prepareSelect(){
-       $query = "SELECT * FROM ".$this->tableName." WHERE ";
-       if(!empty($this->row)){
-           $keys = array_keys($this->row);
-           foreach($keys as $key){
-               $query .= $key."=:".$key." AND ";
-           }
-           $query = substr_replace($query, "", -4);
-       }else{
-           return "current table is empty";
-       }
-       //echo $query;
-       return $query;
-       
-   }
+    public function checkExists() {
+        $models = $this->select();
+        return (count($models) == 0) ? false : true;
+    }
+
+    /**
+     * With the condition value set inside the model $row value, execute the 
+     * select query with that condition and return an array of self models
+     * @return boolean|array False if failed to execute the query, 
+     * else array of models
+     */
+    public function select() {
+        $query = $this->prepareSelect();
+        $stmt = $this->prepareStmt($query);
+        $results = $stmt->execute();
+        if (!$results) {
+            return false;
+        } else {
+            $modelName = get_class($this);
+            $models = array();
+            while ($row = $results->fetchArray()) {
+                $model = new $modelName();
+                $model->setData($row);
+                array_push($models, $model);
+            }
+            return $models;
+        }
+    }
+
+    /**
+     * prepare the select statement with conditions corresponding
+     * @return string the query for select
+     */
+    private function prepareSelect() {
+        $query = "SELECT * FROM " . $this->tableName . " WHERE ";
+        if (!empty($this->row)) {
+            $keys = array_keys($this->row);
+            foreach ($keys as $key) {
+                $query .= $key . "=:" . $key . " AND ";
+            }
+            $query = substr_replace($query, "", -4);
+        } else {
+            return "current table is empty";
+        }
+        //echo $query;
+        return $query;
+    }
+
+    /**
+     * Validate the information stored in model data before insert into database
+     * using those information
+     * 
+     * @return array of error message if there is something wrong
+     * @return FALSE if no error occurs
+     */
+    public function validateCreate() {
+        $hasErrs = array();
+        foreach ($this->table as $cell) {
+            if ($cell['colName'] != 'id') {
+                $hasErrs[$cell['colName']] = !$this->validateCell($cell);
+            }
+        }
+        //print_r($hasErrs);
+        foreach($hasErrs as $hasErr){
+            if($hasErr){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function validateCell($cell) {
+        $fieldName = $cell['colName'];
+        //echo 'checking '.$fieldName.'<br>';
+        if ($this->validateRequired($fieldName)) {
+            $fieldValue = isset($this->row[$fieldName]) ?
+                    $this->row[$fieldName] : "";
+            if (!empty($fieldValue)) {
+                if ($this->validateType($fieldName, $fieldValue)) {
+                    if ($this->validateRegEx($fieldName, $fieldValue)) {
+                        if ($this->validateUnique($fieldName, $fieldValue)) {
+                            $hasErr = false;
+                        } else {
+                            $hasErr = true;
+                        }
+                    } else {
+                        $hasErr = true;
+                    }
+                } else {
+                    $hasErr = true;
+                }
+            }else{
+                $hasErr = false;
+            }
+        } else {
+            $hasErr = true;
+        }
+        return !$hasErr;
+    }
+
+    public function validateRequired($fieldName) {
+        $fieldRules = $this->table[$fieldName];
+        if ($fieldRules['required']) {
+            if (isset($this->row[$fieldName])) {
+                $fieldValue = $this->row[$fieldName];
+                if (!empty($fieldValue)) {
+                    return true;
+                } else {
+                    echo $this->getLabel($fieldName) . ' can not be empty </br>';
+                    return false;
+                }
+            } else {
+                echo $this->getLabel($fieldName) . 'need to be set </br>';
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    public function validateUnique($fieldName, $fieldValue) {
+        $fieldRules = $this->table[$fieldName];
+        if ($fieldRules['unique']) {
+            $modelClass = get_class($this);
+            $model = new $modelClass();
+            $model->setVal($fieldName, $fieldValue);
+            if ($model->checkExists()) {
+                echo $this->getLabel($fieldName) . " already existed<br>";
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    public function validateType($fieldName, $fieldValue) {
+        $fieldRules = $this->table[$fieldName];
+        switch ($fieldRules['type']) {
+            case 'FLOAT'://validate if type = float
+                if (filter_var($fieldValue, FILTER_VALIDATE_FLOAT)) {
+                    $valid = true;
+                    if (!empty($fieldRules['maxLength'])) {
+                        if ((float) $fieldValue > (float) $fieldRules['maxLength']) {
+                            echo $this->getLabel($fieldName) . " has to be smaller than or equal to " . $fieldRules['maxLength'];
+                            $valid = false;
+                        }
+                    }
+                    if (!empty($fieldRules['minLength'])) {
+                        //echo 'minLength ='.$fieldRules['minLength'];
+                        if ((float) $fieldValue < (float) $fieldRules['minLength']) {
+                            echo $this->getLabel($fieldName) . " has to be bigger than or equal to " . $fieldRules['minLength'];
+                            $valid = false;
+                        }
+                    }
+                    return $valid;
+                } else {
+                    echo $this->getLabel($fieldName) . ' has to be a float</br>';
+                    return false;
+                }
+                break;
+            case 'INTEGER': // validate if type = INTEGER;
+                if (filter_var($fieldValue, FILTER_VALIDATE_INT)) {
+                    $valid = true;
+                    if (!empty($fieldRules['maxLength'])) {
+                        if ((int) $fieldValue > (int) $fieldRules['maxLength']) {
+                            echo $this->getLabel($fieldName) . " has to be smaller than or equal to " . $fieldRules['maxLength'];
+                            $valid = false;
+                        }
+                    }
+                    if (!empty($fieldRules['minLength'])) {
+                        //echo 'minLength ='.$fieldRules['minLength'];
+                        if ((int) $fieldValue < (int) $fieldRules['minLength']) {
+                            echo $this->getLabel($fieldName) . " has to be bigger than or equal to " . $fieldRules['minLength'];
+                            $valid = false;
+                        }
+                    }
+                    return $valid;
+                } else {
+                    return false;
+                    echo $this->getLabel($fieldName) . ' has to be a integer number';
+                }
+                break;
+            case 'BOOL':
+                if (filter_var($fieldValue, FILTER_VALIDATE_BOOLEAN)) {
+                    return true;
+                } else {
+                    return false;
+                    echo $this->getLabel($fieldName) . ' has to be a Boolean</br>';
+                }
+                break;
+            default :
+                $length = strlen($fieldValue);
+                $valid = true;
+                if (!empty($fieldRules['maxLength'])) {
+                    if ($length > (int) $fieldRules['maxLength']) {
+                        echo $this->getLabel($fieldName) . " has to have maximum " . $fieldRules['maxLength'] . ' characters.';
+                        $valid = false;
+                    }
+                }
+                if (!empty($fieldRules['minLength'])) {
+                    if ($length < (int) $fieldRules['minLength']) {
+                        echo $this->getLabel($fieldName) . " has to have minimum " . $fieldRules['minLength'] . ' characters.';
+                        $valid = false;
+                    }
+                }
+                return $valid;
+        }
+    }
+
+    public function validateRegEx($fieldName, $fieldValue) {
+        return true;
+    }
+
+    public function getLabel($fieldName) {
+        $fieldRules = $this->table[$fieldName];
+        return ( empty($fieldRules['name'])) ? $fieldRules['colName'] : $fieldRules['name'];
+    }
+
 }

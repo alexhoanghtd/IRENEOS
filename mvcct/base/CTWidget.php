@@ -6,7 +6,9 @@
  * and open the template in the editor.
  */
 
-class CTWidget extends CTComponent{
+class CTWidget {
     protected $viewBluePrint;
-    protected $view;
+    protected $data;
+    protected $cssLink;
+    
 }

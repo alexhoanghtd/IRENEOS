@@ -16,6 +16,7 @@ class MainMenu {
     private function menuList($menuType) {
         $menuList = array(
             "1" => array(
+                'login' => 'Site/Login/',
                 'new arrivals' => 'http://irene.local',
                 'collections' => '/Collection/',
                 'about us' => '/Site/About/',
@@ -35,7 +36,7 @@ class MainMenu {
     }
 
     public function __construct() {
-        $this->items = CT::$_CONFIG['widgets']['MainMenu'];
+        //$this->items = CT::$_CONFIG['widgets']['MainMenu'];
         $this->viewBluePrint = 'mainMenu';
         $this->items = $this->menuList(1);
         $this->active = 'new arrivals';

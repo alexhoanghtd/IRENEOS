@@ -18,13 +18,14 @@ class ExampleController extends CTController {
     }
 
     public function actionIndex($param = 0) {
-        echo 'you are in index action of Example controller<br>';
-        echo 'your role is'.CT::user()->getRole();
-        print_r($_SESSION);
+        $this->render('index', '');
     }
 
     public function actionView($param) {
-        Vproduct::deleteByID(2);
+        $product = new Product();
+        //print_r($product->fieldRules());
+        print_r($product->getTableStruct());
+        //$product->validate();
     }
     public function actionAjaxTest($pID){
         //echo $pID;
