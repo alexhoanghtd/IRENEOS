@@ -8,7 +8,7 @@
     <div class="single-col">        
         <form method='post' id='userform' action='List'>
             <input type="submit" value="Delete selected & Quick Active"/></br></br>
-            
+
             <table class="ct-list-tbl">
                 <tr>
                     <td></td>
@@ -20,21 +20,18 @@
 
                 <?php
                 $status = null;
-                foreach ($data as $items) {
-                    if ($items['available'] == 1) {
-                        $status = 'active';
-                    } else {
-                        $status = 'not active';
-                    }   
+                foreach ($data as $item) {
                     ?>
 
                     <tr>
-                        <td><input type="checkbox" name="cbDelete[]" value="<?= $items['id'] ?>"></td>
-                        <td><?php print_r($items['name']) ?></td>
-                        <td><?php print_r($items['num']) ?></td>
-                        <td><input type="checkbox" name="cbActive[]" value="<?= $items['id'] ?>" 
-                                   <?php if($items['available']==1){ ?>checked="checked"<?php } ?>></td>
-                        <td><a href="Update/<?= $items['id'] ?>"> Edit </a><a href="Delete/<?= $items['id'] ?>"> Delete </a></td>
+                        <input type="hidden" name="category[<?=$item['id']?>]" value="<?=$item['id']?>">
+                        <td><input type="checkbox" name="cbDelete[]" value="<?= $item['id'] ?>"></td>
+                        <td><?php print_r($item['name']) ?></td>
+                        <td><?php print_r($item['num']) ?></td>
+                    <td><input type="checkbox" 
+                    <?= ( $items['available'] == '1' ) ? "checked" : "" ?>
+                           name="cbActive[<?= $item['id'] ?>]" value="1"></td>
+                    <td><a href="Update/<?= $item['id'] ?>"> Edit </a><a href="Delete/<?= $item['id'] ?>"> Delete </a></td>
                     </tr>
 
                 <?php } ?>          

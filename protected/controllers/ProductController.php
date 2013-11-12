@@ -109,11 +109,12 @@ class ProductController extends CTController {
         }
     }
 
-    public function actionUpdatePictures($productID){
+    public function actionUpdatePictures($productID) {
         $product = new Product($productID);
         $product->updatePictures($_FILES);
         CT::redirect_to(CT::baseURL() . '/product/Update/' . $productID);
     }
+
     public function actionDelete($id) {
         Product::deleteProduct($id);
     }
@@ -125,7 +126,6 @@ class ProductController extends CTController {
         $product->setVal('product_name', 'kamasutra $*#* rada zenga');
         echo $product->generateFolderName();
     }
-
 
     public function actionAjaxSearch() {
         //print_r($_POST);
@@ -144,6 +144,21 @@ class ProductController extends CTController {
                 foreach ($_POST['checkbox'] as $id) {
                     $p = new Product($id);
                     $p->delete();
+                }
+            }
+
+            // Quick active    
+            if (isset($_POST['product'])) {
+                foreach ($_POST['product'] as $id) {
+                    if (!isset($_POST['cbActive'][$id])) {
+                        $p = new Product($id);
+                        $p->setVal('available', '0');
+                        $p->update();
+                    } else {
+                        $p = new Product($id);
+                        $p->setVal('available', '1');
+                        $p->update();
+                    }
                 }
             }
 
