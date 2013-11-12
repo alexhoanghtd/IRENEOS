@@ -126,14 +126,7 @@ $colors = $data['colors'];
                     <li>Quantity</li>   
                     <li>Actions</li>
                 </ul>
-            </div>
-<<<<<<< HEAD
-            <div class="button-group">
-                <input type="submit" class="add-to-bag dark-bt" value="Update">
-                <a href="../Delete/<?=$product['id']?>">Delete</a>
-                <input type="reset" href="" class="check-out dark-bt" value="Reset">
-            </div>                                   
-=======
+            </div>                                
             <!--list all the attribute that already existed -->
             <?php if(!empty($attributes)){foreach ($attributes as $att) { ?>
                 <form class="update-pattr" action="/attribute/Update" Method="POST">
@@ -149,7 +142,6 @@ $colors = $data['colors'];
                     </ul>
                 </form>
             <?php }} ?>
->>>>>>> 32c0e865bdf56940de57d9dc65e2560bd338472f
 
             <?php ?>
             <form class="add-pattr" method="POST" action="/Attribute/Add">
