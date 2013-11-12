@@ -76,7 +76,7 @@ class CTModel extends CTSQLite implements IDBRecord {
                 'type' => $col['type'], // data type of the colum
                 'maxLength' => $this->getFieldRule($col['name'], 'maxLength'), // the length of the col in the table
                 'minLength' => $this->getFieldRule($col['name'], 'minLength'),
-                'required' => $this->getFieldRule($col['name'], 'required'), // is the colum value
+                'required' => ($this->getFieldRule($col['name'], 'required'))? $this->getFieldRule($col['name'], 'required') : $col['notnull'], // is the colum value
                 'unique' => $this->getFieldRule($col['name'], 'unique'), // default is unique = none
                 'regEx' => $this->getFieldRule($col['name'], 'regEx'), //regular expression
                 'pk' => $col['pk'], // is pk
@@ -93,7 +93,7 @@ class CTModel extends CTSQLite implements IDBRecord {
             //echo $fieldRules[$colname][$rulename];
             return $fieldRules[$colname][$rulename];
         } else {
-            return "";
+            return false;
         }
     }
 
