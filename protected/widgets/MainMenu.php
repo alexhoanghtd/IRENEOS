@@ -13,15 +13,16 @@ class MainMenu {
     private $active;
     private $view;
     private $viewBluePrint;
+
     private function menuList($menuType) {
         $menuList = array(
             "1" => array(
-                'login' => 'Site/Login/',
                 'new arrivals' => 'http://irene.local',
                 'collections' => '/Collection/',
                 'about us' => '/Site/About/',
                 'contact us' => '/Site/Contact',
                 'visit store' => '/Category/',
+                'login' => '/Site/Login/',
                 'bag' => '/bag/View',),
             "2" => array(
                 'collection' => '',
@@ -51,7 +52,7 @@ class MainMenu {
         return $returned;
     }
 
-    public function setActive($menuType,$active) {
+    public function setActive($menuType, $active) {
         $this->items = $this->menuList($menuType);
         $this->active = $active;
     }

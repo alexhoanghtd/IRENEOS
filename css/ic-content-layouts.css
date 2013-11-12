@@ -14,10 +14,10 @@ div#content-wrapper{
 	height: 100%;
 }
 .col-left{
-	width: 40%;
+	width: 35%;
 }
 .col-right{
-	width: 60%;
+	width: 65%;
 }
 .col-right-container{
 	padding: 0px 20px;
@@ -100,6 +100,7 @@ li > .grid-item-wrapper{
 
 /** table layout **/
 ul.tbl-4cols {
+    margin-bottom: 20px;
 }
 ul.tbl-4cols > li{
     float: left;
@@ -115,7 +116,7 @@ ul.tbl-4cols.col-header{
 	background-color: #ccc;
 }
 ul.tbl-4cols > li:last-child{
-    width: 40%;
+    width: 40%;  
 }
 ul.tbl-4cols > li >input{
     width: 70%;
