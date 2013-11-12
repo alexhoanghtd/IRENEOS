@@ -66,6 +66,32 @@ table {
 /****************
 INPUT ELEMENTS
 ****************/
+span.logo{
+    text-align: center;
+    display: block;
+    width: 50px;
+    margin:auto;
+    height: 70px;
+    font-size: 60px;
+    line-height: 70px;
+    margin-bottom: 20px;
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
+    color: #999;
+}
+a.link-bt{
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #999;
+	text-align: center;	
+	transition: color .2s, border .2s, background-color .2s;
+}
+a.link-bt:hover{
+	color: #fff;
+	background-color: #333;
+	border: 1px solid #333;
+}
 .pic-input {
     position: relative;
     overflow: hidden;
