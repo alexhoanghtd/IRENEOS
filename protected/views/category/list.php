@@ -29,7 +29,7 @@
                         <td><?php print_r($item['name']) ?></td>
                         <td><?php print_r($item['num']) ?></td>
                     <td><input type="checkbox" 
-                    <?= ( $items['available'] == '1' ) ? "checked" : "" ?>
+                    <?= ( $item['available'] == '1' ) ? "checked" : "" ?>
                            name="cbActive[<?= $item['id'] ?>]" value="1"></td>
                     <td><a href="Update/<?= $item['id'] ?>"> Edit </a><a href="Delete/<?= $item['id'] ?>"> Delete </a></td>
                     </tr>
