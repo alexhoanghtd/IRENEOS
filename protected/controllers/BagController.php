@@ -59,5 +59,7 @@ class BagController extends CTController {
         CT::user()->remove($productID);
         header("Location: http://irene.local/bag/View");
     }
-    
+    public function actionCheckout(){
+        $this->render('checkout', '');
+    }
 }
