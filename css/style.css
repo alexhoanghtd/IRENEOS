@@ -378,3 +378,65 @@ a.sign-up{
     background-image: url('../images/icons/darkbox-close.png');
     cursor: pointer;
 }
+/**COllection product admin controll**/
+.collection-header .header-cover{
+    float: left;
+    height: 200px;
+    width: 200px;
+
+}
+.collection-details {
+    padding-left: 220px;
+
+}
+.collection-details h1{
+    font-size: 40px;
+        margin-bottom: 10px;
+}
+/**listing the product collection **/
+.collection-product-list .pic-input{
+    height: 200px;
+    width: 200px;
+}
+.collection-product-box{   
+    position: relative; 
+    height: 202px;
+    margin-bottom: 10px;
+}
+
+.collection-product-cover{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin-right: 20px;
+}
+.selected-product{
+    padding-left: 222px;
+}
+.selected-product h2{
+    font-size: 30px;
+    font-style: italic;
+}
+.collection-product-list .item-actions{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 222px;
+    width: 200px;
+}
+.collection-product-list .item-actions > *{
+    display: block;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    margin: 10px 0px;
+}
+.collection-product-list .item-actions a{
+    background-color: #ddd;
+    font-style: italic;
+    line-height: 30px;
+}
+
+.collection-product-list .add-item{
+    background-color: #eee;
+}
