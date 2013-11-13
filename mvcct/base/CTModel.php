@@ -79,7 +79,7 @@ class CTModel extends CTSQLite implements IDBRecord {
                 'required' => ($this->getFieldRule($col['name'], 'required')) ? $this->getFieldRule($col['name'], 'required') : $col['notnull'], // is the colum value
                 'unique' => $this->getFieldRule($col['name'], 'unique'), // default is unique = none
                 'regEx' => $this->getFieldRule($col['name'], 'regEx'), //regular expression
-                'defaut' => $col['dflt_value'],
+                'default' => $col['dflt_value'],
                 'pk' => $col['pk'], // is pk
             );
             //echo $col['name'].'|'.$col['type'].'<br />';
@@ -608,7 +608,7 @@ class CTModel extends CTSQLite implements IDBRecord {
                     return false;
                 }
             } else {
-                if (isset($this->table[$fieldName]['dflt_value'])) {
+                if (isset($fieldRules['default'])) {
                     return true;
                 } else {
                     echo $this->getLabel($fieldName) . 'need to be set </br>';
@@ -719,12 +719,15 @@ class CTModel extends CTSQLite implements IDBRecord {
      */
     public function validateRegEx($fieldName, $fieldValue) {
         $fieldRules = $this->table[$fieldName];
-        $regExPatt = $fieldRules['regEx'];
-        if (preg_match($regExPatt, $fieldValue)) {
-            return true;
+        if ($regExPatt = $fieldRules['regEx']) {
+            if (preg_match($regExPatt, $fieldValue)) {
+                return true;
+            } else {
+                echo 'Invalid ' . $this->getLabel($fieldName);
+                return false;
+            }
         } else {
-            echo 'Invalid '.$this->getLabel($fieldName);
-            return false;
+            return true;
         }
     }
 

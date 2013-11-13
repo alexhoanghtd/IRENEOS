@@ -55,6 +55,7 @@ class Product extends CTModel {
     public static function createProduct($productData, $files) {
         //INSERT PRODUCT DATA STUFFS
         $newProduct = new Product();
+        //print_r($newProduct->getTableStruct());
         $newProduct->setData($productData);
         if ($error = $newProduct->validateCreate()) {
             if ($id = $newProduct->create()) {

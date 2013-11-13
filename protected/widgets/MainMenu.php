@@ -25,12 +25,12 @@ class MainMenu {
                 'login' => '/Site/Login/',
             ),
             "2" => array(
-                'collection' => '',
-                'categories' => '',
-                'products' => '',
-                'users' => '',
-                'bills' => '',
-                'logout' => '',
+                'collection' => '/Collection/List/',
+                'categories' => '/Category/List/',
+                'products' => '/Product/List',
+                'users' => '/User/List',
+                'bills' => '/Bill/List',
+                'logout' => '/Site/Logout/',
             ),
         );
         return $menuList[$menuType];
