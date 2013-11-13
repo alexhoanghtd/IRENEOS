@@ -43,7 +43,7 @@ class CTModel extends CTSQLite implements IDBRecord {
         $row = array();
         $this->db = self::connect();
         if ($id != 0) {
-            $this->get($id);
+            return $this->get($id);
         }
         //$this->row['id'] = ':SDLK';
         //$this->generateInsertQuery();

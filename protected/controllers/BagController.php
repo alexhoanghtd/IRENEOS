@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of BagController
  *
@@ -35,31 +36,37 @@ class BagController extends CTController {
 
     public function actionView() {
         $itemGroups = CT::user()->bag()->getItemGroups();
-        CT::widgets('MainMenu')->setActive(USER_MENU,'bags');
+        CT::widgets('MainMenu')->setActive(USER_MENU, 'bags');
         $this->render('view', $itemGroups);
     }
-    
-    public function actionAddUp($attID){
+
+    public function actionAddUp($attID) {
         CT::user()->bagAddUp($attID);
         header("Location: http://irene.local/bag/View");
     }
-    
-    public function actionSubDown($attID){
+
+    public function actionSubDown($attID) {
         echo 'you want to sub down';
         CT::user()->bagSubDown($attID);
         header("Location: http://irene.local/bag/View");
     }
-    
-    public function actionRemoveAtt($attID){
+
+    public function actionRemoveAtt($attID) {
         CT::user()->removeAtt($attID);
         header("Location: http://irene.local/bag/View");
     }
-    
-    public function actionRemove($productID){
-        CT::user()->remove($productID);
-        header("Location: http://irene.local/bag/View");
+
+    public function actionRemove($productID) {
+        CT::user()->remove($productID); 
+       header("Location: http://irene.local/bag/View");
     }
-    public function actionCheckout(){
-        $this->render('checkout', '');
+
+    public function actionCheckout() {
+        if (CT::user()->bag()->countItems() > 0) {
+            $this->render('checkout', '');
+        }else{
+            CT::redirect_to("/Category/");
+        }
     }
+
 }

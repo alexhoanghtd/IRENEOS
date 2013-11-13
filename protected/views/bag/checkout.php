@@ -12,8 +12,6 @@
                         <input type="text" name="shipping[email]" placeholder="Email *">
                         <input type="text" name="shipping[adress]" placeholder="Adress *">
                         <input type="text" name="shipping[phone]" placeholder="Phone Number *">
-                        <input type="submit" value="Submit" class="input-bt">
-                        <input type="reset" value="Reset" class="input-bt">
                     </form>
                 </div>
                 <div class="user-options">
@@ -30,6 +28,10 @@
             <input type="radio" name="checkout[payment]" value="visa">Visa<br/>
             <input type="radio" name="checkout[payment]" value="paypal">PayPal<br/>
             
+        </div>
+        <div class="checkout-step">
+            <div class="checkout-step-header"><h2>3. Confirm Order</h2></div>
+            <input type="submit" value="Confirm order">
         </div>
     </div>
     <div class="bag-detail">
