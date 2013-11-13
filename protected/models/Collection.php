@@ -48,6 +48,20 @@ class Collection extends CTModel {
         unset($db);
     }
 
+       public function getCollectionIdByName($name) {
+        $db = CTSQLite::connect();
+        $query = 'SELECT id FROM ic_category WHERE name =:name';
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':name', $name, SQLITE3_TEXT);
+        $result = $stmt->execute();
+        if (!$result) {
+            return false;
+        } else {
+            $id = $result->fetchArray();
+            return $id['id'];
+        }
+    }
+
     public function updateCollection($data) {
         $model = new Collection();
         $model->setData($data);
