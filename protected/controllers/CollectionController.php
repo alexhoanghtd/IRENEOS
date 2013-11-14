@@ -28,17 +28,18 @@ class CollectionController extends CTController {
     }
 
     public function actionCreate() {
-        if (isset($_POST['collection'])) {
+          if (isset($_POST['collection'])) {
             $collection = $_POST['collection'];
             $model = new Collection();
             $model->setData($collection);
 
             if ($model->create()) {
+                print_r($_POST['collection']);
                 $collectionName = $model->getVal('name');
                 echo 'Collection ' . $collectionName . ' created succesfuly! :)<br/>';
                 $collectionID = $model->getCollectionIdByName($collectionName);
                 //$folderName = $model->generateFolderName();
-                $folderName = "collections";
+                $folderName = "collection_cover";
                 foreach (array_keys($_FILES) as $key) {
                     if ($_FILES[$key]['error'] == 0) {
                         //create a new picture model
@@ -51,7 +52,7 @@ class CollectionController extends CTController {
                             // Get extension of file upload
                             $info = new SplFileInfo($_FILES[$key]['name']);
                             $extension = $info->getExtension();
-                            // Rename File upload followed by CollectionName
+                            // Rename File upload followed by collectionName
                             $oriName = BASE_PATH . "/images/" . $folderName . "/" . $_FILES[$key]['name'];
                             $newName = BASE_PATH . "/images/" . $folderName . "/" . $collectionName . "." . $extension;
                             rename($oriName, $newName);
@@ -72,7 +73,8 @@ class CollectionController extends CTController {
                         echo 'picture has error';
                     }
                 }
-            }
+            }else
+            echo "Fail";
         }
         CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'collections');
         $this->layout = 'main';
@@ -108,4 +110,14 @@ class CollectionController extends CTController {
     public function actionProducts(){
         $this->render('products', '');
     }
+
+    private function hasChanges($files) {
+        foreach ($files as $file) {
+            if (!empty($file['name'])) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
+

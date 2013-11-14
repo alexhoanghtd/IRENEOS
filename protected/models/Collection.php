@@ -49,7 +49,7 @@ class Collection extends CTModel {
     }
 
        public function getCollectionIdByName($name) {
-        $db = CTSQLite::connect();
+         $db = CTSQLite::connect();
         $query = 'SELECT id FROM ic_category WHERE name =:name';
         $stmt = $db->prepare($query);
         $stmt->bindValue(':name', $name, SQLITE3_TEXT);
