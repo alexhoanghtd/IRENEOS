@@ -1,0 +1,47 @@
+
+.bill h2{
+	font-size: 20px;
+	font-weight: bold;
+}
+.bill h3{
+	color: #999;
+	
+}
+.bill h1{
+	font-size: 30px;
+	font-style: italic;
+	margin-bottom: 10px;
+}
+.bill-header > div{
+	display: block;
+	float: left;
+	margin-right: 20px;
+	max-width: 33%;
+	min-width: 20%;
+}
+.bill > div {margin-bottom: 20px;}
+.bill table{
+	width: 100%;
+}
+.bill tr{
+	height: 30px;
+	line-height: 30px;
+}
+.bill tr:nth-child(odd){
+	background-color: #ddd;
+}
+.bill td , .bill th{
+	padding: 0px 10px;
+}
+.bill .bill-bottom-line{
+	margin-bottom: 20px;
+}
+.bill-bottom-line li{margin-bottom: 10px;}
+.bill .bill-bottom-line h3{
+	display: inline-block;
+	width: 200px;
+}
+.bill-total > *{
+	color: #333;
+	font-weight: bold;
+}
