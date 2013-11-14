@@ -73,13 +73,15 @@ class User extends CTModel{
         $count = 0;
 
         //pushing datas to $row_results
+
         while ($row = $result->fetchArray()) {
-            array_push($row_results, $result);
+            array_push($row_results, $row);
             $count++;
         }
 
         //pushing out users datas
         for ($i = 0; $i <= $count - 1; $i++) {
+            //print_r($row_results[$i]);
             if (empty($row_results[$i]['id'])) {
                 return $row_results;
             } else {
@@ -96,6 +98,131 @@ class User extends CTModel{
         $db->close();
         unset($db);
     }  
+
+    public function updateAvatarUrl() {
+        $userID = $this->getVal('id');
+        $newFolderName = "avatars";
+        $avatar = Pictures::getUserAvatarModels($userID);
+
+        if ($avatar->getVal('type') == 9) {
+            $path = $avatar->getVal('url');
+        }
+
+        $fileName = explode('/', $path);
+        print_r($fileName);
+        $extension = explode('.', $fileName[3]);
+        print_r($extension);
+        $oldDir = BASE_PATH . $path;
+        $newDir = BASE_PATH . "/images/" . $newFolderName . "/" . $_POST['user']['username'] . "." . $extension[1];
+        print_r($newDir);
+        rename($oldDir, $newDir);
+
+        
+            $newUrl = "/images/" . $newFolderName . "/" . $_POST['user']['username'] . "." . $extension[1];
+            $avatar->setVal('url', $newUrl);
+            $avatar->setVal('name', $_POST['user']['username']);
+            $avatar->update();
+        
+    }
+
+    public function updatePictures($files) {
+        $marsk = array();
+        $uploadMarsk = array();
+        $folderName = "avatars";
+        $pictures = Pictures::getUserAvatarModels($this->getVal('id'));
+        foreach ($pictures as $picture) {
+            array_push($marsk, $picture);
+        }
+        foreach ($files as $file) {
+            array_push($uploadMarsk, $file);
+        }
+        for ($i = 0; $i < 4; $i++) {
+            if (!empty($uploadMarsk[$i]['name'])) {
+                $uploadedTo = Pictures::uploadPicture($uploadMarsk[$i], $folderName);
+                // Get extension of file upload       
+                print_r($uploadMarsk[$i]['name']);
+                $info = new SplFileInfo($uploadMarsk[$i]['name']);
+                $extension = $info->getExtension();
+                // Rename File upload followed by CategoryName
+                $oriName = BASE_PATH . "/images/" . $folderName . "/" . $uploadMarsk[$i]['name'];
+                $newName = BASE_PATH . "/images/" . $folderName . "/" . $_POST['user']['username'] . "." . $extension;
+                rename($oriName, $newName);
+                $url = "/images/" . $folderName . "/" . $_POST['user']['username'] . "." . $extension;
+                if (isset($marsk[$i])) {
+                    $marsk[$i]->setVal('url', $url);
+                    if ($marsk[$i]->update()) {
+                        echo 'updated picture to db <br/>';
+                    } else {
+                        echo 'failed to update picuture <br/>';
+                    }
+                } else {
+                    $marsk[$i] = new Pictures();
+                    $marsk[$i]->setVal('url', $url);
+                    $marsk[$i]->setVal('name', $this->getVal('name'));
+                    $marsk[$i]->setVal('type', 1);
+                    $marsk[$i]->setVal('user_id', $this->getVal('id'));
+                    if ($marsk[$i]->create()) {
+                        echo 'inserted new picture to db <br/>';
+                    } else {
+                        echo 'cant insert new picutre <br/>';
+                    }
+                }
+            }
+        }
+    }   
+
+    // public static function deleteUser($id) {
+    //     $user = new User($id);
+    //     $avatar = Pictures::getUserAvatarModels($id);
+
+    //     if (count($avatar) > 0) {
+    //         if ($avatar->getVal('type') == 9) {
+    //             $path = $avatar->getVal('url');
+    //         }
+
+    //         $folders = explode('/', $path);
+    //         $oldDir = BASE_PATH;
+
+    //         for ($i=0; $i < 3; $i++) { 
+    //             $oldDir .= $folders[$i] . '/';
+    //         }
+
+    //         if ($files = scandir($oldDir)) {
+    //             foreach ($files as $file) {
+    //                 $tfile = explode('.', $file);
+    //                 $fileName = $tfile[0];
+    //             }
+    //         }
+    //     }
+
+    // }
+
+    public function deleteUser($id) {
+        $user = new User();
+        $user->get($id);
+        $results = $user->delete();
+
+        if ($results) {
+            return $results;
+            echo "Delete user Success!!!";
+        } else {
+            echo "Delete user fail";
+            return false;
+        }
+        $db->close();
+        unset($db);
+    }
+
+    public function deleteFileAvatar($id) {
+        $db = CTSQLite::connect();
+        $getUrlQuery = 'SELECT * FROM ic_pictures WHERE user_id=' . $id;
+        $results = $db->query($getUrlQuery);
+        if ($row = $results->fetchArray()) {
+            unlink(BASE_PATH . $row['url']);
+        }
+        $db->close();
+        unset($db);
+    }
 
     //list all users raw
     public function listUsers() {
@@ -257,11 +384,5 @@ class User extends CTModel{
         } else {
             //form has not been submitted
         }
-    }
-    /**
-    * Register new user using pre-defined data 
-    */
-    function registerUser($data){
-        //creating a new user through register form
     }
 }
