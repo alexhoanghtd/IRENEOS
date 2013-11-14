@@ -1,0 +1,17 @@
+
+.bill h2{
+	font-size: 20px;
+	font-weight: bold;
+}
+.bill h3{
+	color: #999;
+	
+}
+.bill-header > div{
+	display: block;
+	float: left;
+	margin-right: 20px;
+	max-width: 33%;
+	min-width: 20%;
+}
+.bill-to

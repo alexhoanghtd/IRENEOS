@@ -11,14 +11,14 @@ class ExampleController extends CTController {
     public function rules() {
         return array(
             CT_ADMIN => "*",//Which action Admin can acess
-            CT_VISITOR => "*",//Which action visitor can access
+            CT_VISITOR => "Index",//Which action visitor can access
             CT_USER => "*", //Which action authorized user can acess
             "allow" => array(CT_ADMIN,CT_USER,CT_VISITOR) //who can access the controller
         );
     }
 
     public function actionIndex($param = 0) {
-        // echo CT::user()->bag()->countItems();
+        echo CT::user()->getRole();
         $val = "never";
         echo "I $val use this before";
     }
