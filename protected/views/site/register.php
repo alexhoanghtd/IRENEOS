@@ -1,5 +1,7 @@
 <div class="single-col">
-    <form id="register-form" class="user-infos">
+    <form id="register-form" class="user-infos"
+    action="/site/Signup/"
+    method="POST">
         <div class="clearfix">
             <div class="avatar-view shadow-box empty pic-input">
                 <img height="100%">

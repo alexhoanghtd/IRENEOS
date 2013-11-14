@@ -65,6 +65,17 @@ class SiteController extends CTController {
 
     function actionSignup() {
         CT::widgets('MainMenu')->setActive(USER_MENU, 'login');
+        if (isset($_POST['register'])) {
+            $registerData = $_POST['register'];
+            $user = new User();
+            $user->setData($registerData);
+            $user->setVal('role',CT_USER);
+            $user->setVal('email_veryfied',0);
+            print_r($user->getTableStruct());
+            if($user->validateCreate()){
+                echo 'something wrong';
+            }
+        }
         $this->render('register', '');
     }
 
