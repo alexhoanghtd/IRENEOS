@@ -103,7 +103,7 @@ class Collection extends CTModel {
         $getCollectionQuery = 'SELECT * FROM ic_category WHERE is_collection = 1';
         $results = $db->query($getCollectionQuery);
         while ($collectionId = $results->fetchArray()) {
-            $query = 'SELECT * FROM ic_category_product WHERE category_id =:' . $collectionId['id'];
+            $query = 'SELECT * FROM ic_category_product WHERE category_id =:' .$collectionId['id'];
             $stmt = $db->prepare($query);
             $stmt->bindValue($collectionId['id'], $id, SQLITE3_INTEGER);
             $result = $stmt->execute();
