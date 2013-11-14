@@ -1,6 +1,7 @@
 <?php
-//CT::widgets('CTList')->setModel($product = new Product());
-//echo CT::widgets('CTList')->render();
+$NumberProductOf1Page = 10;
+//$totalPages = ceil($data['totalRecord'] / $NumberProductOf1Page);
+print_r($data);
 ?>
 
 <div class="content-inner">

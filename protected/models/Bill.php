@@ -120,15 +120,28 @@ class Bill extends CTModel {
         }
     }
     
-    static function getBillList(){
+    static function getBillList($page){
+        $NumberProductOf1Page = 10;
+        $pos = ($page - 1) * $NumberProductOf1Page;
         $db = CTSQLite::connect();
-        $getBillQuery = 'SELECT * FROM ic_bill';
+        
+        // Count total number Products
+        $SelectQuerry = 'SELECT * FROM ic_bill';
+        $res = $db->query($SelectQuerry);
+        $totalRecord = 0;
+        while ($rows = $res->fetchArray()) {
+            $totalRecord++;
+        }
+        $totalPages = ceil($totalRecord / $NumberProductOf1Page);
+        
+        $getBillQuery = 'SELECT * FROM ic_bill limit ' .$pos. ',' .$NumberProductOf1Page;
         $results = $db->query($getBillQuery);
         $row_results = array();
         while ($row = $results->fetchArray()) {
             array_push($row_results, $row);
         }
-        
+        $row_results['currentPage'] = $page;
+        $row_results['totalRecord'] = $totalPages;
         return $row_results;
     }
 }
