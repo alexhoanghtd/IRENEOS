@@ -119,8 +119,11 @@ class Bill extends CTModel {
             }
         }
     }
-    
-    static function getBillList(){
+    /**
+     * Get all bill to list 
+     * @return array
+     */
+    static function getBillList() {
         $db = CTSQLite::connect();
         $getBillQuery = 'SELECT * FROM ic_bill';
         $results = $db->query($getBillQuery);
@@ -128,8 +131,8 @@ class Bill extends CTModel {
         while ($row = $results->fetchArray()) {
             array_push($row_results, $row);
         }
-        
+
         return $row_results;
     }
+
 }
-    
