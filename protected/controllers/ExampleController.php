@@ -18,6 +18,11 @@ class ExampleController extends CTController {
     }
 
     public function actionIndex($param = 0) {
+<<<<<<< HEAD
+        echo CT::user()->getRole();
+        // CT::user()->resetDatas();
+        print_r(CT::user()->getDatas());
+=======
 
         // echo CT::user()->bag()->countItems();
         echo CT::user()->bag()->totalCal();
@@ -25,6 +30,7 @@ class ExampleController extends CTController {
         echo CT::user()->getRole();
         $val = "never";
         echo "I $val use this before";
+>>>>>>> 08d9ee5fca0b0e93df941ee08f9fd46789662544
     }
 
     public function actionView($param) {

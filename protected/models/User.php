@@ -23,31 +23,31 @@ class User extends CTModel{
                 // "name" => "Product name",
                 "unique" => true,
                 "required" => true,
-                "regEx" => "/^[A-Za-z0-9_]$/",
+                //"regEx" => "/^[A-Za-z0-9_]$/",
             ),
             "password" => array(
                 "maxLength" => 40,
                 "minLength" => 6,
                 "required" => true,
-                "regEx" => "/^[A-Za-z0-9!@#$%^&*()_]$/",
+                //"regEx" => "/^[A-Za-z0-9!@#$%^&*()_]$/",
             ),
             "first_name" => array(
                 "maxLength" => 50,
                 "minLength" => 5,
                 "unique" => true,
                 "required" => true,
-                "regEx" => "/^[A-Za-z0-9 ]$/",
+                //"regEx" => "/^[A-Za-z0-9 ]$/",
             ),
             "last_name" => array(
                 "maxLength" => 50,
                 "minLength" => 5,
                 "unique" => true,
                 "required" => true,
-                "regEx" => "/^[A-Za-z0-9 ]$/",
+                //"regEx" => "/^[A-Za-z0-9 ]$/",
             ),
             "email" => array(
                 "required" => true,
-                "regEx" => "/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i",
+                //"regEx" => "/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i",
             ),
         );
     }
@@ -88,6 +88,21 @@ class User extends CTModel{
             return $userRole;
         }else{
             return false;
+        }
+    }
+
+    //get user id by username
+    public function getUserIdByName($name) {
+        $db = CTSQLite::connect();
+        $query = 'SELECT id FROM ic_user WHERE username =:name';
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':name', $name, SQLITE3_TEXT);
+        $result = $stmt->execute();
+        if (!$result) {
+            return false;
+        } else {
+            $id = $result->fetchArray();
+            return $id['id'];
         }
     }
 
