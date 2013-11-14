@@ -8,6 +8,10 @@
  */
 
 class UserController extends CTController{
+    public function actionListUsers() {
+        
+    }
+
     public function actionGetUser($id) {
         //$model = $this->loadModel('User');
         //$userData = $model->getUser($id);

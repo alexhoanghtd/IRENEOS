@@ -12,4 +12,6 @@ class AdminController extends CTController{
         $data = $model->countProductsUsers();
         $this->render('index', $data);
     }
+    
+    
 }

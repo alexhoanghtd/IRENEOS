@@ -59,6 +59,7 @@ class Bootstrap {
                             if (CT::user()->isAllowed($controller, $action)) {
                                 $controller->{$actionMethod}($this->urlArr['param']);
                             } else {
+                                CT::redirect_to('/site/Login');
                                 echo 'you are not authorized for this action';
                             }
                         } else {
@@ -70,10 +71,12 @@ class Bootstrap {
                         if (CT::user()->isAllowed($controller, 'Index')) {
                             $controller->actionIndex();
                         } else {
+                            CT::redirect_to('/site/Login');
                             echo 'you are not authorized to access this action!';
                         }
                     }
                 } else {
+                    CT::redirect_to('/site/Login');
                     echo 'You are not authorized for this controller';
                 }
             }

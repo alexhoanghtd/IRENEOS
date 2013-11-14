@@ -201,5 +201,16 @@ class Bag {
         }
         return $total;
     }
+    
+    public function totalCal(){
+        $total = 0;
+        foreach($this->items as $item){
+            $product = new Product($item['productID']);
+            $price = $product->getVal('price');
+            $sale = $product ->getVal('sale');
+            $total += $item['quantity'] * ($price - $price*$sale/100);
+        }
+        return $total;
+    }
 
 }

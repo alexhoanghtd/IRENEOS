@@ -7,7 +7,13 @@
  * @copyright &copy; 2013 Creative Team 
  */
 class BillController extends CTController{
-    public function actionView(){
-        $this->render('bill', '');
+    public function actionView($billID){
+        $this->render('view', '');
+    }
+    
+    public function actionList(){
+        $model = new Bill();
+        $data = $model->getBillList();
+        $this->render('list', $data);
     }
 }
