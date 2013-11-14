@@ -25,7 +25,7 @@
             foreach ($data as $item) {
                 ?>
                 <tr>
-                    <td><a href="Bill/View/<?=$item['id']?>"><?php print_r($item['id']) ?></a></td>
+                    <td><a href="/Bill/View/<?=$item['id']?>"><?php print_r($item['id']) ?></a></td>
                     <td><?php print_r($item['issue_date']) ?></td>
                     <td><?php print_r($item['ship_address']) ?></td>
                     <td><?php print_r($item['customer_first_name']." ".$item['customer_last_name']) ?></td>

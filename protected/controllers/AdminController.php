@@ -13,9 +13,5 @@ class AdminController extends CTController{
         $this->render('index', $data);
     }
     
-    public function actionList(){
-        $model = new Admin();
-        $data = $model->getBillList();
-        $this->render('list', $data);
-    }
+    
 }
