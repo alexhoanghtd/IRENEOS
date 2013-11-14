@@ -6,27 +6,33 @@
  * @created 23 Nov 2013
  * @copyright &copy; 2013 Creative Team 
  */
-class BillController extends CTController{
-    public function actionView($billID){
-        if($bill = new Bill($billID)){
+class BillController extends CTController {
+
+    public function actionView($billID) {
+        if ($bill = new Bill($billID)) {
             $billDetail = new BillDetail();
             $billDetail->setVal('bill_id', $billID);
-            $billDetails =  $billDetail->select();
-            
+            $billDetails = $billDetail->select();
+
             $this->render('view', array(
                 "billdata" => $bill->getData(),
                 "billDetails" => $billDetails,
             ));
-        }else{
+        } else {
             echo "bill Id doesn't exist";
         }
-       
+
         //$this->render('view', '');
     }
-    
-    public function actionList(){
-        $model = new Bill();
-        $data = $model->getBillList();
-        $this->render('list', $data);
+
+    public function actionList($page) {
+        if (!empty($page)) {
+            $model = new Bill();
+            $data = $model->getBillList($page);
+            $this->render('list', $data);
+        } else {
+            header("Location: http://irene.local/Bill/List/1");
+        }
     }
+
 }
