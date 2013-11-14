@@ -8,6 +8,8 @@ class AdminController extends CTController{
     }
     
     public function actionIndex(){
-        $this->render('index', '');
+        $model = new Admin();
+        $data = $model->countProductsUsers();
+        $this->render('index', $data);
     }
 }

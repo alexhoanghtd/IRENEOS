@@ -8,6 +8,65 @@
  */
 
 class User extends CTModel{
+    public function fieldRules() {
+        return array(
+            "id" => array(
+                "maxLength" => 20,
+                "minLength" => 1,
+                "name" => "Identitier",
+                "unique" => true,
+                "required" => true,
+            ),
+            "username" => array(
+                "maxLength" => 50,
+                "minLength" => 5,
+                // "name" => "Product name",
+                "unique" => true,
+                "required" => true,
+                "regEx" => "/^[A-Za-z0-9_]$/",
+            ),
+            "password" => array(
+                "maxLength" => 40,
+                "minLength" => 6,
+                "required" => true,
+                "regEx" => "/^[A-Za-z0-9!@#$%^&*()_]$/",
+            ),
+            "first_name" => array(
+                "maxLength" => 50,
+                "minLength" => 5,
+                "unique" => true,
+                "required" => true,
+                "regEx" => "/^[A-Za-z0-9 ]$/",
+            ),
+            "last_name" => array(
+                "maxLength" => 50,
+                "minLength" => 5,
+                "unique" => true,
+                "required" => true,
+                "regEx" => "/^[A-Za-z0-9 ]$/",
+            ),
+            "email" => array(
+                "required" => true,
+                "regEx" => "/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i",
+            ),
+        );
+    }
+    //list all users in db
+    public function listUsers() {
+        $db = CTSQLite::connect();
+        $query = 'SELECT * FROM ic_user';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute();
+        if (!$result) {
+            return false;
+        } else {
+            // $id = $result->fetchArray();
+            // return $id['id'];
+            $row = $result->fetchArray();
+            return $row;
+        }
+    }
+
     //get all user's infos
     public function getUser($id){
         $this->connect();
@@ -80,8 +139,8 @@ class User extends CTModel{
             die("Database query failed: " . sqlite_error());
         }
     }
-
     //validate login informations
+    //not done yet
     public function validateLogin() {
         if (isset($_POST['submit'])) {
             $errors = array();
@@ -123,5 +182,11 @@ class User extends CTModel{
         } else {
             //form has not been submitted
         }
+    }
+    /**
+    * Register new user using pre-defined data 
+    */
+    function registerUser($data){
+        //creating a new user through register form
     }
 }
