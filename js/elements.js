@@ -2,7 +2,7 @@ function searchStyle() {
     $("input#search-input").focus(function() {
         $("div#search-box").addClass("input-focused");
     });
-    $("input#search-input").blur(function() {
+    $("#search-close").click(function(){
         $("div#search-box").removeClass("input-focused");
         document.getElementById("user-search-output").innerHTML = "";
     });

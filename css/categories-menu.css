@@ -13,15 +13,17 @@ div#categories-menu > nav > ul > li{
 	font-weight: bold;
 	display: block;
 	float: left;
-	line-height: 30px;
 	font-family: helvetica, sans-serif;
 	font-size: 10px;
 }
 div#categories-menu > nav > ul > li > a{
+        display: block;
+        line-height: 30px;
 	padding: 0px 20px;
 	color: #333;
 	text-transform: uppercase;
 	letter-spacing: 1px;
+        transition : color .3s;
 }
 div#categories-menu > nav > ul > li > a:hover{
 	color: #ccc;

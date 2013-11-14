@@ -35,6 +35,7 @@
                             <input tpye="text" name="search-input" id="search-input" placeholder="search..."
                                    onkeyup="ajaxSearch(this)">
                             <div id="search-border"></div>
+                            <div id="search-close"></div>
                         </form>
 
                     </div>
@@ -77,16 +78,7 @@
                 </div>
                 <!--Content header area-->
                 <div id="content-header">
-                    <div id="categories-menu">
-                        <nav>
-                            <ul>
-                                <li><a href="#">Jacket</a></li>
-                                <li><a href="#">Top</a></li>
-                                <li><a href="#">Trouser</a></li>
-                                <li><a href="#">hat</a></li>
-                            </ul>
-                        </nav>
-                    </div>
+                    <?=CT::widgets('HeaderContent')->show()?>
                 </div>
 
                 <!--mainContentArea-->
