@@ -28,30 +28,28 @@ class CollectionController extends CTController {
     }
 
     public function actionCreate() {
-        if (isset($_POST['collection'])) {
+          if (isset($_POST['collection'])) {
             $collection = $_POST['collection'];
             $model = new Collection();
             $model->setData($collection);
 
             if ($model->create()) {
+                print_r($_POST['collection']);
                 $collectionName = $model->getVal('name');
                 echo 'Collection ' . $collectionName . ' created succesfuly! :)<br/>';
                 $collectionID = $model->getCollectionIdByName($collectionName);
                 //$folderName = $model->generateFolderName();
-                $folderName = "collections";
+                $folderName = "collection_cover";
                 foreach (array_keys($_FILES) as $key) {
-                    if ($_FILES[$key]['error'] == 0) {
-                        //create a new picture model
+                    if ($_FILES[$key]['error'] == 0) {    
                         $pic = new Pictures();
-                        //set product_id for the pic
-                        $pic->setVal('category_id', $collectionID);
-                        //set the product name associated with the picture
+                        $pic->setVal('collection_id', $collectionID);
                         $pic->setVal('name', $collectionName);
                         if (Pictures::uploadPicture($_FILES[$key], $folderName)) {
                             // Get extension of file upload
                             $info = new SplFileInfo($_FILES[$key]['name']);
                             $extension = $info->getExtension();
-                            // Rename File upload followed by CollectionName
+                            // Rename File upload followed by collectionName
                             $oriName = BASE_PATH . "/images/" . $folderName . "/" . $_FILES[$key]['name'];
                             $newName = BASE_PATH . "/images/" . $folderName . "/" . $collectionName . "." . $extension;
                             rename($oriName, $newName);
@@ -72,7 +70,8 @@ class CollectionController extends CTController {
                         echo 'picture has error';
                     }
                 }
-            }
+            }else
+            echo "Fail";
         }
         CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'collections');
         $this->layout = 'main';
@@ -80,32 +79,117 @@ class CollectionController extends CTController {
     }
 
 
-    public function actionDelete() {
-        if (isset($_POST['collection'])) {
-            $model = new Collection();
-            $model->deleteCollection($_POST['collection']['id']);
-        }
-        $this->layout = 'main';
-        CT::widgets('MainMenu')->setActive(USER_MENU,'collections');
-        $this->render('delete', 'data');
+    public function actionDelete($id) {
+        $collection = new Collection();
+        $collection->deleteCollection($id);
+        $collection->deleteFile($id);
+
+        $pic = new Pictures();
+        $pic->deletePicCollection($id);
+
+        $this->layout = 'admin';
+        $this->render('delete', $id);
     }
 
-    public function actionUpdate() {
+    public function actionUpdate($id) {
         if (isset($_POST['collection'])) {
-            $collection = $_POST['collection'];
-            $model = new Collection();
-            if ($model->updateCollection($data)) {
-                echo 'Update successfully';
+            $collection = new Collection();
+            $collection->setData($_POST['collection']);
+
+            if (!isset($_POST['collection']['available'])) {
+                $collection->setVal('available', '0');
+            }
+            if (!isset($_POST['collection']['is_new'])) {
+                $collection->setVal('is_new', '0');
+            }
+
+            if ($collection->changesThanOrigin()) {
+                $oldCollectionInfo = new Collection($_POST['collection']['id']);
+                if ($collection->update()) {
+                    if ($oldCollectionInfo->getVal('name') != $collection->getVal('name')) {
+                        //if the collection name is updated
+
+                        $folderName = "collection_cover";
+                        foreach (array_keys($_FILES) as $key) {
+                            Pictures::uploadPicture($_FILES[$key], $folderName);
+                            $collection->updatePicUrls();
+                        }
+                    }
+                    echo 'update collection basic info sucessfully <br/>';
+                } else {
+                    echo 'update collection failed';
+                }
             } else {
-                echo 'Can not execute';
+                echo 'not changes than origin';
+            }
+            if ($this->hasChanges($_FILES)) {
+                $collection->updatePictures($_FILES);
             }
         }
-        $this->layout = 'main';
-        CT::widgets('MainMenu')->setActive(ADMIN_MENU,'collections');
-        $this->render('update', 'data');
+        if (!empty($id)) {
+            $model = new Collection();
+            $model->get($id);
+            $picture = new Pictures();
+            $pictureUrls = Pictures::getCollectionPictures($id);
+            CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'collections');
+            $this->layout = 'main';
+            $this->render('update', array(
+                'model' => $model->getData(),
+                'pictureUrls' => $pictureUrls,
+            ));
+        } else {
+            header("Location: http://irene.local/collection/");
+        }
     }
+
+    public function actionList() {
+        $collection = new collection();
+        $pic = new Pictures();
+
+        // Delete collection selected in checkbox
+        if (isset($_POST['cbDelete'])) {
+            foreach ($_POST['cbDelete'] as $id) {
+                $collection->deleteCollection($id);
+                $collection->deleteFile($id);
+                $pic->deletePicture($id);
+            }
+        }
+
+        // Quick active
+        if (isset($_POST['collection'])) {
+            foreach ($_POST['collection'] as $id) {
+                if (!isset($_POST['cbActive'][$id])) {
+                    $c = new collection($id);
+                    $c->setVal('available', '0');
+                    $c->update();
+                } else {
+                    $c = new collection($id);
+                    $c->setVal('available', '1');
+                    $c->update();
+                }
+            }
+        }
+        $data = $collection->getCollectionList();
+
+        CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'collections');
+        $this->render('list', $data);
+        exit;
+    }
+
     
-    public function actionProducts(){
+    public function actionProducts($id){
+        $collection = new Collection();
+        $pic = new Pictures();
         $this->render('products', '');
     }
+
+    private function hasChanges($files) {
+        foreach ($files as $file) {
+            if (!empty($file['name'])) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
+

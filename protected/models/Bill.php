@@ -67,10 +67,10 @@ class Bill extends CTModel {
         $price = CT::user()->bag()->totalCal();
         $data['total'] = $price + $price * $data['tax'] / 100 + $data['shipping_fee'];
 
-        // Insert into ic_bill
-        $bill->setData($data);
 
+        $bill->setData($data);
         if ($bill->validateCreate()) {
+            // Insert into ic_bill
             $billId = $bill->create();
 
             //Prepare data to insert into ic_billdetail
@@ -100,6 +100,12 @@ class Bill extends CTModel {
                 if ($QuantityOrder <= $QuantityInStore) {
                     $billDetail->setData($dataBillDetail);
                     $billDetail->create();
+
+                    //Quantity after checkout in store
+                    $q = $QuantityInStore-$QuantityOrder;
+                    
+                    $sqlQuery = "UPDATE ic_attribute SET quantity=" .$q. " WHERE id=" . $attID;
+                    $r = $db->query($sqlQuery);
                 } else {
                     //Show message if out of stock
                     $sql = "SELECT product_name FROM ic_product WHERE id=" . $proID;
@@ -113,23 +119,35 @@ class Bill extends CTModel {
             echo 'Create Bill sucessfully !<br>';
 
             //print_r($bill->getData());
-            print_r(CT::user()->bag()->listALl());
-            if ($bill->validateCreate()) {
-                echo 'validate sucessfully, bitch!<br>';
-            }
+            //print_r(CT::user()->bag()->listALl());
         }
     }
-    
-    static function getBillList(){
+
+    static function getBillList($page) {
+        $NumberProductOf1Page = 10;
+        $pos = ($page - 1) * $NumberProductOf1Page;
         $db = CTSQLite::connect();
-        $getBillQuery = 'SELECT * FROM ic_bill';
+
+        // Count total number Products
+        $SelectQuerry = 'SELECT * FROM ic_bill';
+        $res = $db->query($SelectQuerry);
+        $totalRecord = 0;
+        while ($rows = $res->fetchArray()) {
+            $totalRecord++;
+        }
+        //$totalPages = ceil($totalRecord / $NumberProductOf1Page);
+
+        $getBillQuery = 'SELECT * FROM ic_bill limit ' . $pos . ',' . $NumberProductOf1Page;
         $results = $db->query($getBillQuery);
         $row_results = array();
         while ($row = $results->fetchArray()) {
+            $row['currentPage'] = $page;
+            $row['totalRecord'] = $totalRecord;
             array_push($row_results, $row);
         }
-        
+
         return $row_results;
     }
+
 }
-    
+

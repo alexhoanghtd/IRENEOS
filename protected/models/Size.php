@@ -19,17 +19,22 @@ class Size extends CTModel {
         $results = $db->query($querry);
         if ($results) {
             $sizes = array();
-           while($size = $results->fetchArray()) {
+            while ($size = $results->fetchArray()) {
 
                 array_push($sizes, array(
                     "id" => $size['id'],
                     "name" => $size['name']
                 ));
-           }
+            }
             return $sizes;
         } else {
             return false;
         }
+    }
+
+    public static function getSize($id) {
+        $size = new Size($id);
+        return $size->getVal('name');
     }
 
 }
