@@ -51,6 +51,22 @@ class User extends CTModel{
             ),
         );
     }
+    //list all users in db
+    public function listUsers() {
+        $db = CTSQLite::connect();
+        $query = 'SELECT * FROM ic_user';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute();
+        if (!$result) {
+            return false;
+        } else {
+            // $id = $result->fetchArray();
+            // return $id['id'];
+            $row = $result->fetchArray();
+            return $row;
+        }
+    }
+
     //get all user's infos
     public function getUser($id){
         $this->connect();
