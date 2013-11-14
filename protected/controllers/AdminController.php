@@ -12,4 +12,10 @@ class AdminController extends CTController{
         $data = $model->countProductsUsers();
         $this->render('index', $data);
     }
+    
+    public function actionList(){
+        $model = new Admin();
+        $data = $model->getBillList();
+        $this->render('list', $data);
+    }
 }

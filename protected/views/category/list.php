@@ -26,7 +26,7 @@
                     <tr>
                         <input type="hidden" name="category[<?=$item['id']?>]" value="<?=$item['id']?>">
                         <td><input type="checkbox" name="cbDelete[]" value="<?= $item['id'] ?>"></td>
-                        <td><?php print_r($item['name']) ?></td>
+                        <td><a href="View/<?=$item['id']?>"><?php print_r($item['name']) ?></a></td>
                         <td><?php print_r($item['num']) ?></td>
                     <td><input type="checkbox" 
                     <?= ( $item['available'] == '1' ) ? "checked" : "" ?>

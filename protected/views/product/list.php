@@ -27,14 +27,14 @@ $totalPages = ceil($data[0]['totalRecord'] / $NumberProductOf1Page);
                     <tr>
                     <input type="hidden" name="product[<?= $item['id'] ?>]" value="<?= $item['id'] ?>">
                     <td><input type="checkbox" name="checkbox[]" value="<?= $item['id'] ?>"></td>
-                    <td><?php print_r($item['product_name']) ?></td>
+                    <td><a href="../View/<?= $item['id'] ?>"><?php print_r($item['product_name']) ?></a></td>
                     <td><img height="100" src="<?php print_r($item['coverURL']) ?>"/></td>                   
                     <td><?php print_r($item['sale']) ?>%</td>
                     <td><?php print_r($item['price']) ?>$</td>
                     <td><input type="checkbox" 
                         <?= ( $item['available'] == '1' ) ? "checked" : "" ?>
                                name="cbActive[<?= $item['id'] ?>]" value="1"></td>
-                    <td><a href="Update/<?= $item['id'] ?>"> Edit </a><a href="Delete/<?= $item['id'] ?>"> Delete </a></td>
+                    <td><a href="../Update/<?= $item['id'] ?>"> Edit </a><a href="../Delete/<?= $item['id'] ?>"> Delete </a></td>
                     </tr>
 
                 <?php } ?>          

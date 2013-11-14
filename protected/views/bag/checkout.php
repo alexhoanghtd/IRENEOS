@@ -1,3 +1,7 @@
+<?php
+    print_r($data);
+?>
+
 <div class="content-inner single-col clearfix">
     <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL() ?>/css/bag.css"> 
     <form class="shipping-detail"

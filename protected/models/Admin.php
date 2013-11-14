@@ -34,6 +34,18 @@ class Admin extends CTModel {
         $db->close();
         unset($db);
     }
+    
+    static function getBillList(){
+        $db = CTSQLite::connect();
+        $getBillQuery = 'SELECT * FROM ic_bill';
+        $results = $db->query($getBillQuery);
+        $row_results = array();
+        while ($row = $results->fetchArray()) {
+            array_push($row_results, $row);
+        }
+        
+        return $row_results;
+    }
 
 }
 
