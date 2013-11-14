@@ -20,38 +20,84 @@ class User extends CTModel{
             "username" => array(
                 "maxLength" => 50,
                 "minLength" => 5,
-                // "name" => "Product name",
                 "unique" => true,
                 "required" => true,
-                //"regEx" => "/^[A-Za-z0-9_]$/",
+                "regEx" => "/^[A-Za-z0-9]+(?:[_-][A-Za-z0-9]+)*$/",
             ),
             "password" => array(
                 "maxLength" => 40,
                 "minLength" => 6,
                 "required" => true,
-                //"regEx" => "/^[A-Za-z0-9!@#$%^&*()_]$/",
+                //"regEx" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/",
+            ),
+            "password_repeat" => array(
+                "maxLength" => 40,
+                "minLength" => 6,
+                "required" => true,
+                //"regEx" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/",
             ),
             "first_name" => array(
                 "maxLength" => 50,
-                "minLength" => 5,
+                "minLength" => 1,
                 "unique" => true,
                 "required" => true,
-                //"regEx" => "/^[A-Za-z0-9 ]$/",
+                "regEx" => "/^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/",
             ),
             "last_name" => array(
                 "maxLength" => 50,
-                "minLength" => 5,
+                "minLength" => 1,
                 "unique" => true,
                 "required" => true,
-                //"regEx" => "/^[A-Za-z0-9 ]$/",
+                "regEx" => "/^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/",
             ),
             "email" => array(
                 "required" => true,
-                //"regEx" => "/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i",
+                "regEx" => "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/",
             ),
         );
     }
-    //list all users in db
+
+    //get all users datas to be listed in Admin Page
+    public function getUsersList() {
+        //connect to db
+        $db=CTSQLite::connect();
+
+        //getting users datas from db
+        $getUsersQuery = "SELECT * FROM ic_user";
+        $result = $db->query($getUsersQuery);
+
+        //an array to store each user's datas
+        $row_results = array();
+
+        //to count how many row in users db
+        $count = 0;
+
+        //pushing datas to $row_results
+        while ($row = $result->fetchArray()) {
+            array_push($row_results, $result);
+            $count++;
+        }
+
+        //pushing out users datas
+        for ($i = 0; $i <= $count - 1; $i++) {
+            if (empty($row_results[$i]['id'])) {
+                return $row_results;
+            } else {
+                // getting avatar's url
+                $getAvaQuery = 'SELECT * FROM ic_pictures WHERE type = 9 AND user_id=' . $row_results[$i]['id'];
+                $avatars = $db->query($getAvaQuery);
+                $avatar = $avatars->fetchArray();
+                $avatarUrl = $avatar['url'];
+                $row_results[$i]['avatarUrl'] = $avatarUrl;
+            }
+        }
+
+        return $row_results;
+        $db->close();
+        unset($db);
+    }  
+
+    //list all users raw
     public function listUsers() {
         $db = CTSQLite::connect();
         $query = 'SELECT * FROM ic_user';
@@ -65,22 +111,26 @@ class User extends CTModel{
             $row = $result->fetchArray();
             return $row;
         }
+        $db->close();
+        unset($db);
     }
 
     //get all user's infos
     public function getUser($id){
-        $this->connect();
+        $db = CTSQLite::connect();
         $results = $this->db->query('SELECT * FROM ic_user WHERE id='.$id);
         if($row = $results->fetchArray()){
             return $row;
         }else{
             return false;
         }
+        $db->close();
+        unset($db);
     }
     
     //get user's role
     public function getUserRole($id){
-        $this->connect();
+        $db = CTSQLite::connect();
         $results = $this->db->query('SELECT * FROM ic_user WHERE id='.$id);
         if($row = $results->fetchArray()){
             
@@ -89,6 +139,8 @@ class User extends CTModel{
         }else{
             return false;
         }
+        $db->close();
+        unset($db);
     }
 
     //get user id by username
@@ -104,6 +156,8 @@ class User extends CTModel{
             $id = $result->fetchArray();
             return $id['id'];
         }
+        $db->close();
+        unset($db);
     }
 
     //block user that (hacking, violate rules,.... etc)
@@ -120,6 +174,8 @@ class User extends CTModel{
         }else{
             return false;
         }
+        $db->close();
+        unset($db);
     }
 
     //authorize login and return user's role
@@ -133,6 +189,8 @@ class User extends CTModel{
         }else{
             return false;
         }
+        $db->close();
+        unset($db);
     }
 
     //check required fields
@@ -156,6 +214,8 @@ class User extends CTModel{
     }
     //validate login informations
     //not done yet
+    // warning dont use this
+    // i double dare you to use this
     public function validateLogin() {
         if (isset($_POST['submit'])) {
             $errors = array();
