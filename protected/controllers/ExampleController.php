@@ -10,16 +10,21 @@ class ExampleController extends CTController {
 
     public function rules() {
         return array(
-            CT_ADMIN => "*",//Which action Admin can acess
-            CT_VISITOR => "*",//Which action visitor can access
+            CT_ADMIN => "*", //Which action Admin can acess
+            CT_VISITOR => "Index", //Which action visitor can access
             CT_USER => "*", //Which action authorized user can acess
-            "allow" => array(CT_ADMIN,CT_USER,CT_VISITOR) //who can access the controller
+            "allow" => array(CT_ADMIN, CT_USER, CT_VISITOR) //who can access the controller
         );
     }
 
     public function actionIndex($param = 0) {
+
         // echo CT::user()->bag()->countItems();
         echo CT::user()->bag()->totalCal();
+
+        echo CT::user()->getRole();
+        $val = "never";
+        echo "I $val use this before";
     }
 
     public function actionView($param) {
@@ -28,18 +33,21 @@ class ExampleController extends CTController {
         print_r($product->getTableStruct());
         //$product->validate();
     }
-    public function actionAjaxTest($pID){
+
+    public function actionAjaxTest($pID) {
         //echo $pID;
         $product = new Product($pID);
         print_r($product->getData());
         $this->render('ajaxTest', '');
     }
-    public function actionSwitch(){
-        echo 'your current role is '.CT::user()->getRole();
+
+    public function actionSwitch() {
+        echo 'your current role is ' . CT::user()->getRole();
         CT::user()->setRole(CT_ADMIN);
-        echo '<br>'.CT::user()->getRole();
+        echo '<br>' . CT::user()->getRole();
     }
-    public function actionDestroy(){
+
+    public function actionDestroy() {
         session_unset();
         session_destroy();
     }
