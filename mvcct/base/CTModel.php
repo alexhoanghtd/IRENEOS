@@ -601,7 +601,8 @@ class CTModel extends CTSQLite implements IDBRecord {
         if ($fieldRules['required']) {
             if (isset($this->row[$fieldName])) {
                 $fieldValue = $this->row[$fieldName];
-                if (!empty($fieldValue) || $fieldValue == 0) {
+                //$fieldValue = $this->row[$fieldName];
+                if (!empty($fieldValue) || $fieldValue === 0) {
                     return true;
                 } else {
                     echo $this->getLabel($fieldName) . ' can not be empty </br>';
@@ -611,7 +612,7 @@ class CTModel extends CTSQLite implements IDBRecord {
                 if (isset($fieldRules['default'])) {
                     return true;
                 } else {
-                    echo $this->getLabel($fieldName) . 'need to be set </br>';
+                    echo $this->getLabel($fieldName) . ' need to be set </br>';
                     return false;
                 }
             }
@@ -738,4 +739,8 @@ class CTModel extends CTSQLite implements IDBRecord {
         return ( empty($fieldRules['name'])) ? $fieldRules['colName'] : $fieldRules['name'];
     }
 
+    public function __destruct() {
+        $this->db->close();
+        unset($this->db);
+    }
 }
