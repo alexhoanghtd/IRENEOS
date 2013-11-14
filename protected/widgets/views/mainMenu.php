@@ -10,7 +10,8 @@
                 href="<?php echo"$menu[$itemName]"?>"
                 <?=($itemName=='login')?'class="dark-box-ajax"':""?>
                 <?php echo ($itemName == $active)? 'class="active"' : ""; ?>
-            ><?php echo $itemName; 
+            >
+            <?php echo $itemName; 
             if($itemName == 'bag' && CT::user()->bag()->countItems() > 0){
                 echo '('.CT::user()->bag()->countItems().')';
             }?></a></li>

@@ -11,6 +11,7 @@ class MainMenu {
 
     private $items;
     private $active;
+    private $menu;
     private $view;
     private $viewBluePrint;
 
@@ -40,11 +41,16 @@ class MainMenu {
         //$this->items = CT::$_CONFIG['widgets']['MainMenu'];
         $this->viewBluePrint = 'mainMenu';
         $this->items = $this->menuList(1);
+        $this->menu = 1;
         $this->active = 'new arrivals';
     }
 
     private function renderMenu() {
-        ob_start();
+        if(CT::user()->getRole() != CT_VISITOR && $this->menu == 1){
+            unset($this->items['login']);
+            $this->items['logout'] = '/site/Logout';
+        }
+        ob_start(); 
         $viewFile = BASE_PATH . '/protected/widgets/views/' . $this->viewBluePrint . '.php';
         include($viewFile);
         $returned = ob_get_contents();
