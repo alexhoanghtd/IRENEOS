@@ -12,7 +12,7 @@
                 <span class="info-group-header">Basic authentication information</span>
                 <input type="text" name="register[username]" placeholder="Username">
                 <input type="password" name="register[password]" placeholder="Password">
-                <input type="password" name="register[password_repeat]" placeholder="Repeat password">
+                <input type="password" name="register[password_repeat]" placeholder="Confirm password">
                 <span class="info-group-header">Personal informations</span>
                 <input type="text" name="register[first_name]" placeholder="First Name"/>
                 <input type="text" name="register[last_name]" placeholder="Last Name"/>

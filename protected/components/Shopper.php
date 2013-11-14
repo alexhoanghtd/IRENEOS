@@ -6,44 +6,52 @@
  * @author alexhoang <alexhoang.htd@gmail.com>
  * @copyright &copy; 2013 Creative Team 
  */
+class Shopper extends CTUser implements IUserIdentity {
 
-class Shopper extends CTUser implements IUserIdentity{
-    
     private $bag;
+
     public function __construct() {
         parent::__construct();
         $this->bag = new Bag();
         $this->setRole(CT_ADMIN);
     }
-    public function addToBag($bagItem){
+
+    public function addToBag($bagItem) {
         $this->bag->add($bagItem);
         $this->save();
     }
-    
-    public function bagAddUp($attID){
+
+    public function bagAddUp($attID) {
         $this->bag->bagAddUp($attID);
         //$this->bag->listAll();        
         $this->save();
     }
-    
-    public function bagSubDown($attID){
+
+    public function bagSubDown($attID) {
         echo 'about to sub down';
         $this->bag->bagSubDown($attID);
         //$this->bag->listAll();        
         $this->save();
     }
-    public function remove($productID){
+
+    public function remove($productID) {
         $this->bag->removeItem($productID);
         $this->save();
     }
-    public function removeAtt($attID){
+
+    public function removeAtt($attID) {
         $this->bag->removeAtt($attID);
         $this->save();
     }
-    public function bag(){
+
+    public function bag() {
         //$this->showUserData();
         return $this->bag;
     }
-    
+
+    public function clearBag() {
+        $this->bag = new Bag();
+        $this->save();
+    }
 
 }

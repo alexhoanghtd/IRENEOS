@@ -2,9 +2,7 @@
 
 /**
  * SiteController 
- * COntroller to control the default index page, log in, logout and other function
  * 
- * @author alexhoang <alexhoang.htd@gmail.com>
  * @author duyht <duyht@smartosc.com>
  * @created 26 Oct 2013
  * @copyright &copy; 2013 Createve Team 
@@ -85,11 +83,9 @@ class SiteController extends CTController {
             CT::user()->resetDatas();
 
             //redirect to home page
-            CT::redirect_to("/");
-            // echo "you have logged out <br />";
+            CT::redirect_to("/");         
         } else {
-            CT::redirect_to("/");
-            // echo "what do you think you're doing huh??? <br />";
+            CT::redirect_to("/");       
         }
     }
 
@@ -103,59 +99,69 @@ class SiteController extends CTController {
             $user->setVal('email_veryfied',0);
 
             //print_r($user->getTableStruct());
+
+            //validate user's inputs
             if($user->validateCreate()){
-                if ($user->create()) {
-                    $userName = $user->getVal('username');
-                    echo 'User ' . $userName . ' created successfully! <br />';
-                    $userID = $user->getUserIdByName($userName);
+                //check if pwd and confirm pwd does not match
+                $pwd = $user->getVal('password');
+                $rpwd = $user->getVal('password_repeat');
+                if ($pwd != $rpwd) {
+                    echo "Password and Confirm Password does not match!";
+                } else {
+                    //prepare to create new user
+                    if ($user->create()) {
+                        $userName = $user->getVal('username');
+                        echo 'User ' . $userName . ' created successfully! <br />';
+                        $userID = $user->getUserIdByName($userName);
 
-                    $folderName = "avatars";
+                        $folderName = "avatars";
 
-                    if ($_FILES["avatar"]["error"] == 0) {
-                        $pic = new Pictures();
-                        //set user's id for dat pic
-                        $pic->setVal('user_id', $userID);
-                        //get name for dat pic according to username
-                        $pic->setVal('name', $userName);
+                        if ($_FILES["avatar"]["error"] == 0) {
+                            $pic = new Pictures();
+                            //set user's id for dat pic
+                            $pic->setVal('user_id', $userID);
+                            //get name for dat pic according to username
+                            $pic->setVal('name', $userName);
 
-                        if (Pictures::uploadPicture($_FILES["avatar"], $folderName)) {
-                            /*after dat pic had already uploaded
-                            *do all these things
-                            *rename the pic followed by username
-                            *set type
-                            *and set url
-                            *to push to db
-                            */
+                            if (Pictures::uploadPicture($_FILES["avatar"], $folderName)) {
+                                /*after dat pic had already uploaded
+                                *do all these things
+                                *rename the pic followed by username
+                                *set type
+                                *and set url
+                                *to push to db
+                                */
 
-                            //getting extension of the uploaded pic
-                            $picInfo = new SplFileInfo($_FILES["avatar"]["name"]);
-                            $picExt = $picInfo->getExtension();
+                                //getting extension of the uploaded pic
+                                $picInfo = new SplFileInfo($_FILES["avatar"]["name"]);
+                                $picExt = $picInfo->getExtension();
 
-                            //rename 
-                            $oldPicName = BASE_PATH . "/images/" . $folderName . "/" . $_FILES["avatar"]['name'];
-                            $newPicName = BASE_PATH . "/images/" . $folderName . "/" . $userName . "." . $picExt;
-                            rename($oldPicName, $newPicName);
+                                //rename 
+                                $oldPicName = BASE_PATH . "/images/" . $folderName . "/" . $_FILES["avatar"]['name'];
+                                $newPicName = BASE_PATH . "/images/" . $folderName . "/" . $userName . "." . $picExt;
+                                rename($oldPicName, $newPicName);
 
-                            //set type
-                            $pic->setVal('type', 9);
+                                //set type
+                                $pic->setVal('type', 9);
 
-                            //set url
-                            $url = "/images/" . $folderName . "/" . $userName . "." . $picExt;
-                            $pic->setVal('url', $url);
+                                //set url
+                                $url = "/images/" . $folderName . "/" . $userName . "." . $picExt;
+                                $pic->setVal('url', $url);
 
-                            //save pic's infos to bd
-                            if ($pic->create()) {
-                                echo "pic's infos successfully saved to db <br/>";
+                                //save pic's infos to bd
+                                if ($pic->create()) {
+                                    echo "pic's infos successfully saved to db <br/>";
+                                } else {
+                                    echo "pic's infos CANNOT be saved to db <br/>";
+                                }
                             } else {
-                                echo "pic's infos CANNOT be saved to db <br/>";
+                                echo "picture upload failed <br/>";
                             }
-                        } else {
-                            echo "picture upload failed <br/>";
                         }
+                    } else {
+                        echo 'Cant register!!!! <br/>';
                     }
                 }
-            } else {
-                echo 'xomexing dzong??? <br/>';
             }
         }
         $this->render('register', '');
