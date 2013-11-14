@@ -19,8 +19,7 @@ class ExampleController extends CTController {
 
     public function actionIndex($param = 0) {
         // echo CT::user()->bag()->countItems();
-        $val = "never";
-        echo "I $val use this before";
+        echo CT::user()->bag()->totalCal();
     }
 
     public function actionView($param) {

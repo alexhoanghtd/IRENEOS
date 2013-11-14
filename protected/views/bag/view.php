@@ -8,7 +8,7 @@
                 echo 'No item here';
             } else {
                 $productIDs = array_keys($data);
-                
+
                 foreach ($productIDs as $productID) {
                     //start showing an item (grouped by product)
                     $product = new Product($productID);
@@ -19,7 +19,7 @@
                     $finalPrice = $price - ($price * $sale / 100);
                     ?>
                     <li class="shadow-box clearfix">
-                        <a href="/bag/Remove/<?=$productID?>" class="remove"></a>  
+                        <a href="/bag/Remove/<?= $productID ?>" class="remove"></a>  
                         <div class="item-preview pic-cover"
                              style="background-image: url('<?= $urls[0] ?>')">
                             <a href="/product/View/<?= $productID ?>">
@@ -62,9 +62,9 @@
                                                 <li><?= $att['color'] ?></li>
                                                 <li><?= $att['quantity'] ?> item(s)</li>
                                                 <li>
-                                                    <a href="/bag/AddUp/<?=$attID?>">+</a>
-                                                    <a href="/bag/SubDown/<?=$attID?>">-</a>
-                                                    <a href="/bag/RemoveAtt/<?=$attID?>">Remove</a>
+                                                    <a href="/bag/AddUp/<?= $attID ?>">+</a>
+                                                    <a href="/bag/SubDown/<?= $attID ?>">-</a>
+                                                    <a href="/bag/RemoveAtt/<?= $attID ?>">Remove</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -80,7 +80,8 @@
                                 </div>	
                             </div>
                     </li>
-                    <?php $total += $subtotal;
+                    <?php
+                    $total += $subtotal;
                 }
             }
             ?>
@@ -90,9 +91,10 @@
         <div class="bag-bottom-line">
             <div class="bag-total">
                 <span class="bag-total-label">Bag Total</span>
-                <span>$<?=$total?></span>
-            </div>
-            <a href="/bag/Checkout" class="check-out-bt">Check Out</a>
+                <span>$<?= $total ?></span>
+            </div>                       
+                <a href="/bag/Checkout" class="check-out-bt">Check Out</a>          
         </div>
+
     </div>
 </div>
