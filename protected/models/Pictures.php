@@ -77,6 +77,22 @@ class Pictures extends CTModel {
         }
     }
 
+    public static function getCollectionPictureModels($collectionID){
+        $conn = CTSQLite::connect();
+        $query = 'SELECT id FROM ic_pictures WHERE collection_id =' . $collectionID;
+        $result = $conn->query($query);
+        if ($result) {
+            $pictures = array();
+            while ($picID = $result->fetchArray()) {
+                $picture = new Pictures($picID['id']);
+                array_push($pictures, $picture);
+            }
+            return $pictures;
+        } else {
+            return false;
+        }
+    }
+
     public function getCategoryPictures($categoryID) {
         $conn = CTSQLite::connect();
         $query = 'SELECT url FROM ic_pictures WHERE category_id =' . $categoryID;
@@ -93,6 +109,20 @@ class Pictures extends CTModel {
             return FALSE;
         }
     }
+
+    public function getCollectionPictures($collectionID){
+        $conn = CTSQLite::connect();
+        $query = 'SELECT url FROM ic_pictures WHERE collection_id =' . $collectionID;
+        $result = $conn->query($query);
+        if ($result) {
+            $urls = $result->fetchArray();
+            return $urls;
+        } else {
+            echo 'cant get collection pictures <br/>';
+            return FALSE;
+        }
+    }
+
     /**
      * Upload the file to folder in images folder
      * @param type $file
@@ -151,6 +181,22 @@ class Pictures extends CTModel {
     public static function deletePicture($id) {
         $db = CTSQLite::connect();
         $delPicQuery = 'DELETE FROM ic_pictures WHERE category_id=' . $id;
+        $results = $db->query($delPicQuery);
+
+        if ($results) {
+            return $results;
+            echo "Delete picture Successfully!!!";
+        } else {
+            echo "Delete pictures fail";
+            return false;
+        }
+        $db->close();
+        unset($db);
+    }
+
+    public static function deletePicCollection($id){
+        $db = CTSQLite::connect();
+        $delPicQuery = 'DELETE FROM ic_pictures WHERE collection_id=' .$id;
         $results = $db->query($delPicQuery);
 
         if ($results) {

@@ -33,5 +33,9 @@ class Color extends CTModel {
         }
         return false;
    }
-
+   
+   public static function getColor($id){
+       $color = new Color($id);
+       return $color->getVal('name');
+   }
 }

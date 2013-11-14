@@ -8,7 +8,20 @@
  */
 class BillController extends CTController{
     public function actionView($billID){
-        $this->render('view', '');
+        if($bill = new Bill($billID)){
+            $billDetail = new BillDetail();
+            $billDetail->setVal('bill_id', $billID);
+            $billDetails =  $billDetail->select();
+            
+            $this->render('view', array(
+                "billdata" => $bill->getData(),
+                "billDetails" => $billDetails,
+            ));
+        }else{
+            echo "bill Id doesn't exist";
+        }
+       
+        //$this->render('view', '');
     }
     
     public function actionList(){

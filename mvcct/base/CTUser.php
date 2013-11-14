@@ -42,12 +42,22 @@ class CTUser extends CTComponent implements IUserIdentity {
         return $this->data[$key];
     }
     /**
-     * dev's shit
+     * dat's shit
      * get all user custom data
      */
     public function getDatas(){
         return $this->data;
     }
+
+    /**
+     * duy's shiettttt
+     * reset all user custom data
+     */
+    public function resetDatas(){
+        $this->data = array();
+        $this->save();
+    }
+
     public function setBasicInfo($username,$firstName,$lastName){
         $this->username =$username;
         $this->firstName = $firstName;
