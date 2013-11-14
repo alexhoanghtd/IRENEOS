@@ -1,10 +1,4 @@
 
-<?php
-//    print_r($data['available']);
-//    echo "</br>";
-//    print_r($data['is_new']);
-?>
-<!-- layout $content will be shown here -->
 <form id="create-product" class="l-2cols clearfix content-inner"
       method="POST"
       action="/collection/Create/"
