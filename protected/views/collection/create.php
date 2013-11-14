@@ -25,12 +25,12 @@
     <!-- 2 colums layout right col-->
     <div class="col-right">
         <div class="col-right-container pdetail-container">
-            <input  type="text" class="col-right-header" placeholder="collection name" name="category[name]" required>
-            <textarea  placeholder="Write the description here...." name="category[description]"></textarea>
+            <input  type="text" class="col-right-header" placeholder="Collection name" name="collection[name]" required>
+            <textarea  placeholder="Write the description here...." name="collection[description]"></textarea>
             <div>
-                <input type="checkbox" name="category[available]" value="1" /><label>active</label>
-                <input type="checkbox" name="category[is_new]" value="1" /><label>is new</label>
-                <input type="hidden" name="category[is_collection]" value="1">
+                <input type="checkbox" name="collection[available]" value="1" /><label>active</label>
+                <input type="checkbox" name="collection[is_new]" value="1" /><label>is new</label>
+                <input type="hidden" name="collection[is_collection]" value="1">
             </div>
             <div class="button-group">
                 <input type="submit" class="add-to-bag dark-bt" value="Create">

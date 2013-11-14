@@ -9,17 +9,17 @@
  */
 class Collection extends CTModel {
 
-    public function getCollection($id) {
+    static function getCollection() {
         $db = CTSQLite::connect();
-        $getCollectionQuery = 'SELECT * FROM ic_category WHERE is_collection = 1 AND id =' . $id;
-        $result = $db->query($getCollectionQuery);
-        if ($row = $result->fetchArray()) {
-            return $row;
-            $db->close();
-            unset($db);
-        } else {
-            return false;
+        $getCollectionQuery = 'SELECT id, name FROM ic_category WHERE is_collection=1';
+        $results = $db->query($getCollectionQuery);
+        $result_rows = array();
+        while ($row = $results->fetchArray()) {
+            $result_rows[$row['id']] = $row;
         }
+        return $result_rows;
+        $db->close();
+        unset($db);
     }
 
     public function getCollectionList() {
@@ -49,7 +49,7 @@ class Collection extends CTModel {
     }
 
        public function getCollectionIdByName($name) {
-         $db = CTSQLite::connect();
+        $db = CTSQLite::connect();
         $query = 'SELECT id FROM ic_category WHERE name =:name';
         $stmt = $db->prepare($query);
         $stmt->bindValue(':name', $name, SQLITE3_TEXT);
