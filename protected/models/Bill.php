@@ -1,11 +1,11 @@
 <?php
 
 /**
- * User Model 
+ * Bill Model 
  * 
- * @author duyht <duyht@smartosc.com>
+ * @author trungnt <trungnt@smartosc.com>
  * @created 28 Oct 2013
- * @copyright &copy; 2013 Createve Team 
+ * @copyright &copy; 2013 Creative Team 
  */
 class Bill extends CTModel {
 
@@ -69,6 +69,7 @@ class Bill extends CTModel {
 
         // Insert into ic_bill
         $bill->setData($data);
+
         if ($bill->validateCreate()) {
             $billId = $bill->create();
 
@@ -110,7 +111,13 @@ class Bill extends CTModel {
                 }
             }
             echo 'Create Bill sucessfully !<br>';
+
+            //print_r($bill->getData());
+            print_r(CT::user()->bag()->listALl());
+            if ($bill->validateCreate()) {
+                echo 'validate sucessfully, bitch!<br>';
+            }
         }
     }
-
 }
+    
