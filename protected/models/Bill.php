@@ -51,8 +51,10 @@ class Bill extends CTModel {
         $bill = new Bill();
         $bill->setData($data);
         //print_r($bill->getData());
+        print_r(CT::user()->bag()->listALl());
         if ($bill->validateCreate()) {
             echo 'validate sucessfully, bitch!<br>';
+            
         }
     }
 
