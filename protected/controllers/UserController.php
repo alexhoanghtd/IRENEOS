@@ -8,8 +8,15 @@
  */
 
 class UserController extends CTController{
-    public function actionListUsers() {
-        
+    public function actionList() {
+        $user = new User();
+        $pic = new Pictures();
+
+        $data = $user->getUsersList();
+
+        CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'users');
+        $this->render('list', $data);
+        //exit;
     }
 
     public function actionGetUser($id) {
