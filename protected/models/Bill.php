@@ -100,7 +100,10 @@ class Bill extends CTModel {
                 if ($QuantityOrder <= $QuantityInStore) {
                     $billDetail->setData($dataBillDetail);
                     $billDetail->create();
-
+                    
+                    //Clear Bag
+                    CT::user()->clearBag();
+                    
                     //Quantity after checkout in store
                     $q = $QuantityInStore-$QuantityOrder;
                     
