@@ -357,10 +357,12 @@ a.sign-up{
     left: 430px;
     box-shadow: inset 0px 0px 100px #000;
     display: none;
+
+    
 }
 .dark-box-bg{
     background-color: #000;
-    opacity: .5
+    opacity: .5;
 }
 .dark-box-container{
     position: absolute;
