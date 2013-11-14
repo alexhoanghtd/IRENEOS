@@ -10,11 +10,15 @@
 class Bag {
 
     private $items = array();
-
+    private $steps = array(
+        'step1' => false,
+        'step2' => false,
+        'step3' => false,
+        );
     public function __construct() {
         
     }
-
+    
     public function getItemNumber() {
         return count($this->items);
     }

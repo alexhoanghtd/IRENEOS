@@ -80,5 +80,13 @@ class AttributeController extends CTController {
             echo 'Cannot delete';
         }
     }
-
+    /**
+     * get available quantity of an attribute
+     * 
+     */
+    public static function getAttQuan($attID){
+        if($att = new Attribute($attID)){
+            return $att->getVal('quantity');
+        }
+    }
 }

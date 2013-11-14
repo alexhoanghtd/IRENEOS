@@ -19,7 +19,7 @@ class SiteController extends CTController {
         $this->render("index", $newArrival);
     }
 
-    /*     * about page
+    /** about page
       function actionAbout() {
       CT::widgets('MainMenu')->setActive(USER_MENU, 'about us');
       $this->render('about', 'xampledata');

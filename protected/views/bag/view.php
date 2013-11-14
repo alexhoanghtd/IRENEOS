@@ -92,7 +92,7 @@
                 <span class="bag-total-label">Bag Total</span>
                 <span>$<?=$total?></span>
             </div>
-            <a href="#" class="check-out-bt">Check Out</a>
+            <a href="/bag/Checkout" class="check-out-bt">Check Out</a>
         </div>
     </div>
 </div>

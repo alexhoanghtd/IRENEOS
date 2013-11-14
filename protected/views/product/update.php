@@ -25,7 +25,7 @@ $colors = $data['colors'];
                        name="cover" class="file"
                        onchange="preview(this)">
             </div>
-            <div class="more-view">
+            <div class="more-view clearfix">
                 <ul>
                     <li class="pic-input <?php
                     echo (isset($data['pictureUlrs'][1])) ? '' : 'empty';

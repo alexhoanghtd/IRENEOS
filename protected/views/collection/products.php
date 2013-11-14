@@ -1,94 +1,56 @@
-<div class="content-inner l-2cols">
-    <link rel="stylesheet" type="text/css" href="http://irene.local/css/product-attribute.css">
-    <div class="col-left clearfix">
-        <div class="pic-cover shadow-box patt-cover" style="background-image: 
-             url('/images/products/miss-universe/cover.jpg')">
-
+<div class="content-inner single-col">
+    <div class="collection-header clearfix">
+        <div class="shadow-box header-cover"
+             style="background-image:"></div>
+        <div class="collection-details">
+            <h1>Collection Name</h1>
+            <blockquote>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</blockquote>
         </div>
+        
     </div>
-    <div class="col-right clearfix">
-        <div class="product-basic col-right-container">
-            <h1 class="col-right-header">
-                Miss Universe            </h1>
-            <blockquote>
-                Irene's colo loran isup erine sora piewso nott. Dusch.            </blockquote>
-            <a href="/product/Update/2" class="pupdate block-link">edit basic info of this product</a>
-            <a href="/product/Delete/2" class="pdelete block-link">delete this product </a>
-            <hr>
-            <h2>Product Attributes</h2>
-            <div class="pattr-header">
-                <ul class="tbl-4cols clearfix">
-                    <li>Size</li>
-                    <li>Color</li>
-                    <li>Quantity</li>   
-                    <li>Actions</li>
-                </ul>
-            </div>
-            <!--list all the attribute that already existed -->
-                            <form class="update-pattr" action="/attribute/Update" method="POST">
-                    <input type="hidden" value="3" name="id">
-                    <ul class="tbl-4cols clearfix">
-                        <li>S</li>
-                        <li>Grey</li>
-                        <li><input name="quantity" type="text" value="46"></li>
-                        <li>
-                            <input type="submit" value="Update">
-                            <a href="/attribute/Delete/3">delete</a>
-                        </li>
-                    </ul>
+    <hr>
+    <div class="collection-product-list">
+        <ul>
+            <li>
+                <form class="clearfix collection-product-box">
+                    <div class="collection-product-cover">
+                        <div class="shadow-box empty pic-input">
+                            <img height="100%">
+                            <input type="file" accept="image/*" name="cover" class="file" onchange="preview(this)">
+                        </div>
+                    </div>
+                    <div class="selected-product">
+                        <h2>Product Name</h2>
+                    </div>
+                    <div class="item-actions">
+                        <input type="submit" value="Update">
+                        <a href="#" class="delete-link">delete</a>
+                    </div>
                 </form>
-                            <form class="update-pattr" action="/attribute/Update" method="POST">
-                    <input type="hidden" value="4" name="id">
-                    <ul class="tbl-4cols clearfix">
-                        <li>XL</li>
-                        <li>Grey</li>
-                        <li><input name="quantity" type="text" value="49"></li>
-                        <li>
-                            <input type="submit" value="Update">
-                            <a href="/attribute/Delete/4">delete</a>
-                        </li>
-                    </ul>
+            </li>
+            <hr/>
+            <li>
+                <form class="clearfix collection-product-box add-item">
+                    <div class="collection-product-cover">
+                        <div class="shadow-box empty pic-input">
+                            <img height="100%">
+                            <input type="file" accept="image/*" name="cover" class="file" onchange="preview(this)">
+                        </div>
+                    </div>
+                    <div class="selected-product">
+                        <h2>Product Name</h2>
+                    </div>
+                    <div class="item-actions">
+                        <input type="submit" value="Add Product">
+                        <a href="#" class="delete-link">delete</a>
+                    </div>
                 </form>
-            
-                        <form class="add-pattr" method="POST" action="/Attribute/Add">
-                <input type="hidden" value="2" name="product_id">
-                <ul class="tbl-4cols clearfix" style="background-color: #eee;
-                                                      height: 40px;
-                                                      line-height: 40px;">
-                    <li>
-                        <select name="size_id">
-                            <option value="-1" selected="">Size</option>
-                             
-                            <option value="1">XL</option>
-                                 
-                            <option value="2">S</option>
-                                                        </select>
-                    </li>
-                    <li>
-                        <select name="color_id">
-                            <option value="-1" selected="">Color</option>
-                             
-                            <option value="1">red</option>
-                                 
-                            <option value="2">Green</option>
-                                 
-                            <option value="3">Grey</option>
-                                 
-                            <option value="4">Pink</option>
-                                 
-                            <option value="5">Purple</option>
-                                 
-                            <option value="6">Blue</option>
-                                                        </select>
-                    </li>
-                    <li>
-                        <input type="text" placeholder="quantity" name="quantity">
-                    </li>
-                    <li>
-                        <input type="submit" value="Add">
-                    </li>
-                </ul>
-            </form>
-        </div>
+            </li>
+        </ul>
     </div>
 </div>
