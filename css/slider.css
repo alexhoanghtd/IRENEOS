@@ -1,0 +1,19 @@
+/* 
+    Created on : Nov 14, 2013, 10:57:54 PM
+    Author     : Alex Hoang
+*/
+.slider-container{
+    padding-top: 6%;
+}
+.slide-view{
+    padding-bottom: 60%;
+    width:40%;
+    background-color: #fff;
+    margin:auto;
+    box-shadow: 0px 0px 100px #000;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50%;
+    
+    
+}

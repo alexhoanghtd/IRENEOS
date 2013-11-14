@@ -9,4 +9,11 @@
 class PictureController extends CTController{
     public function actionIndex() {
     }
+    
+    public function actionSlide($productID){
+        if($this->isAjax()){
+            $urls = Pictures::getProductPictures($productID);
+            $this->renderAjax('slider', $urls);
+        }
+    }
 }
