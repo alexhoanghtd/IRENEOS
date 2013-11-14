@@ -63,6 +63,9 @@ class BagController extends CTController {
 
     public function actionCheckout() {
         if (CT::user()->bag()->countItems() > 0) {
+            if(isset($_POST['shipping'])){
+                Bill::placeOrder($_POST['shipping']);
+            }
             $this->render('checkout', '');
         }else{
             CT::redirect_to("/Category/");
