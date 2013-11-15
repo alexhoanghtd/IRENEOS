@@ -122,9 +122,7 @@ class ProductController extends CTController {
     /*     * just for testing * */
 
     public function actionTest() {
-        $product = new Product();
-        $product->setVal('product_name', 'kamasutra $*#* rada zenga');
-        echo $product->generateFolderName();
+        echo CTTime::toTime('2013-11-15 01:34:16');
     }
 
     public function actionAjaxSearch() {

@@ -24,34 +24,23 @@ class Collection extends CTModel {
 
     public function getCollectionList() {
         $db = CTSQLite::connect();
-        $getCollectionQuery = 'SELECT * FROM ic_collection';
-        $result = $db->query($getCollectionQuery);
-        $row_results = array();
-        $count = 0;
-        while ($row = $result->fetchArray()) {
-            array_push($row_results, $row);
-            $count++;
-        }
-        for ($i = 0; $i < $count; $i++) {
-            if (empty($row_results[$i]['id'])) {
-                return $row_results;
-            } else {
-                $getPicQuery = 'SELECT * FROM ic_pictures WHERE type = 1 AND collection_id = ' . $row_results[$i]['id'];
-                $covers = $db->query($getPicQuery);
-                $cover = $covers->fetchArray();
-                $coverUrl = $cover['url'];
-                $row_results[$i]['coverUrl'] = $coverUrl;
-
-                $countProductID = 'SELECT COUNT(product_id) FROM ic_collection_product WHERE collection_id=' . $row_results[$i]['id'];
-                $num = $db->query($countProductID);
-                $nums = $num->fetchArray();
-                $countProduct = $nums['COUNT(product_id)'];
-                $row_results[$i]['num'] = $countProduct;
+        $query = 'SELECT id FROM ic_collection';
+        $result = $db->query($query);
+        $data = array();
+        if ($result) {
+            while ($id = $result->fetchArray()) {
+                $collection = new Collection($id[0]);
+                $collectionData = $collection->getData();
+                $pic = new Pictures();
+                $pic->setVal('collection_id', $id[0]);
+                if ($pics = $pic->select()) {
+                    $collectionData['url'] = $pics[0]->getVal('url');
+                }
+                array_push($data, $collectionData);
             }
+            
         }
-        return $row_results;
-        $db->close();
-        unset($db);
+        return $data;   
     }
 
     public function getCollectionIdByName($name) {
@@ -147,7 +136,7 @@ class Collection extends CTModel {
     public function generateFolderName() {
         $name = $this->getVal('name');
         if ($name) {
-            return 'collection_cover/' . $this->seoFriendLy($name);
+            return 'collection/' . $this->seoFriendLy($name);
         } else {
             return false;
         }
@@ -181,7 +170,7 @@ class Collection extends CTModel {
         }
     }
 
-     public function updatePictures($files) {
+    public function updatePictures($files) {
         $marsk = array();
         $uploadMarsk = array();
         $folderName = "collection_cover";
