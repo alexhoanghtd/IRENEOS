@@ -1,4 +1,5 @@
 <?php
+
 /**
  * UserController 
  * 
@@ -6,40 +7,42 @@
  * @created 28 Oct 2013
  * @copyright &copy; 2013 Createve Team 
  */
+class UserController extends CTController {
 
-class UserController extends CTController{
+    public function actionList($page) {
+        if (!empty($page)) {
+            $user = new User();
+            $pic = new Pictures();
 
-    public function actionList() {
-
-        $user = new User();
-        $pic = new Pictures();
-
-        if (isset($_POST['checkbox'])) {
-            foreach ($_POST['checkbox'] as $id) {
-                $u = new User($id);
-                $u->delete();
-            }
-        }
-
-        if (isset($_POST['user'])) {
-            foreach ($_POST['user'] as $id) {
-                if (!isset($_POST['cbActive'][$id])) {
+            if (isset($_POST['checkbox'])) {
+                foreach ($_POST['checkbox'] as $id) {
                     $u = new User($id);
-                    $u->setVal('active', '0');
-                    $u->update();
-                } else {
-                    $u = new User($id);
-                    $u->setVal('active', '1');
-                    $u->update();
+                    $u->delete();
                 }
             }
+
+            if (isset($_POST['user'])) {
+                foreach ($_POST['user'] as $id) {
+                    if (!isset($_POST['cbActive'][$id])) {
+                        $u = new User($id);
+                        $u->setVal('active', '0');
+                        $u->update();
+                    } else {
+                        $u = new User($id);
+                        $u->setVal('active', '1');
+                        $u->update();
+                    }
+                }
+            }
+
+            $data = $user->getUsersList($page);
+
+            CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'users');
+            $this->render('list', $data);
+            //exit;
+        } else {
+            header("Location: http://irene.local/User/List/1");
         }
-
-        $data = $user->getUsersList();
-
-        CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'users');
-        $this->render('list', $data);
-        //exit;
     }
 
     public function actionUpdate($id) {
@@ -123,13 +126,13 @@ class UserController extends CTController{
                 $userData = $row;
                 print_r($userData);
             }
-        }else{
+        } else {
             header("Location: http://irene.local/");
         }
     }
 
     public function actionGetUserRole($id) {
-        
+
         if (!empty($id)) {
             $model = new User();
             $row = $model->getUserRole($id);
@@ -137,15 +140,15 @@ class UserController extends CTController{
                 Bootstrap::error('404');
             } else {
                 $userRole = $row;
-                echo "Get User's role successful! Role is " .$userRole;
+                echo "Get User's role successful! Role is " . $userRole;
             }
-        }else{
+        } else {
             header("Location: http://irene.local/");
         }
     }
 
     public function actionBlockUser($id) {
-        
+
         if (!empty($id)) {
             $model = new User();
             $row = $model->blockUser($id);
@@ -153,10 +156,11 @@ class UserController extends CTController{
                 Bootstrap::error('404');
             } else {
                 $userName = $row;
-                echo "Block user successful! User name is " .$userName;
+                echo "Block user successful! User name is " . $userName;
             }
-        }else{
+        } else {
             header("Location: http://irene.local/");
         }
     }
+
 }

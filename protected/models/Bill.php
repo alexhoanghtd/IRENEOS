@@ -71,9 +71,7 @@ class Bill extends CTModel {
         $bill->setData($data);
         if ($bill->validateCreate()) {
             // Insert into ic_bill
-            $billId = $bill->create();
-            //Clear Bag
-            CT::user()->clearBag();
+            $billId = $bill->create();           
             
             //Prepare data to insert into ic_billdetail
             $db = CTSQLite::connect();
@@ -119,8 +117,11 @@ class Bill extends CTModel {
                 }
             }
             echo 'Create Bill sucessfully !<br>';
+            
+            //Clear Bag
+            CT::user()->clearBag();
+            
             header("location: ../../Bill/View/$billId");
-
             //print_r($bill->getData());
             //print_r(CT::user()->bag()->listALl());
         }

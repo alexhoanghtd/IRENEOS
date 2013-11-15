@@ -1,3 +1,8 @@
+<?php
+$NumberUserOf1Page = 10;
+$totalPages = ceil($data[0]['totalRecord'] / $NumberUserOf1Page);
+?>
+
 <div class="content-inner">
     <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL() ?>/css/ct-list.css">
     <div class="single-col">        
@@ -46,6 +51,36 @@
                 <?php } ?>          
 
             </table>   
+            
+            </br></br>
+
+            <?php
+            if ($totalPages > 1) {
+                $currentPage = $data[0]['currentPage'];
+                if ($currentPage != 1) {
+                    ?>
+                    <a href="<?= $currentPage - 1 ?>" name="back">Back</a>
+                    <?php
+                }
+                for ($i = 1; $i <= $totalPages; $i++) {
+                    if ($i == $currentPage) {
+                        ?>
+                        <b><?= $i ?></b>
+                        <?php
+                    } else {
+                        ?>
+                        <a href="<?= $i ?>" name="<?= $i ?>"><?php print_r($i) ?></a>
+                        <?php
+                    }
+                }
+                if ($currentPage != $totalPages) {
+                    ?>
+                    <a href="<?= $currentPage + 1 ?>" name="next">Next</a>
+                    <?php
+                }
+            }
+            ?>
+                    
         </form>        
     </div>
 </div>

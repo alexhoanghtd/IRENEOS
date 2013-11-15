@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User Model 
  * 
@@ -6,8 +7,8 @@
  * @created 28 Oct 2013
  * @copyright &copy; 2013 Createve Team 
  */
+class User extends CTModel {
 
-class User extends CTModel{
     public function fieldRules() {
         return array(
             "id" => array(
@@ -28,13 +29,13 @@ class User extends CTModel{
                 "maxLength" => 40,
                 "minLength" => 6,
                 "required" => true,
-                //"regEx" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/",
+            //"regEx" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/",
             ),
             "password_repeat" => array(
                 "maxLength" => 40,
                 "minLength" => 6,
                 "required" => true,
-                //"regEx" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/",
+            //"regEx" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/",
             ),
             "first_name" => array(
                 "maxLength" => 50,
@@ -58,12 +59,24 @@ class User extends CTModel{
     }
 
     //get all users datas to be listed in Admin Page
-    public function getUsersList() {
-        //connect to db
-        $db=CTSQLite::connect();
+    public function getUsersList($page) {
+        $NumberUserOf1Page = 10;
+        $pos = ($page - 1) * $NumberUserOf1Page;
+
+        //connect to db      
+        $db = CTSQLite::connect();
+
+        // Count total number Products
+        $SelectQuerry = 'SELECT * FROM ic_user';
+        $res = $db->query($SelectQuerry);
+        $totalRecord = 0;
+        while ($rows = $res->fetchArray()) {
+            $totalRecord++;
+        }
+        $totalPages = ceil($totalRecord / $NumberUserOf1Page);
 
         //getting users datas from db
-        $getUsersQuery = "SELECT * FROM ic_user";
+        $getUsersQuery = "SELECT * FROM ic_user limit " . $pos . "," . $NumberUserOf1Page;
         $result = $db->query($getUsersQuery);
 
         //an array to store each user's datas
@@ -81,6 +94,7 @@ class User extends CTModel{
 
         //pushing out users datas
         for ($i = 0; $i <= $count - 1; $i++) {
+            $row_results[$i]['currentPage'] = $page;
             //print_r($row_results[$i]);
             if (empty($row_results[$i]['id'])) {
                 return $row_results;
@@ -91,13 +105,22 @@ class User extends CTModel{
                 $avatar = $avatars->fetchArray();
                 $avatarUrl = $avatar['url'];
                 $row_results[$i]['avatarUrl'] = $avatarUrl;
+                
+                 // Count total number Users
+                $SelectQuerry = 'SELECT * FROM ic_user';
+                $res = $db->query($SelectQuerry);
+                $counts = 0;
+                while ($rows = $res->fetchArray()) {
+                    $counts++;
+                }
+                $row_results[$i]['totalRecord'] = $counts;
             }
         }
 
         return $row_results;
         $db->close();
         unset($db);
-    }  
+    }
 
     public function updateAvatarUrl() {
         $userID = $this->getVal('id');
@@ -117,12 +140,11 @@ class User extends CTModel{
         print_r($newDir);
         rename($oldDir, $newDir);
 
-        
-            $newUrl = "/images/" . $newFolderName . "/" . $_POST['user']['username'] . "." . $extension[1];
-            $avatar->setVal('url', $newUrl);
-            $avatar->setVal('name', $_POST['user']['username']);
-            $avatar->update();
-        
+
+        $newUrl = "/images/" . $newFolderName . "/" . $_POST['user']['username'] . "." . $extension[1];
+        $avatar->setVal('url', $newUrl);
+        $avatar->setVal('name', $_POST['user']['username']);
+        $avatar->update();
     }
 
     public function updatePictures($files) {
@@ -168,24 +190,20 @@ class User extends CTModel{
                 }
             }
         }
-    }   
+    }
 
     // public static function deleteUser($id) {
     //     $user = new User($id);
     //     $avatar = Pictures::getUserAvatarModels($id);
-
     //     if (count($avatar) > 0) {
     //         if ($avatar->getVal('type') == 9) {
     //             $path = $avatar->getVal('url');
     //         }
-
     //         $folders = explode('/', $path);
     //         $oldDir = BASE_PATH;
-
     //         for ($i=0; $i < 3; $i++) { 
     //             $oldDir .= $folders[$i] . '/';
     //         }
-
     //         if ($files = scandir($oldDir)) {
     //             foreach ($files as $file) {
     //                 $tfile = explode('.', $file);
@@ -193,7 +211,6 @@ class User extends CTModel{
     //             }
     //         }
     //     }
-
     // }
 
     public function deleteUser($id) {
@@ -242,27 +259,27 @@ class User extends CTModel{
     }
 
     //get all user's infos
-    public function getUser($id){
+    public function getUser($id) {
         $db = CTSQLite::connect();
-        $results = $this->db->query('SELECT * FROM ic_user WHERE id='.$id);
-        if($row = $results->fetchArray()){
+        $results = $this->db->query('SELECT * FROM ic_user WHERE id=' . $id);
+        if ($row = $results->fetchArray()) {
             return $row;
-        }else{
+        } else {
             return false;
         }
         $db->close();
         unset($db);
     }
-    
+
     //get user's role
-    public function getUserRole($id){
+    public function getUserRole($id) {
         $db = CTSQLite::connect();
-        $results = $this->db->query('SELECT * FROM ic_user WHERE id='.$id);
-        if($row = $results->fetchArray()){
-            
+        $results = $this->db->query('SELECT * FROM ic_user WHERE id=' . $id);
+        if ($row = $results->fetchArray()) {
+
             $userRole = $row['role'];
             return $userRole;
-        }else{
+        } else {
             return false;
         }
         $db->close();
@@ -287,17 +304,17 @@ class User extends CTModel{
     }
 
     //block user that (hacking, violate rules,.... etc)
-    public function blockUser($id){
+    public function blockUser($id) {
         $this->connect();
-        $results = $this->db->query('SELECT * FROM ic_user WHERE id='.$id);
-        if($row = $results->fetchArray()){
+        $results = $this->db->query('SELECT * FROM ic_user WHERE id=' . $id);
+        if ($row = $results->fetchArray()) {
 
-            $blockUserQuery = 'UPDATE ic_user SET active=0 WHERE id='.$id;
+            $blockUserQuery = 'UPDATE ic_user SET active=0 WHERE id=' . $id;
             $this->db->query($blockUserQuery);
 
             $userName = $row['username'];
             return $userName;
-        }else{
+        } else {
             return false;
         }
         $db->close();
@@ -305,14 +322,14 @@ class User extends CTModel{
     }
 
     //authorize login and return user's role
-    public function isAuthorize($username, $password){
+    public function isAuthorize($username, $password) {
         $this->connect();
-        $results = $this->db->query('SELECT * FROM ic_user WHERE id='.$id);
-        if($row = $results->fetchArray()){
+        $results = $this->db->query('SELECT * FROM ic_user WHERE id=' . $id);
+        if ($row = $results->fetchArray()) {
             if ($username == $row['username'] && $password == $row['password']) {
                 return $row['role'];
-            }        
-        }else{
+            }
+        } else {
             return false;
         }
         $db->close();
@@ -323,7 +340,7 @@ class User extends CTModel{
     public function checkRequiredFields($required_array) {
         $field_errors = array();
         foreach ($required_array as $fieldname) {
-            if (!isset($_POST[$fieldname]) || (empty($_POST[$fieldname]) && $_POST[$fieldname] !=0)) {
+            if (!isset($_POST[$fieldname]) || (empty($_POST[$fieldname]) && $_POST[$fieldname] != 0)) {
                 $field_errors[] = $fieldname;
             }
         }
@@ -331,13 +348,13 @@ class User extends CTModel{
     }
 
     //check for field that requires max length
-
     //confirm query
     function confirm_query($result_set) {
         if (!$result_set) {
             die("Database query failed: " . sqlite_error());
         }
     }
+
     //validate login informations
     //not done yet
     // warning dont use this
@@ -365,8 +382,8 @@ class User extends CTModel{
 
                 $result = $conn->query($query);
                 confirm_query($result);
-                
-                if(sqlite_num_rows($result) == 1){
+
+                if (sqlite_num_rows($result) == 1) {
                     $user = $result->fetchArray();
                     $role = $user['role'];
                     CT::user()->setRole($role);
@@ -384,4 +401,5 @@ class User extends CTModel{
             //form has not been submitted
         }
     }
+
 }
