@@ -31,7 +31,7 @@
                     <td><input type="checkbox" 
                     <?= ( $item['available'] == '1' ) ? "checked" : "" ?>
                            name="cbActive[<?= $item['id'] ?>]" value="1"></td>
-                    <td><a href="Update/<?= $item['id'] ?>"> Edit </a><a href="Delete/<?= $item['id'] ?>"> Delete </a></td>
+                    <td><a href="../Update/<?= $item['id'] ?>"> Edit </a><a href="../Delete/<?= $item['id'] ?>"> Delete </a></td>
                     </tr>
 
                 <?php } ?>          

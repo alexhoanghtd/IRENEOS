@@ -14,11 +14,12 @@ class Bag {
         'step1' => false,
         'step2' => false,
         'step3' => false,
-        );
+    );
+
     public function __construct() {
         
     }
-    
+
     public function getItemNumber() {
         return count($this->items);
     }
@@ -84,8 +85,15 @@ class Bag {
         $attIDExist = false;
         foreach ($this->items as $key => $item) {
             if ($item['attribute']['id'] == $attID) {
-                $this->items[$key]['quantity'] += 1;
-                $attIDExist = true;
+                $db = CTSQLite::connect();
+                $query = 'SELECT quantity FROM ic_attribute WHERE id=' . $attID;
+                $results = $db->query($query);
+                $row = $results->fetchArray();
+                //If quantity in order > quantity in store -> show message and add into bag quantity in store
+                if ($item['quantity'] <= $row['quantity']) {
+                    $this->items[$key]['quantity'] += 1;
+                    $attIDExist = true;
+                }
             }
         }
         if ($attIDExist) {
@@ -165,11 +173,11 @@ class Bag {
             }
         }
     }
-    
-    public function getItemGroups(){
+
+    public function getItemGroups() {
         $bagItems = $this->items;
         $productIDs = array();
-        $itemGroups = array();    
+        $itemGroups = array();
         foreach ($bagItems as $bagItem) {
             $productID = $bagItem['productID'];
             if (!\in_array($productID, $productIDs)) {
@@ -190,25 +198,42 @@ class Bag {
                     "quantity" => $bagItem["quantity"],
                 );
             }
+
+            if (!empty($pAtt['id'])) {
+                $db = CTSQLite::connect();
+                $query = 'SELECT quantity FROM ic_attribute WHERE id=' . $pAtt['id'];
+                $results = $db->query($query);
+                $row = $results->fetchArray();
+                //If quantity in order > quantity in store -> show message and add into bag quantity in store
+                if ($bagItem['quantity'] > $row['quantity']) {
+                    $GetNameProQuery = 'SELECT product_name FROM ic_product WHERE id=' . $productID;
+                    $res = $db->query($GetNameProQuery);
+                    $row_pro = $res->fetchArray();
+                    echo "Your order: Product " . $row_pro['product_name'] . " , size "
+                    . $itemGroups[$productID][$pAtt['id']]['size'] . " , color " . $itemGroups[$productID][$pAtt['id']]['color']
+                    . " is OUT OF STOCK ! </br>";
+                    $itemGroups[$productID][$pAtt['id']]['quantity'] = $row['quantity'];
+                }
+            }
         }
         return $itemGroups;
     }
-    
-    public function countItems(){
+
+    public function countItems() {
         $total = 0;
-        foreach($this->items as $item){
+        foreach ($this->items as $item) {
             $total += $item['quantity'];
         }
         return $total;
     }
-    
-    public function totalCal(){
+
+    public function totalCal() {
         $total = 0;
-        foreach($this->items as $item){
+        foreach ($this->items as $item) {
             $product = new Product($item['productID']);
             $price = $product->getVal('price');
-            $sale = $product ->getVal('sale');
-            $total += $item['quantity'] * ($price - $price*$sale/100);
+            $sale = $product->getVal('sale');
+            $total += $item['quantity'] * ($price - $price * $sale / 100);
         }
         return $total;
     }

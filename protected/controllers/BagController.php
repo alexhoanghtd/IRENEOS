@@ -16,8 +16,8 @@ class BagController extends CTController {
             $attributes = $_POST['attribute'];
             $attIDs = array_keys($attributes);
             foreach ($attIDs as $attID) {
-                $attQuantity = (int) $attributes[$attID]['quantity'];
-                if ($attQuantity > 0) {
+                $attBagQuantity = (int) $attributes[$attID]['quantity'];
+                if ($attBagQuantity > 0) {
                     $bagItem = array(
                         "productID" => $productID,
                         "attribute" => array(
@@ -25,7 +25,7 @@ class BagController extends CTController {
                             "size" => $_POST[$attID]['size'],
                             "color" => $_POST[$attID]['color'],
                         ),
-                        "quantity" => $attQuantity,
+                        "quantity" => $attBagQuantity,
                     );
                     CT::user()->addToBag($bagItem);
                 }
