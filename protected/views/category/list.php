@@ -7,8 +7,8 @@
     <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL() ?>/css/ct-list.css">
     <div class="single-col">        
         <form method='post' id='userform' action='List'>
-            <input type="submit" value="Delete selected & Quick Active"/></br></br>
-
+            <input type="submit" value="Delete selected & Quick Active"/>
+            <a href="../../Category/Create">Create Category</a></br></br>
             <table class="ct-list-tbl">
                 <tr>
                     <td></td>
@@ -26,7 +26,7 @@
                     <tr>
                         <input type="hidden" name="category[<?=$item['id']?>]" value="<?=$item['id']?>">
                         <td><input type="checkbox" name="cbDelete[]" value="<?= $item['id'] ?>"></td>
-                        <td><a href="View/<?=$item['id']?>"><?php print_r($item['name']) ?></a></td>
+                        <td><a href="../View/<?=$item['id']?>"><?php print_r($item['name']) ?></a></td>
                         <td><?php print_r($item['num']) ?></td>
                     <td><input type="checkbox" 
                     <?= ( $item['available'] == '1' ) ? "checked" : "" ?>

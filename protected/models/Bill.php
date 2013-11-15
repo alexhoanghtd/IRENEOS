@@ -72,7 +72,9 @@ class Bill extends CTModel {
         if ($bill->validateCreate()) {
             // Insert into ic_bill
             $billId = $bill->create();
-
+            //Clear Bag
+            CT::user()->clearBag();
+            
             //Prepare data to insert into ic_billdetail
             $db = CTSQLite::connect();
             $itemDetail = CT::user()->bag()->getItems();
@@ -100,14 +102,11 @@ class Bill extends CTModel {
                 if ($QuantityOrder <= $QuantityInStore) {
                     $billDetail->setData($dataBillDetail);
                     $billDetail->create();
-                    
-                    //Clear Bag
-                    CT::user()->clearBag();
-                    
+
                     //Quantity after checkout in store
-                    $q = $QuantityInStore-$QuantityOrder;
-                    
-                    $sqlQuery = "UPDATE ic_attribute SET quantity=" .$q. " WHERE id=" . $attID;
+                    $q = $QuantityInStore - $QuantityOrder;
+
+                    $sqlQuery = "UPDATE ic_attribute SET quantity=" . $q . " WHERE id=" . $attID;
                     $r = $db->query($sqlQuery);
                 } else {
                     //Show message if out of stock
@@ -120,6 +119,7 @@ class Bill extends CTModel {
                 }
             }
             echo 'Create Bill sucessfully !<br>';
+            header("location: ../../Bill/View/$billId");
 
             //print_r($bill->getData());
             //print_r(CT::user()->bag()->listALl());
