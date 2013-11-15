@@ -140,7 +140,6 @@ class User extends CTModel{
             if (!empty($uploadMarsk[$i]['name'])) {
                 $uploadedTo = Pictures::uploadPicture($uploadMarsk[$i], $folderName);
                 // Get extension of file upload       
-                print_r($uploadMarsk[$i]['name']);
                 $info = new SplFileInfo($uploadMarsk[$i]['name']);
                 $extension = $info->getExtension();
                 // Rename File upload followed by CategoryName

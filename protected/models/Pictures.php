@@ -66,10 +66,12 @@ class Pictures extends CTModel {
         $query = 'SELECT id FROM ic_pictures WHERE user_id =' . $userID;
         $result = $conn->query($query);
         if ($result) {
-            $picID = $result->fetchArray();
-            $avatar = new Pictures($picID['id']);
-
-            return $avatar;
+            $pictures = array();
+            while ($picID = $result->fetchArray()) {
+                $picture = new Pictures($picID['id']);
+                array_push($pictures, $picture);
+            }
+            return $pictures;
         } else {
             return false;
         }
