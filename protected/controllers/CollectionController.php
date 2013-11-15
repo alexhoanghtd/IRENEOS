@@ -167,9 +167,12 @@ class CollectionController extends CTController {
 
     
     public function actionProducts($id){
-        $collection = new Collection();
+        $collection = new Collection($id);
         $pic = new Pictures();
-        $this->render('products', '');
+        $this->render('products', array(
+            "collectionData" => $collection->getData(),
+            "pictureModels" => '',
+        ));
     }
 
     private function hasChanges($files) {

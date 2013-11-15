@@ -171,48 +171,7 @@ class Collection extends CTModel {
     }
 
     public function updatePictures($files) {
-        $marsk = array();
-        $uploadMarsk = array();
-        $folderName = "collection_cover";
-        $pictures = Pictures::getCollectionPictureModels($this->getVal('id'));
-        foreach ($pictures as $picture) {
-            array_push($marsk, $picture);
-        }
-        foreach ($files as $file) {
-            array_push($uploadMarsk, $file);
-        }
-        for ($i = 0; $i < 4; $i++) {
-            if (!empty($uploadMarsk[$i]['name'])) {
-                $uploadedTo = Pictures::uploadPicture($uploadMarsk[$i], $folderName);
-                // Get extension of file upload
-                print_r($uploadMarsk[$i]['name']);
-                $info = new SplFileInfo($uploadMarsk[$i]['name']);
-                $extension = $info->getExtension();
-                $oriName = BASE_PATH . "/images/" . $folderName . "/" . $uploadMarsk[$i]['name'];
-                $newName = BASE_PATH . "/images/" . $folderName . "/" . $_POST['collection']['name'] . "." . $extension;
-                rename($oriName, $newName);
-                $url = "/images/" . $folderName . "/" . $_POST['collection']['name'] . "." . $extension;
-                if (isset($marsk[$i])) {
-                    $marsk[$i]->setVal('url', $url);
-                    if ($marsk[$i]->update()) {
-                        echo 'updated picture to db <br/>';
-                    } else {
-                        echo 'failed to update picture <br/>';
-                    }
-                } else {
-                    $marsk[$i] = new Pictures();
-                    $marsk[$i]->setVal('url', $url);
-                    $marsk[$i]->setVal('name', $this->getVal('name'));
-                    $marsk[$i]->setVal('type', 1);
-                    $marsk[$i]->setVal('collection_id', $this->getVal('id'));
-                    if ($marsk[$i]->create()) {
-                        echo 'inserted new picture to db <br/>';
-                    } else {
-                        echo 'cant insert new picutre <br/>';
-                    }
-                }
-            }
-        }
+        
     }
 
 }

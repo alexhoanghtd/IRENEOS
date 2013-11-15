@@ -188,6 +188,7 @@ class Pictures extends CTModel {
         $allowedExts = array("gif", "jpeg", "jpg", "png");
         $temp = explode(".", $file["name"]);
         $extension = end($temp);
+        $extension = strtolower($extension);
         return (
                 (//check file type
                 ($file["type"] == "image/gif") || ($file["type"] == "image/jpeg") || ($file["type"] == "image/jpg") || ($file["type"] == "image/pjpeg") || ($file["type"] == "image/x-png") || ($file["type"] == "image/png")
