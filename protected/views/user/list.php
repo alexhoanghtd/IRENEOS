@@ -2,7 +2,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL() ?>/css/ct-list.css">
     <div class="single-col">        
         <form method='post' id='userform' action='List'>
-            <input type="submit" value="Delete selected & Quick Active"/></br></br>
+            <input type="submit" value="Quick Active"/></br></br>
 
             <table class="ct-list-tbl">
                 <tr>
@@ -26,7 +26,8 @@
 
                     <tr>
                         <input type="hidden" name="user[<?=$item['id']?>]" value="<?=$item['id']?>">
-                        <td><input type="checkbox" name="cbDelete[]" value="<?= $item['id'] ?>"></td>
+                        <!-- <td><input type="checkbox" name="cbDelete[]" value="<?= $item['id'] ?>"></td> -->
+                        <td></td>
                         <td><img height="100" src="<?php print_r($item['avatarUrl']) ?>"/></td>
                         <td><?php print_r($item['username']) ?></td>
                         <td><?php print_r($item['password']) ?></td>
