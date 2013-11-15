@@ -8,16 +8,19 @@
     <div class="col-left clearfix">
         <div class="product-pics">
             <div class="main-view shadow-box"
+                 <?php if(isset($data['pictureUlrs'][0])){?>
+                        onclick="viewOver(this,<?=$product['id']?>)"
+                 <?php } ?>
                  style="background-image: 
                  url('<?php echo isset($data['pictureUlrs'][0])? $data['pictureUlrs'][0] : '';  ?>')">
 
             </div>
             <div class="more-view">
                 <ul>
-                    <li class="<?php
-                    echo (isset($data['pictureUlrs'][1])) ? '' : 'empty';
-                    ?>"
-                        onclick="viewOver(this)"
+                    <li class="<?=(isset($data['pictureUlrs'][1])) ? '' : 'empty';?>"
+                        <?php if(isset($data['pictureUlrs'][1])){?>
+                        onclick="viewOver(this,<?=$product['id']?>)"
+                        <?php } ?>
                         style="background-image: 
                         url('<?php
                         echo (isset($data['pictureUlrs'][1])) ? $data['pictureUlrs'][1] : '';
@@ -25,13 +28,18 @@
                     <li class="<?php
                     echo (isset($data['pictureUlrs'][2])) ? '' : 'empty';
                     ?>"
+                        <?php if(isset($data['pictureUlrs'][2])){?>
+                        onclick="viewOver(this,<?=$product['id']?>)"
+                        <?php } ?>
                         style="background-image: 
                         url('<?php
                         echo (isset($data['pictureUlrs'][2])) ? $data['pictureUlrs'][2] : '';
                         ?>')"></li>
                     <li class="<?php
                     echo (isset($data['pictureUlrs'][3])) ? '' : 'empty';
-                    ?>"
+                    ?>"<?php if(isset($data['pictureUlrs'][3])){?>
+                        onclick="viewOver(this,<?=$product['id']?>)"
+                        <?php } ?>
                         style="background-image: 
                         url('<?php
                         echo (isset($data['pictureUlrs'][3])) ? $data['pictureUlrs'][3] : '';

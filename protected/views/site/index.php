@@ -1,3 +1,7 @@
+<link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL()?>/css/collection-view.css">
+<script type="text/javascript">
+    $('#content-header').css('display','none');
+</script>
 <div id="product-full-view">
 			<ul id="product-list">
 				<li>
