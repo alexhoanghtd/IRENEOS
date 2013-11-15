@@ -7,6 +7,13 @@
  * @created 28 Oct 2013
  * @copyright &copy; 2013 Createve Team 
  */
+define('PRODUCT_COVER',1);
+define('PRODUCT_PREVIEW',2);
+define('CATEGORY_COVER',3);
+define('COLLECTION_COVER',4);
+define('COLLECTION_ITEM',3);
+define('USER_AVATAR',9);
+
 class Pictures extends CTModel {
 
     /**
@@ -156,7 +163,7 @@ class Pictures extends CTModel {
      * Upload the file to folder in images folder
      * @param type $file
      * @param type $folderName foldername to upload to in images folder
-     * @return boolean true if sucess, false if fail
+     * @return boolean FolederName if sucess, false if fail
      */
     public static function uploadPicture($file, $folderName) {
         if (self::checkFileSize($file, 400) && self::checkFileType($file)) {
@@ -181,6 +188,7 @@ class Pictures extends CTModel {
         $allowedExts = array("gif", "jpeg", "jpg", "png");
         $temp = explode(".", $file["name"]);
         $extension = end($temp);
+        $extension = strtolower($extension);
         return (
                 (//check file type
                 ($file["type"] == "image/gif") || ($file["type"] == "image/jpeg") || ($file["type"] == "image/jpg") || ($file["type"] == "image/pjpeg") || ($file["type"] == "image/x-png") || ($file["type"] == "image/png")

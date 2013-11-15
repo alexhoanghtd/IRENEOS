@@ -24,34 +24,23 @@ class Collection extends CTModel {
 
     public function getCollectionList() {
         $db = CTSQLite::connect();
-        $getCollectionQuery = 'SELECT * FROM ic_collection';
-        $result = $db->query($getCollectionQuery);
-        $row_results = array();
-        $count = 0;
-        while ($row = $result->fetchArray()) {
-            array_push($row_results, $row);
-            $count++;
-        }
-        for ($i = 0; $i < $count; $i++) {
-            if (empty($row_results[$i]['id'])) {
-                return $row_results;
-            } else {
-                $getPicQuery = 'SELECT * FROM ic_pictures WHERE type = 1 AND collection_id = ' . $row_results[$i]['id'];
-                $covers = $db->query($getPicQuery);
-                $cover = $covers->fetchArray();
-                $coverUrl = $cover['url'];
-                $row_results[$i]['coverUrl'] = $coverUrl;
-
-                $countProductID = 'SELECT COUNT(product_id) FROM ic_collection_product WHERE collection_id=' . $row_results[$i]['id'];
-                $num = $db->query($countProductID);
-                $nums = $num->fetchArray();
-                $countProduct = $nums['COUNT(product_id)'];
-                $row_results[$i]['num'] = $countProduct;
+        $query = 'SELECT id FROM ic_collection';
+        $result = $db->query($query);
+        $data = array();
+        if ($result) {
+            while ($id = $result->fetchArray()) {
+                $collection = new Collection($id[0]);
+                $collectionData = $collection->getData();
+                $pic = new Pictures();
+                $pic->setVal('collection_id', $id[0]);
+                if ($pics = $pic->select()) {
+                    $collectionData['url'] = $pics[0]->getVal('url');
+                }
+                array_push($data, $collectionData);
             }
+            
         }
-        return $row_results;
-        $db->close();
-        unset($db);
+        return $data;   
     }
 
     public function getCollectionIdByName($name) {
@@ -147,7 +136,7 @@ class Collection extends CTModel {
     public function generateFolderName() {
         $name = $this->getVal('name');
         if ($name) {
-            return 'collection_cover/' . $this->seoFriendLy($name);
+            return 'collection/' . $this->seoFriendLy($name);
         } else {
             return false;
         }
@@ -181,49 +170,8 @@ class Collection extends CTModel {
         }
     }
 
-     public function updatePictures($files) {
-        $marsk = array();
-        $uploadMarsk = array();
-        $folderName = "collection_cover";
-        $pictures = Pictures::getCollectionPictureModels($this->getVal('id'));
-        foreach ($pictures as $picture) {
-            array_push($marsk, $picture);
-        }
-        foreach ($files as $file) {
-            array_push($uploadMarsk, $file);
-        }
-        for ($i = 0; $i < 4; $i++) {
-            if (!empty($uploadMarsk[$i]['name'])) {
-                $uploadedTo = Pictures::uploadPicture($uploadMarsk[$i], $folderName);
-                // Get extension of file upload
-                print_r($uploadMarsk[$i]['name']);
-                $info = new SplFileInfo($uploadMarsk[$i]['name']);
-                $extension = $info->getExtension();
-                $oriName = BASE_PATH . "/images/" . $folderName . "/" . $uploadMarsk[$i]['name'];
-                $newName = BASE_PATH . "/images/" . $folderName . "/" . $_POST['collection']['name'] . "." . $extension;
-                rename($oriName, $newName);
-                $url = "/images/" . $folderName . "/" . $_POST['collection']['name'] . "." . $extension;
-                if (isset($marsk[$i])) {
-                    $marsk[$i]->setVal('url', $url);
-                    if ($marsk[$i]->update()) {
-                        echo 'updated picture to db <br/>';
-                    } else {
-                        echo 'failed to update picture <br/>';
-                    }
-                } else {
-                    $marsk[$i] = new Pictures();
-                    $marsk[$i]->setVal('url', $url);
-                    $marsk[$i]->setVal('name', $this->getVal('name'));
-                    $marsk[$i]->setVal('type', 1);
-                    $marsk[$i]->setVal('collection_id', $this->getVal('id'));
-                    if ($marsk[$i]->create()) {
-                        echo 'inserted new picture to db <br/>';
-                    } else {
-                        echo 'cant insert new picutre <br/>';
-                    }
-                }
-            }
-        }
+    public function updatePictures($files) {
+        
     }
 
 }

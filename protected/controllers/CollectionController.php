@@ -33,38 +33,27 @@ class CollectionController extends CTController {
             $model = new Collection();
             $model->setData($collection);
 
-            if ($model->create()) {
-                print_r($_POST['collection']);
-                $collectionName = $model->getVal('name');
-                echo 'Collection ' . $collectionName . ' created succesfuly! :)<br/>';
-                $collectionID = $model->getCollectionIdByName($collectionName);
-                //$folderName = $model->generateFolderName();
-                $folderName = "collection_cover";
+            if ($id = $model->create()) {
+                $newCollection = new Collection($id);
+                $folderName = $newCollection->generateFolderName();
+                echo $folderName;
                 foreach (array_keys($_FILES) as $key) {
                     if ($_FILES[$key]['error'] == 0) {    
                         $pic = new Pictures();
-                        $pic->setVal('collection_id', $collectionID);
-                        $pic->setVal('name', $collectionName);
-                        if (Pictures::uploadPicture($_FILES[$key], $folderName)) {
-                            // Get extension of file upload
-                            $info = new SplFileInfo($_FILES[$key]['name']);
-                            $extension = $info->getExtension();
-                            // Rename File upload followed by collectionName
-                            $oriName = BASE_PATH . "/images/" . $folderName . "/" . $_FILES[$key]['name'];
-                            $newName = BASE_PATH . "/images/" . $folderName . "/" . $collectionName . "." . $extension;
-                            rename($oriName, $newName);
+                        $pic->setVal('collection_id', $id);
+                        $pic->setVal('name', $newCollection->getVal('name'));
+                        if ($url = Pictures::uploadPicture($_FILES[$key], $folderName)) {
                             // Set type for the pic
-                            $pic->setVal('type', 1);
+                            $pic->setVal('type', COLLECTION_COVER);
                             // Set url for the pic
-                            $url = "/images/" . $folderName . "/" . $collectionName . "." . $extension;
                             $pic->setVal('url', $url);
-                            if ($pic->create()) {
+                            if ($pic->create()) {   
                                 echo 'save picture sucessfully <br/>';
                             } else {
                                 echo 'save picture failed <br/>';
                             }
                         } else {
-                            echo 'failed to upload the picture';
+                            echo "failed to upload the picture $url";
                         }
                     } else {
                         echo 'picture has error';
@@ -178,9 +167,12 @@ class CollectionController extends CTController {
 
     
     public function actionProducts($id){
-        $collection = new Collection();
+        $collection = new Collection($id);
         $pic = new Pictures();
-        $this->render('products', '');
+        $this->render('products', array(
+            "collectionData" => $collection->getData(),
+            "pictureModels" => '',
+        ));
     }
 
     private function hasChanges($files) {

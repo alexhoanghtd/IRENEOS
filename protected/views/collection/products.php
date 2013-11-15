@@ -1,18 +1,24 @@
+<?php 
+ $collection = $data['collectionData'];
+ $collection_cover = new Pictures();
+ $collection_cover_url = "";
+ $collection_cover->setVal('collection_id',$collection['id']);
+ $covers = $collection_cover->select();
+ if($covers){
+     $collection_cover_url = $covers[0]->getVal('url');
+ }
+?>
 <div class="content-inner single-col">
     <div class="collection-header clearfix">
-        <div class="shadow-box header-cover"
-             style="background-image:"></div>
+        <div class="shadow-box header-cover pic-cover"
+             style="background-image:
+             url('<?= $collection_cover_url?>')"></div>
         <div class="collection-details">
-            <h1>Collection Name</h1>
-            <blockquote>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</blockquote>
+            <h1><?=$collection['name']?></h1>
+            <blockquote><?=$collection['description']?></blockquote>
         </div>
         
-    </div>
+</div>
     <hr>
     <div class="collection-product-list">
         <ul>
