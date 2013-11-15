@@ -57,8 +57,9 @@ class SiteController extends CTController {
 
                     CT::redirect_to("/Admin/");
                 }else{
+                    //ì not Admin redirect to last access page
                     CT::user()->setUserData('userId',$currUser[0]->getVal('id'));
-                    CT::redirect_to("/");
+                    header('Location: ' . $_SERVER['HTTP_REFERER']);
                 }
             }else{
                 //if user mistype or smthing wrong happened
@@ -103,8 +104,10 @@ class SiteController extends CTController {
             //validate user's inputs
             if($user->validateCreate()){
                 //check if pwd and confirm pwd does not match
-                $pwd = $user->getVal('password');
-                $rpwd = $user->getVal('password_repeat');
+                $pwd = $_POST['register']['password'];
+                // echo $pwd;
+                $rpwd = $_POST['register']['password_repeat'];
+                // echo $rpwd;
                 if ($pwd != $rpwd) {
                     echo "Password and Confirm Password does not match!";
                 } else {

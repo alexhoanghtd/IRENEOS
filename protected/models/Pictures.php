@@ -61,6 +61,20 @@ class Pictures extends CTModel {
         }
     }
 
+    public static function getUserAvatarModels($userID) {
+        $conn = CTSQLite::connect();
+        $query = 'SELECT id FROM ic_pictures WHERE user_id =' . $userID;
+        $result = $conn->query($query);
+        if ($result) {
+            $picID = $result->fetchArray();
+            $avatar = new Pictures($picID['id']);
+
+            return $avatar;
+        } else {
+            return false;
+        }
+    }
+
     public static function getCategoryPictureModels($categoryID) {
         $conn = CTSQLite::connect();
         $query = 'SELECT id FROM ic_pictures WHERE category_id =' . $categoryID;
@@ -119,6 +133,19 @@ class Pictures extends CTModel {
             return $urls;
         } else {
             echo 'cant get collection pictures <br/>';
+            return FALSE;
+        }
+    }
+
+    public function getUserAvatar($userID){
+        $conn = CTSQLite::connect();
+        $query = 'SELECT url FROM ic_pictures WHERE user_id =' . $userID;
+        $result = $conn->query($query);
+        if ($result) {
+            $url = $result->fetchArray();
+            return $url;
+        } else {
+            echo 'cant get user avatar <br/>';
             return FALSE;
         }
     }
@@ -210,4 +237,19 @@ class Pictures extends CTModel {
         unset($db);
     }
 
+    public static function deleteAvatar($id){
+        $db = CTSQLite::connect();
+        $delPicQuery = 'DELETE FROM ic_pictures WHERE user_id=' .$id;
+        $results = $db->query($delPicQuery);
+
+        if ($results) {
+            return $results;
+            echo "Delete picture Successfully!!!";
+        } else {
+            echo "Delete pictures fail";
+            return false;
+        }
+        $db->close();
+        unset($db);
+    }
 }
