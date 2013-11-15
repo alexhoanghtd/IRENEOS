@@ -103,10 +103,12 @@ class CategoryController extends CTController {
                     }
                 }
             }
+            header("location: ../../Category/List");
         }
         CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'categories');
         $this->layout = 'main';
         $this->render('create', 'example');
+        
     }
 
     public function actionUpdate($id) {

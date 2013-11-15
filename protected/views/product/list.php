@@ -7,7 +7,9 @@ $totalPages = ceil($data[0]['totalRecord'] / $NumberProductOf1Page);
     <link rel="stylesheet" type="text/css" href="<?php echo ct::baseURL() ?>/css/ct-list.css">
     <div class="single-col">        
         <form method='post' id='userform' action='<?= $data[0]['currentPage'] ?>'>
-            <input type="submit" value="Delete selected & Quick Active"/></br></br>
+            <input type="submit" value="Delete selected & Quick Active"/>
+            <a href="../../Product/Create">Create Product</a></br></br>
+            
             <table class="ct-list-tbl">
                 <tr>
                     <td></td>

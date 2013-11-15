@@ -8,7 +8,7 @@
     <div class="single-col">        
         <form method='post' id='userform' action='List'>
             <input type="submit" value="Delete selected & Quick Active"/>
-            <a href="../../Product/Create">Create Product</a></br></br>
+            <a href="../../Category/Create">Create Category</a></br></br>
             <table class="ct-list-tbl">
                 <tr>
                     <td></td>
