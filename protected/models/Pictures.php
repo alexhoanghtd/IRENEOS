@@ -166,7 +166,7 @@ class Pictures extends CTModel {
      * @return boolean FolederName if sucess, false if fail
      */
     public static function uploadPicture($file, $folderName) {
-        if (self::checkFileSize($file, 400) && self::checkFileType($file)) {
+        if (self::checkFileSize($file, 4000) && self::checkFileType($file)) {
             $folerToUpload = BASE_PATH . "/images/" . $folderName . '/';
             if(!file_exists($folerToUpload) && !is_dir($folerToUpload)){
                 //if the folser dosesn't exist, create the folder to upload :)
