@@ -7,6 +7,15 @@
  */
 class BagController extends CTController {
 
+    public function rules() {
+        return array(
+            CT_ADMIN => "*",
+            CT_VISITOR => "*",
+            CT_USER => "*",
+            "allow" => "*", //who can access the controller
+        );
+    }
+
     //put your code here
     public function actionAdd() {
         //echo 'wut';
@@ -57,17 +66,17 @@ class BagController extends CTController {
     }
 
     public function actionRemove($productID) {
-        CT::user()->remove($productID); 
-       header("Location: http://irene.local/bag/View");
+        CT::user()->remove($productID);
+        header("Location: http://irene.local/bag/View");
     }
 
     public function actionCheckout() {
         if (CT::user()->bag()->countItems() > 0) {
-            if(isset($_POST['shipping'])){
+            if (isset($_POST['shipping'])) {
                 Bill::placeOrder($_POST['shipping']);
             }
             $this->render('checkout', '');
-        }else{
+        } else {
             CT::redirect_to("/Category/");
         }
     }

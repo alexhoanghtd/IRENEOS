@@ -8,6 +8,15 @@
  */
 class CategoryController extends CTController {
 
+    public function rules() {
+        return array(
+            CT_ADMIN => "*",
+            CT_VISITOR => "View,Index",
+            CT_USER => "View,Index",
+            "allow" => "*", //who can access the controller
+        );
+    }
+
     public $layout = 'main';
 
     /**
@@ -108,7 +117,6 @@ class CategoryController extends CTController {
         CT::widgets('MainMenu')->setActive(ADMIN_MENU, 'categories');
         $this->layout = 'main';
         $this->render('create', 'example');
-        
     }
 
     public function actionUpdate($id) {

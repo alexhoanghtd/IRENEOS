@@ -19,10 +19,10 @@ class AttributeController extends CTController {
      */
     public function rules(){
         return array(
-            CT_ADMIN => "*",
-            CT_VISITOR => "*",
-            CT_USER => "View",
-            "allow" => "*", //who can access the controller
+            CT_ADMIN => "CT_ADMIN",
+            CT_VISITOR => "CT_ADMIN",
+            CT_USER => "CT_ADMIN",
+            "allow" => "CT_ADMIN", //who can access the controller
         );
     }
     

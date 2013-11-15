@@ -9,6 +9,15 @@
  */
 class SiteController extends CTController {
 
+    public function rules() {
+        return array(
+            CT_ADMIN => "*",
+            CT_VISITOR => "*",
+            CT_USER => "*",
+            "allow" => "*", //who can access the controller
+        );
+    }
+
     function actionIndex() {
         //$this->layout = 'collection';
         $newArrival = 'data of new arrival collection';
@@ -25,7 +34,6 @@ class SiteController extends CTController {
       /**
      * contact page
      */
-
     function actionContact() {
         CT::widgets('MainMenu')->setActive(USER_MENU, 'contact us');
         $this->render('about', 'xampledata');
@@ -35,37 +43,37 @@ class SiteController extends CTController {
 
     function actionLogin() {
         CT::widgets('MainMenu')->setActive(USER_MENU, 'login');
-        if(isset($_POST['login'])){
+        if (isset($_POST['login'])) {
             $loginData = $_POST['login'];
             $user = new User();
-            $user->setVal('username',$loginData['username']);
-            $user->setVal('password',$loginData['password']);
+            $user->setVal('username', $loginData['username']);
+            $user->setVal('password', $loginData['password']);
 
             //is this correct??
             // print_r to find out
             print_r($user->getData());
 
             $currUser = $user->select();
-            if($currUser){
+            if ($currUser) {
                 //if user entered correctly
                 //get role according to dat user
                 // and redirect to da right part
                 CT::user()->setRole($currUser[0]->getVal('role'));
-                if(CT::user()->getRole() == CT_ADMIN){
+                if (CT::user()->getRole() == CT_ADMIN) {
                     //get user's id after logged in and push to custom user data
-                    CT::user()->setUserData('userId',$currUser[0]->getVal('id'));
+                    CT::user()->setUserData('userId', $currUser[0]->getVal('id'));
 
                     CT::redirect_to("/Admin/");
-                }else{
+                } else {
                     //ì not Admin redirect to last access page
-                    CT::user()->setUserData('userId',$currUser[0]->getVal('id'));
+                    CT::user()->setUserData('userId', $currUser[0]->getVal('id'));
                     header('Location: ' . $_SERVER['HTTP_REFERER']);
                 }
-            }else{
+            } else {
                 //if user mistype or smthing wrong happened
                 echo 'username or password is incorrect <br/>';
             }
-        }  
+        }
         if ($this->isAjax()) {
             $this->renderAjax('login', '');
         } else {
@@ -79,14 +87,14 @@ class SiteController extends CTController {
 
             //set role to visitor
             CT::user()->setRole(CT_VISITOR);
-            
+
             //reset all user custom data
             CT::user()->resetDatas();
 
             //redirect to home page
-            CT::redirect_to("/");         
+            CT::redirect_to("/");
         } else {
-            CT::redirect_to("/");       
+            CT::redirect_to("/");
         }
     }
 
@@ -96,13 +104,12 @@ class SiteController extends CTController {
             $registerData = $_POST['register'];
             $user = new User();
             $user->setData($registerData);
-            $user->setVal('role',CT_USER);
-            $user->setVal('email_veryfied',0);
+            $user->setVal('role', CT_USER);
+            $user->setVal('email_veryfied', 0);
 
             //print_r($user->getTableStruct());
-
             //validate user's inputs
-            if($user->validateCreate()){
+            if ($user->validateCreate()) {
                 //check if pwd and confirm pwd does not match
                 $pwd = $_POST['register']['password'];
                 // echo $pwd;
@@ -127,13 +134,13 @@ class SiteController extends CTController {
                             $pic->setVal('name', $userName);
 
                             if (Pictures::uploadPicture($_FILES["avatar"], $folderName)) {
-                                /*after dat pic had already uploaded
-                                *do all these things
-                                *rename the pic followed by username
-                                *set type
-                                *and set url
-                                *to push to db
-                                */
+                                /* after dat pic had already uploaded
+                                 * do all these things
+                                 * rename the pic followed by username
+                                 * set type
+                                 * and set url
+                                 * to push to db
+                                 */
 
                                 //getting extension of the uploaded pic
                                 $picInfo = new SplFileInfo($_FILES["avatar"]["name"]);
