@@ -8,6 +8,14 @@
  */
 class CollectionController extends CTController {
 
+    public function rules() {
+        return array(
+            CT_ADMIN => "*",
+            CT_VISITOR => "View,Index",
+            CT_USER => "View,Index",
+            "allow" => "*", //who can access the controller
+        );
+    }
     public function actionIndex() {
         $model = new Collection();
         $data = $model->getCollectionList();

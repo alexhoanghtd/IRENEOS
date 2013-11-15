@@ -8,6 +8,18 @@
  */
 class ProductController extends CTController {
 
+    /** return an array of rules that specify the acess level of user in the 
+     * system
+     * @return array
+     */
+    public function rules(){
+        return array(
+            CT_ADMIN => "*",
+            CT_VISITOR => "View,Index",
+            CT_USER => "View,Index",
+            "allow" => "*", //who can access the controller
+        );
+    }
     /**
      * By default when user try to type in product controller with index action
      * it will get user to the category page
@@ -123,6 +135,7 @@ class ProductController extends CTController {
 
     public function actionTest() {
         echo CTTime::toTime('2013-11-15 01:34:16');
+        echo CT::user()->getRole();
     }
 
     public function actionAjaxSearch() {

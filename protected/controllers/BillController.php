@@ -7,7 +7,14 @@
  * @copyright &copy; 2013 Creative Team 
  */
 class BillController extends CTController {
-
+     public function rules(){
+        return array(
+            CT_ADMIN => "*",
+            CT_VISITOR => "View",
+            CT_USER => "View",
+            "allow" => "*", //who can access the controller
+        );
+    }
     public function actionView($billID) {
         if ($bill = new Bill($billID)) {
             $billDetail = new BillDetail();
